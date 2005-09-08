@@ -1,0 +1,100 @@
+Instrucciones
+===============================================================================
+
+Compilación de PHP para la ejecucion de BAIFOX
+
+./configure  --with-gd --with-xml --with-zlib --with-mysql --enable-ftp --with-ttf --with-jpeg-dir --with-zlib --enable-mime-magic --enable-pcntl --enable-cli --enable-sockets
+
+baifox
+===========================
+Puerto de acceso: 7777
+Ejemplo: http://www.miservidor.com:7777/
+usuario: admin
+password: admin
+se puede usar como script de arranque baifox_initd copiandolo en el /etc/init.d/ por ejemplo
+
+cd /usr/local
+tar xfz baifox.tar.gz
+groupadd baifox
+useradd -g baifox -s /bin/false -c "Panel control baifox" baifox
+passwd baifox [PASSWORD]
+chown -R baifox.baifox /usr/local/baifox
+
+Instalar el sudo:
+apt-get install sudo
+/etc/sudoers
+
+modificar el fichero sudoers e incluir la siguiente linea
+baifox  ALL=PASSWD:ALL
+
+mod_apache
+===========================
+cd /usr/local/apache/conf/
+mkdir vhosts
+chgrp baifox vhosts
+chmod 775 vhosts
+
+httpd.conf
+----------------------------------------
+Include /usr/local/apache/conf/vhosts/
+
+mod_awstats
+===========================
+mkdir /etc/awstats/
+chgrp baifox /etc/awstats/
+chmod 775 /etc/awstats/
+touch /usr/bin/actualizar_estadisticas
+chgrp baifox /usr/bin/actualizar_estadisticas
+chmod 760 /usr/bin/actualizar_estadisticas
+touch /usr/local/apache/cgi-bin/awstats/.htpasswd
+chgrp baifox /usr/local/apache/cgi-bin/awstats/.htpasswd
+chmod 664 /usr/local/apache/cgi-bin/awstats/.htpasswd
+
+mod_banthwidth
+===========================
+mkdir /home/estadisticas
+chgrp baifox /home/estadisticas
+chmod 775 /home/estadisticas
+
+mod_logrotate
+===========================
+chgrp baifox /etc/logrotate.conf
+chmod 664 /etc/logrotate.conf
+
+mod_bind
+===========================
+chgrp baifox /etc/bind/named.conf
+chmod 664 /etc/bind/named.conf
+chgrp baifox /var/named
+chmod 775 /var/named
+
+mod_pureftpd
+===========================
+./configure --with-mysql --with-cookie --with-throttling --with-ratios --with-language=spanish --with-diraliases 
+--with-peruserlimits --with-welcomemsg --with-quotas --with-cookie --sysconfdir=/etc
+
+groupadd virtual
+useradd -g virtual -s /bin/false -c "Usuario PureFTPD" virtual
+mkdir /home/virtual
+chown virtual.virtual /home/virtual
+
+CREATE DATABASE baifox;
+
+CREATE TABLE `tbmod_pureftpd` (
+  `id` int(16) NOT NULL auto_increment,
+  `dominio` varchar(150) NOT NULL default '',
+  `usuario` varchar(60) NOT NULL default '',
+  `password` varchar(200) NOT NULL default '',
+  `homedir` varchar(150) NOT NULL default '',
+  `quotafile` int(5) NOT NULL default '0',
+  `quotasize` int(5) NOT NULL default '0',
+  `estado` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+Usar el fichero de configuracion pureftpd-mysql.conf que esta en admin_panel/modulos/mod_pureftpd
+
+Revisar que el UID y GID del usuario virtual sea el mismo para el fichero pureftpd-mysql.conf y en el main_config.php de baifox
+y configurar el socket mysqld.sock en el fichero pureftpd-mysql.conf para que apunte al de mysql
+
+/usr/local/sbin/pure-ftpd -p 50000:50400 -B -A -C 8 -E -D -c 50 -s -w -z -b -l mysql:/etc/pureftpd-mysql.conf -l unix &

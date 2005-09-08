@@ -1,0 +1,1 @@
+<?php if($_SESSION['SEC_PERM']<500){ exit(); } ?>

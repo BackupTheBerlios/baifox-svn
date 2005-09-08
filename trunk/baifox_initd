@@ -1,0 +1,20 @@
+case "$1" in
+  start)
+    /usr/local/baifox/nanowebserver/bin/nanoctl start 1>/dev/null 2>&1 &
+    echo "Inciando servicio baifox nanowebserver...";
+    ;;
+  stop)
+    /usr/local/baifox/nanowebserver/bin/nanoctl stop 1>/dev/null 2>&1 &
+    echo "Servicio baifox nanowebserver parado...";
+    ;;
+  status)
+    /usr/local/baifox/nanowebserver/bin/nanoctl status
+    ;;
+  *)
+      echo "Modo de uso: /etc/init.d/baifox {start|stop|status}"
+      exit 1
+    ;;
+esac
+
+exit 0
+

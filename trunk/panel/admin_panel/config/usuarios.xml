@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration>
+	<configValue name="1" type="array">
+		<configValue name="ID" type="string">1</configValue>
+		<configValue name="NOMBRE" type="string">Administrador</configValue>
+		<configValue name="EMAIL" type="string">tuemail@email.com</configValue>
+		<configValue name="USERNAME" type="string">admin</configValue>
+		<configValue name="PASSWORD" type="string">21232f297a57a5a743894a0e4a801fc3</configValue>
+		<configValue name="ESTADO" type="string">1</configValue>
+		<configValue name="PERMISO" type="string">500</configValue>
+	</configValue>
+</configuration>

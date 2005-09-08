@@ -1,0 +1,163 @@
+<?php
+
+function pureftpd_info(){
+	$info["nombre"]="PureFTPd";
+	$info["version"]="1.0";
+	$info["grupo"]="servicios";
+
+	return $info;
+}
+
+function pureftpd_test(){
+	$test= array();
+
+	$test[0]=true;
+
+	$test[1]= "mod_pureftpd test...<br>";
+	$test[1].= "==================<br>";
+   	if (!($link=@mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD)))
+   	{
+		$test[1].= "[ERROR] Conectando al mysql <br>";
+		$test[0]=false;
+   	}
+   	if (!@mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link))
+   	{
+		$test[1].= "[ERROR] Conectando a la base de datos "._CFG_INTERFACE_MYSQLDB."<br>";
+		$test[0]=false;
+	}
+	if(@mysql_num_rows(mysql_query("SHOW TABLES LIKE '"._CFG_PUREFTPD_TABLE."'",$link))<1){
+		$test[1].= "[ERROR] No se existe la tabla "._CFG_PUREFTPD_TABLE."<br>";
+		$test[0]=false;
+	}
+	@mysql_close($link);
+
+	if($test[0])
+		$test[1].= "El módulo esta correctamente instalado<br>";
+	return $test;
+}
+
+function pureftpd_listftp(){
+   $array_modules=array();
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." order by dominio",$link);
+
+   while($rs = mysql_fetch_array($result)) {
+ 		$array_modules[]=$rs;
+     }
+   return $array_modules;
+   mysql_close($link);
+}
+
+function pureftpd_cron(){
+   $array_modules=array();
+   $resultado=Array();
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." order by dominio",$link);
+
+   while($rs = mysql_fetch_array($result)) {
+		if (file_exists($rs["homedir"])) {
+			$exec_cmd = _CFG_PUREFTPD_QUOTACHECK;
+			$resultado[]="Actualizando quota para ".$rs["homedir"];
+			execute_cmd("$exec_cmd -u "._CFG_PUREFTPD_UID." -g "._CFG_PUREFTPD_GID." -d ".$rs["homedir"]);
+		}
+     }
+   return $resultado;
+   mysql_close($link);
+}
+
+function pureftpd_domainread($id){
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE id=$id",$link);
+   return mysql_fetch_array($result);
+   mysql_close($link);
+}
+
+function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,$id){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	if($id!=0){
+		if($password!="")
+			$sqladd="password=ENCRYPT('$password'),";
+	        mysql_query("UPDATE "._CFG_PUREFTPD_TABLE." SET dominio='$dominio',usuario='$usuario',$sqladd homedir='$homedir',quotafile=0,quotasize=$quotasize,estado=$estado where ID=$id;",$link);
+	}else{
+		//Crea el directorio
+		$exec_cmd = "mkdir";
+		$result = execute_cmd("$exec_cmd $homedir");
+		//Asigna permisos al directorio
+		$exec_cmd = "chown";
+		$result = execute_cmd("$exec_cmd "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
+		//Crea el usuario en la base de datos
+		mysql_query("INSERT INTO "._CFG_PUREFTPD_TABLE."(id,dominio,usuario,password,homedir,quotafile,quotasize,estado) VALUES ('', '$dominio','$usuario',ENCRYPT('$password'),'$homedir',0,$quotasize,$estado);",$link);
+
+		$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' and usuario='$usuario' order by id desc",$link);
+		if($rs=mysql_fetch_array($result)){
+			return $rs["id"];
+		}else{
+			return 0;
+		}
+	}
+	mysql_close($link);
+}
+
+function pureftpd_domaindel($id){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE id=$id",$link);
+	if($rs=mysql_fetch_array($result)){
+		if (file_exists($rs["homedir"]) AND $rs["homedir"]!="") {
+				$exec_cmd = "rm -R -f";
+				$result = execute_cmd("$exec_cmd ".$rs["homedir"]);
+		}
+	}
+	mysql_query("delete from "._CFG_PUREFTPD_TABLE." where id=$id",$link);
+	mysql_close($link);
+}
+
+function pureftpd_domainonoff($id,$estado){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	mysql_query("update "._CFG_PUREFTPD_TABLE." SET estado=$estado where id=$id",$link);
+	mysql_close($link);
+}
+
+function pureftpd_quotastatus($id){
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." where id=$id",$link);
+   $rs = mysql_fetch_array($result);
+   $exec_cmd = _CFG_CMD_CAT;	
+   $contenido=execute_cmd("$exec_cmd ".$rs["homedir"]."/.ftpquota");
+   list($ficheros, $tamanio)=split(" ", $contenido[0], 2);
+   mysql_close($link);
+   return $tamanio;
+}
+
+function pureftpd_showstatus($id){
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." where id=$id",$link);
+   $rs = mysql_fetch_array($result);
+   $exec_cmd = _CFG_CMD_CAT;	
+   $contenido=execute_cmd("$exec_cmd ".$rs["homedir"]."/.ftpquota");
+   list($ficheros, $tamanio)=split(" ", $contenido[0], 2);
+   $contenido= "<table width=\"75%\" border=\"0\" class=\"box\">\n";
+   $contenido.= "  <tr class=\"boxheader\"> \n";
+   $contenido.= "    <td class=\"boxheader\"><b>Ficheros</b></td>\n";
+   $contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Espacio Ocupado</b></td>\n";
+   $contenido.= "  </tr>\n";
+   $contenido.="  <tr class=\"boxbody\"> \n";
+   $contenido.="    <td align=\"right\"><div class=\"fuentecelda\">$ficheros</div></td>\n";
+   $contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".number_format(bitconversor($tamanio,"byte","mbyte"), 2, ',', '.')." MB</div></td>\n";
+   $contenido.="  </tr>\n";
+   $contenido.= "</table>\n";
+   mysql_close($link);
+
+   return $contenido;
+}
+?>

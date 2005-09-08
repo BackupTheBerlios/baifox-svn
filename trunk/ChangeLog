@@ -1,0 +1,43 @@
+BAIFOX 0.1
+===================================================
+
+2005-08-31  Lorenzo Tejera fidojones@fidojones.com
+
+ * Despues de varios meses sin changelog y mucha codificacion sale a la calle la primera version de BAIFOX 0.1
+
+2005-07-29  Lorenzo Tejera fidojones@fidojones.com
+
+ * Modulo de apache funcionando y creando virtualhost
+ * Carga de módulos dinámica
+ * Modificaciones varias en las rutas
+
+2005-07-27  Lorenzo Tejera fidojones@fidojones.com
+
+ * Migración de CVS a SVN
+
+2004-12-09  Lorenzo Tejera fidojones@fidojones.com
+
+ * Versiones iniciales del soporte de fichero logrotate para rotación de logs de apache y el fichero bind del servidor de nombres
+
+2004-11-29  Lorenzo Tejera fidojones@fidojones.com
+
+ * Añadido soporte qmail a traves de vpopmail mediante comandos enviados con sudo
+
+2004-09-03  Lorenzo Tejera fidojones@fidojones.com
+
+ * Añadido soporte para la creación de virtual host de Apache
+  * Añadido Soporte para crear usuarios de administración para el panel de control
+
+
+2004-08-20  Lorenzo Tejera fidojones@fidojones.com
+
+ * Versión inicial de Baifox Panel. Baifox es un panel de control para control de servidores basado en PHP5, servidor web nanoweb y XML. 
+En un principio esta previsto que sea usado para controlar el siguiente software de servidor
+QMAIL
+VPOPMAIL
+MYSQL
+APACHE
+AWSTATS
+PUREFTPD
+
+
