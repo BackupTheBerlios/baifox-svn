@@ -5,9 +5,17 @@
 <?php include "../include_permiso.php"; ?>
 <?php 
 	require_once _CFG_XML_PATCONFIG;
+
+	//Carga todos los modulos
+	$modulos_instalados=modules_array(_CFG_INTERFACE_DIRMODULES);
+	foreach ($modulos_instalados as $modulo) { 
+		require _CFG_INTERFACE_DIRMODULES."mod_".$modulo."/include_funciones.php"; 
+	}
+
     	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
+
 	
 	$datos=$conf->getConfigValue($_GET['id']);
 	
@@ -24,7 +32,7 @@
   	}
 	$conf->setConfigValue($_GET['id'], $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
-		
+	
 	header ("Location: ../../../index.php?grupo=gestion&seccion=dominios&pag=index\n\n");
 	exit();	
 ?>
