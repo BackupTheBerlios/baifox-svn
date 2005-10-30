@@ -8,7 +8,7 @@
     <TD WIDTH=69 HEIGHT=95 > <A HREF="index.php?grupo=gestion&seccion=dominios&pag=index"> 
       <IMG SRC="images/menu/7.jpg" WIDTH=69 HEIGHT=95 BORDER=0 ALT=""></A></TD>
     <TD WIDTH=58 HEIGHT=95> <a href="index.php?grupo=sistema&seccion=procesos&pag=index"><IMG SRC="images/menu/8.jpg" WIDTH=58 HEIGHT=95 BORDER=0 ALT=""></a></TD>
-    <TD WIDTH=57 HEIGHT=95> <A HREF="index.php?grupo=servicios&seccion=banthwidth&pag=index"> 
+    <TD WIDTH=57 HEIGHT=95> <A HREF="index.php?grupo=servicios&seccion=bandwidth&pag=index"> 
       <IMG SRC="images/menu/9.jpg" WIDTH=57 HEIGHT=95 BORDER=0 ALT=""></A></TD>
     <TD WIDTH=63 HEIGHT=95> <A HREF="index.php?grupo=sistema&seccion=sysinfo&pag=index"> 
       <IMG SRC="images/menu/10.jpg" WIDTH=63 HEIGHT=95 BORDER=0 ALT=""></A></TD>
