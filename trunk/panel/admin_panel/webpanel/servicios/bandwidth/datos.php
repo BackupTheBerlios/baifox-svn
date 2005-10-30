@@ -8,5 +8,5 @@ require_once _CFG_INTERFACE_DIRMODULES."mod_bandwidth/include_funciones.php";
 ?>
 <link rel="stylesheet" type="text/css" href="../../../main.css">
 <?php
-echo banthwidth_estadisticas_dia($_GET['dominio'],$_GET['mes'],$_GET['anio']);
+echo bandwidth_estadisticas_dia($_GET['dominio'],$_GET['mes'],$_GET['anio']);
 ?>
