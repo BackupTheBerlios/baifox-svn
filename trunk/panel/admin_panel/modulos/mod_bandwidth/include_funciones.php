@@ -1,19 +1,19 @@
 <?php
 
-function banthwidth_info(){
-	$info["nombre"]="Banthwidth";
+function bandwidth_info(){
+	$info["nombre"]="Bandwidth";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
 
 	return $info;
 }
 
-function banthwidth_test(){
+function bandwidth_test(){
 	$test= array();
 
 	$test[0]=true;
 
-	$test[1]= "mod_banthwidth test...<br>";
+	$test[1]= "mod_bandwidth test...<br>";
 	$test[1].= "==================<br>";
 	if (!file_exists(_CFG_AWSTATS_DATADIR)){
 		$test[1].= "[ERROR] No se ha creado el directorio "._CFG_AWSTATS_DATADIR."<br>";
@@ -28,7 +28,7 @@ function banthwidth_test(){
 	return $test;
 }
 
-function banthwidth_fechalog($linea){
+function bandwidth_fechalog($linea){
 		list( , , , $fecha) = explode(" ", $linea);
 		$fecha = str_replace("[", "", $fecha);
 		list($dia, $mes, $anio) = explode("/", $fecha, 3);
@@ -39,7 +39,7 @@ function banthwidth_fechalog($linea){
 		return $fechaactual;
 }
 
-function banthwidth_calcular($dominio,$rotacion){
+function bandwidth_calcular($dominio,$rotacion){
 if($rotacion==0 or $rotacion==""){
 	$ficherolog=_CFG_APACHE_LOGS.$dominio._CFG_LOGROTATE_CFG_AWSTATSTRING;
 }else{
@@ -59,11 +59,11 @@ if(file_exists($ficherolog)){
 }
 }
 
-function banthwidth_generar($anio,$dominio){
+function bandwidth_generar($anio,$dominio){
 	require_once _CFG_XML_PATCONFIG;
 
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
-	$fichero="banthwidth-$anio.xml";
+	$fichero="bandwidth-$anio.xml";
 
 	$conf = new patConfiguration;
 	$conf->setConfigDir($directorio);
@@ -79,15 +79,15 @@ function banthwidth_generar($anio,$dominio){
 	$conf->writeConfigFile($fichero, "xml", array( "mode" => "pretty" ) );
 }
 
-function banthwidth_grabar($dia,$mes,$anio,$dominio,$total){
+function bandwidth_grabar($dia,$mes,$anio,$dominio,$total){
 	require_once _CFG_XML_PATCONFIG;
 
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 	if(file_exists($directorio)){
-		$fichero="banthwidth-$anio.xml";
+		$fichero="bandwidth-$anio.xml";
 
 		if(!file_exists($directorio."/".$fichero))
-			banthwidth_generar($anio,$dominio);
+			bandwidth_generar($anio,$dominio);
 
 		$conf = new patConfiguration;
 		$conf->setConfigDir($directorio);
@@ -101,7 +101,7 @@ function banthwidth_grabar($dia,$mes,$anio,$dominio,$total){
 	}
 }
 
-function banthwidth_listdomains(){
+function bandwidth_listdomains(){
 $handle=GetDirArray(_CFG_APACHE_CONF); 
 $array_modules= array();
 
@@ -118,22 +118,22 @@ $array_modules= array();
 return $array_modules;
 }
 
-function banthwidth_cron(){
-	$dominios=banthwidth_listdomains();
+function bandwidth_cron(){
+	$dominios=bandwidth_listdomains();
 	foreach ($dominios as $dominio) {
-   		$consumido=banthwidth_calcular($dominio,1);
+   		$consumido=bandwidth_calcular($dominio,1);
 		$fechaconsumo=DateAdd("d",-1,mktime()); //Sacamos la fecha de ayer
-		banthwidth_grabar(date("j",$fechaconsumo),date("n",$fechaconsumo),date("Y",$fechaconsumo),$dominio,$consumido);
+		bandwidth_grabar(date("j",$fechaconsumo),date("n",$fechaconsumo),date("Y",$fechaconsumo),$dominio,$consumido);
 	}
 }
 
 
-function banthwidth_estadisticas_dia($dominio,$mes,$anio){
+function bandwidth_estadisticas_dia($dominio,$mes,$anio){
 	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){
-		$fichero="banthwidth-$anio.xml";
+		$fichero="bandwidth-$anio.xml";
 
 		if(file_exists($directorio."/".$fichero)){
 			$conf = new patConfiguration;
@@ -168,12 +168,12 @@ function banthwidth_estadisticas_dia($dominio,$mes,$anio){
 	return $contenido;
 }
 
-function banthwidth_estadisticas_mes_total($dominio,$anio,$mes){
+function bandwidth_estadisticas_mes_total($dominio,$anio,$mes){
 	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){
-		$fichero="banthwidth-$anio.xml";
+		$fichero="bandwidth-$anio.xml";
 
 		if(file_exists($directorio."/".$fichero)){
 			$conf = new patConfiguration;
@@ -188,12 +188,12 @@ function banthwidth_estadisticas_mes_total($dominio,$anio,$mes){
 	return number_format($consumo,2,",",".")." MB";
 }
 
-function banthwidth_estadisticas_mes($dominio,$anio){
+function bandwidth_estadisticas_mes($dominio,$anio){
 	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){
-		$fichero="banthwidth-$anio.xml";
+		$fichero="bandwidth-$anio.xml";
 
 		if(file_exists($directorio."/".$fichero)){
 			$conf = new patConfiguration;
