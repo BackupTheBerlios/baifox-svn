@@ -1,6 +1,12 @@
 BAIFOX 0.1
 ===================================================
 
+2005-10-30  Lorenzo Tejera fidojones@fidojones.com
+
+ * Arreglado la modificacion de estado en los dominios para desactivar un hospedaje.
+ * Modificar el nombre banthwith a bandwith, si alguien ha usado el baifox antes de esta version tendran que modificar los ficheros 
+   de ancho de banda del directorio estadisticas para que en lugar de llamarse banthwith-2005.xml pasen a llamarse bandwith-2005.xml.
+
 2005-08-31  Lorenzo Tejera fidojones@fidojones.com
 
  * Despues de varios meses sin changelog y mucha codificacion sale a la calle la primera version de BAIFOX 0.1
