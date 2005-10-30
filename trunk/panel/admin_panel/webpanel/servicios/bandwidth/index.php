@@ -2,7 +2,7 @@
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
 ?>
 <?php
-$array_listado=banthwidth_listdomains();
+$array_listado=bandwidth_listdomains();
 $total_registros=count($array_listado);
 $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag'];
@@ -42,7 +42,7 @@ include "include_top_numpage.php";
       <?php } ?>
     </td>
     <td width="28%" align="center" height="2"> 
-    <font face="Arial, Helvetica, sans-serif" size="2"><b><?php echo banthwidth_estadisticas_mes_total($rs,date("Y"),date("n")); ?></b></font>
+    <font face="Arial, Helvetica, sans-serif" size="2"><b><?php echo bandwidth_estadisticas_mes_total($rs,date("Y"),date("n")); ?></b></font>
     </td>
   </tr>
   <?php 	$x++;

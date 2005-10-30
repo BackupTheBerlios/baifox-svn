@@ -1,7 +1,7 @@
 <?php include "webpanel/".$_GET['grupo']."/include_permiso.php"; ?>
 <?php
-$totalhoy=banthwidth_calcular($_GET['dominio'],0);
-$totalayer=banthwidth_calcular($_GET['dominio'],1);
+$totalhoy=bandwidth_calcular($_GET['dominio'],0);
+$totalayer=bandwidth_calcular($_GET['dominio'],1);
 ?>
 <form method="GET" action="index.php">
 <input type="hidden" name="grupo" value="<?php echo $_GET['grupo']; ?>">
@@ -72,4 +72,4 @@ if($_GET['anio']!=""){
     </table>
     </form>
 <br>
-<?php echo banthwidth_estadisticas_mes($_GET['dominio'],$mAnio); ?>
+<?php echo bandwidth_estadisticas_mes($_GET['dominio'],$mAnio); ?>
