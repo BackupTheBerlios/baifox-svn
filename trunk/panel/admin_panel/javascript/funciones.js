@@ -85,3 +85,7 @@ function fnStripTLD(dominio) {
 function Carga_Datos(ruta,dominio,mes,anio) {
   popupWin = window.open(ruta+'datos.php?dominio='+dominio+'&mes='+mes+'&anio='+anio, 'AnchoBanda', 'resizable=no,scrollbars=yes,width=550,height=450,top=80,left=100')
 }
+
+function Ventana(fichero) {
+  popupWin = window.open(fichero, 'Ventana', 'resizable=no,scrollbars=yes,width=900,height=600,top=80,left=100')
+}
