@@ -57,15 +57,7 @@ include "include_top_numpage.php";
     <td width="28%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr align="left" bgcolor="#FFFFFF"> 
-    <td colspan="3"> 
-      <table width="40%" border="0" align="right">
-        <tr> 
-          <td width="93%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir 
-            Nuevo Dominio</font></a></td>
-          <td width="7%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><img src="images/users_navbar_icon.gif" width="20" height="20" border="0"></a></td>
-        </tr>
-      </table>
-    </td>
+    <td colspan="3">&nbsp; </td>
   </tr>
 </table>
 <?php include "include_bottom_numpage.php"; ?>
