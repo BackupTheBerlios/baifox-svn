@@ -100,19 +100,14 @@ function filemanager_visualiza($dominio){
 // +--------------------------------------------------
 // | File Manager Actions
 // +--------------------------------------------------
-//if ($loggedon==$auth_pass){
-
     switch ($frame){
         case 1: break; // Empty Frame
         case 2: frame2(); break;
         case 3: frame3(); break;
         default:
             switch($action){
-             //   case 1: logout(); break;
-             //   case 2: config_form(); break;
                 case 3: download(); break;
                 case 4: view(); break;
-             //   case 5: server_info(); break;
             //    case 6: execute(); break;
                 case 7: edit_file_form(); break;
                 case 8: chmod_form(); break;
@@ -121,10 +116,6 @@ function filemanager_visualiza($dominio){
                 default: frameset($dominio);
             }
     }
-/*} else {
-    if (isset($senha)) login();
-    else form_login();
-}*/
 }
 // +--------------------------------------------------
 // | Config Class
@@ -862,7 +853,7 @@ function tree($dir_antes,$dir_corrente,$indice){
                     else $op_str = "<img src=\"../../../modulos/mod_filemanager/images/mas.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"../../../modulos/mod_filemanager/images/folderclosed.gif\" width=\"16\" height=\"16\" border=\"0\">";
                     echo "<a href=\"JavaScript:go_dir('$dir_corrente/$dir_name')\"><b>$op_str</b></a> <a href=\"JavaScript:go('$dir_corrente')\"><b>$dir_name</b></a><br>\n";
                 } else {
-                    echo "<img src=\"../../../modulos/mod_filemanager/images/home.gif\" width=\"16\" height=\"16\" border=\"0\"><a href=\"JavaScript:go('$dir_corrente')\"><b>$fm_root_atual</b></a><br>\n";
+                    echo "<a href=\"JavaScript:go('$dir_corrente')\"><img src=\"../../../modulos/mod_filemanager/images/home.gif\" width=\"16\" height=\"16\" border=\"0\"> <b>$fm_root_atual</b></a><br>\n";
                 }
                 for ($x=0;$x<count($mat_dir);$x++){
                     if (($dir_antes == $dir_corrente)||(strstr($expanded_dir_list,":$dir_corrente/$dir_name"))){
@@ -902,7 +893,7 @@ function tree($dir_antes,$dir_corrente,$indice){
     }
 }
 function show_tree(){
-    global $fm_root_atual,$path_info,$setflag,$islinux;
+    global $fm_root_atual,$path_info,$setflag,$islinux,$dominio;
 
     html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">\n";
@@ -924,38 +915,38 @@ function show_tree(){
         function go_dir(arg) {
             var setflag;
             setflag = (flag)?1:0;
-            document.location.href='".$path_info["basename"]."?frame=2&setflag='+setflag+'&dir_atual=$dir_atual&ec_dir='+arg;
+            document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=2&setflag='+setflag+'&dir_atual=$dir_atual&ec_dir='+arg;
         }
         function go(arg) {
             if (flag) {
                 parent.frame3.set_dir_dest(arg+'/');
                 flag = false;
             } else {
-                parent.frame3.location.href='".$path_info["basename"]."?frame=3&dir_atual='+arg+'/';
+                parent.frame3.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual='+arg+'/';
             }
         }
         function set_fm_root_atual(arg){
-            document.location.href='".$path_info["basename"]."?frame=2&set_fm_root_atual='+escape(arg);
+            document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=2&set_fm_root_atual='+escape(arg);
         }
         function atualizar(){
-            document.location.href='".$path_info["basename"]."?frame=2';
+            document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=2';
         }
     //-->
     </script>
     ";
     echo "<table width=\"100%\" height=\"100%\" border=0 cellspacing=0 cellpadding=5>\n";
-    echo "<form><tr valign=top height=10><td>";
+    echo "<tr valign=top height=10><td align=center>";
     if (!$islinux){
-        echo "<select name=drive onchange=\"set_fm_root_atual(this.value)\">";
+        echo "<form><select name=drive onchange=\"set_fm_root_atual(this.value)\">";
         $aux="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for($x=0;$x<strlen($aux);$x++){
             if (strstr(strtoupper($fm_root_atual),$aux[$x].":/")) $is_sel="selected";
             else $is_sel="";
             echo "<option $is_sel value=\"".$aux[$x].":/\">".$aux[$x].":/";
         }
-        echo "</select> ";
+        echo "</select></form>";
     }
-    echo "<input type=button value=".et('Refresh')." onclick=\"atualizar()\"></tr></form>";
+    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"../../../modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".et('Refresh')."</a></tr>";
     //if (!$islinux) $aux=substr($fm_root_atual,0,strlen($fm_root_atual)-1);
     //else
     $aux=$fm_root_atual;
@@ -967,7 +958,7 @@ function show_tree(){
         <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\" target=\"_parent\">
         <input type=hidden name=action value=1>
         <tr>
-        <td height=10 colspan=2><input type=button value=\"".et('Leave')."\" onclick="window.close();">
+        <td height=10 colspan=2 align=center><input type=button value=\"".et('Leave')."\" onclick=\"window.parent.close();window.close();\">
         </tr>
         </form>
     ";
@@ -2026,121 +2017,6 @@ function edit_file_form(){
     </script>
     </body>\n</html>";
 }
-function config_form(){
-    global $cfg;
-    global $dir_atual,$script_filename,$doc_root,$path_info,$fm_root_atual,$lang,$error_reporting,$version;
-    global $config_action,$newsenha,$newlang,$newerror,$newfm_root;
-    $Warning = "";
-    switch ($config_action){
-        case 1:
-            if ($fh = fopen("http://phpfm.sf.net/latest.php","r")){
-                $data = "";
-                while (!feof($fh)) $data .= fread($fh,1024);
-                fclose($fh);
-                $data = unserialize($data);
-                $ChkVerWarning = "<tr><td align=right> ";
-                if (is_array($data)&&count($data)){
-                    // sf.net logo
-                    $ChkVerWarning .= "<a href=\"JavaScript:open_win('http://sourceforge.net')\"><img src=\"http://sourceforge.net/sflogo.php?group_id=114392&type=1\" width=\"88\" height=\"31\" border=\"0\" alt=\"SourceForge.net Logo\" /></a>";
-                    if (str_replace(".","",$data['version'])>str_replace(".","",$cfg->data['version'])) $ChkVerWarning .= "<td><a href=\"JavaScript:open_win('http://prdownloads.sourceforge.net/phpfm/phpFileManager-".$data['version'].".zip?download')\"><font color=green>".et('ChkVerAvailable')."</font></a>";
-                    else $ChkVerWarning .= "<td><font color=red>".et('ChkVerNotAvailable')."</font>";
-                } else $ChkVerWarning .= "<td><font color=red>".et('ChkVerError')."</font>";
-            } else $ChkVerWarning .= "<td><font color=red>".et('ChkVerError')."</font>";
-        break;
-        case 2:
-            $reload = false;
-            if ($cfg->data['lang'] != $newlang){
-                $cfg->data['lang'] = $newlang;
-                $lang = $newlang;
-                $reload = true;
-            }
-            if ($cfg->data['error_reporting'] != $newerror){
-                $cfg->data['error_reporting'] = $newerror;
-                $error_reporting = $newerror;
-                $reload = true;
-            }
-            $newfm_root = formatpath($newfm_root);
-            if ($cfg->data['fm_root'] != $newfm_root){
-                $cfg->data['fm_root'] = $newfm_root;
-                if (strlen($newfm_root)) $dir_atual = $newfm_root;
-                else $dir_atual = $path_info["dirname"]."/";
-                setcookie("fm_root_atual", $newfm_root , 0 , "/");
-                $reload = true;
-            }
-            $cfg->save();
-            if ($reload){
-                reloadframe("window.opener.parent",2);
-                reloadframe("window.opener.parent",3);
-            }
-            $Warning1 = et('ConfSaved')."...";
-        break;
-        case 3:
-            if ($cfg->data['auth_pass'] != md5($newsenha)){
-                $cfg->data['auth_pass'] = md5($newsenha);
-                setcookie("loggedon", md5($newsenha) , 0 , "/");
-            }
-            $cfg->save();
-            $Warning2 = et('PassSaved')."...";
-        break;
-    }
-    html_header();
-    echo "<body marginwidth=\"0\" marginheight=\"0\">\n";
-    echo "
-    <table border=0 cellspacing=0 cellpadding=5 align=center width=\"100%\">
-    <form name=\"config_form\" action=\"".$path_info["basename"]."\" method=\"post\">
-    <input type=hidden name=action value=2>
-    <input type=hidden name=config_action value=0>
-    <tr><td colspan=2 align=center><b>".strtoupper(et('Configurations'))."</b></td></tr>
-    </table>
-    <table border=0 cellspacing=0 cellpadding=5 align=center width=\"100%\">
-    <tr><td align=right width=\"1%\">".et('Version').":<td>$version</td></tr>
-    <tr><td align=right>".et('Size').":<td>".getsize($script_filename)."</td></tr>
-    <tr><td align=right>".et('Website').":<td><a href=\"JavaScript:open_win('http://phpfm.sf.net')\">http://phpfm.sf.net</a></td></tr>";
-    if (strlen($ChkVerWarning)) echo $ChkVerWarning.$data['warnings'];
-    else echo "<tr><td align=right> <td><input type=button value=\"".et('ChkVer')."\" onclick=\"test_config_form(1)\">";
-    echo "
-    <tr><td align=right width=1><nobr>".et('DocRoot').":</nobr><td>".$doc_root."</td></tr>
-    <tr><td align=right><nobr>".et('FLRoot').":</nobr><td><input type=text size=60 name=newfm_root value=\"".$cfg->data['fm_root']."\" onkeypress=\"enterSubmit(event,'test_config_form(2)')\"></td></tr>
-    <tr><td align=right>".et('Lang').":<td><select name=newlang><option value=en>English<option value=es>Español</select></td></tr>
-    <tr><td align=right>".et('ErrorReport').":<td><select name=newerror><option value=\"\">NONE<option value=\"".E_ALL."\">E_ALL<option value=\"".E_ERROR."\">E_ERROR<option value=\"".(E_ERROR | E_WARNING)."\">E_ERROR & E_WARNING<option value=\"".(E_ERROR | E_WARNING | E_NOTICE)."\">E_ERROR & E_WARNING & E_NOTICE</select></td></tr>
-    <tr><td> <td><input type=button value=\"".et('SaveConfig')."\" onclick=\"test_config_form(2)\">";
-    if (strlen($Warning1)) echo " <font color=red>$Warning1</font>";
-    echo "
-    <tr><td align=right>".et('Pass').":<td><input type=text size=30 name=newsenha value=\"\" onkeypress=\"enterSubmit(event,'test_config_form(3)')\"></td></tr>
-    <tr><td> <td><input type=button value=\"".et('SavePass')."\" onclick=\"test_config_form(3)\">";
-    if (strlen($Warning2)) echo " <font color=red>$Warning2</font>";
-    echo "</td></tr>";
-    echo "
-    </form>
-    </table>
-    <script language=\"Javascript\" type=\"text/javascript\">
-    <!--
-        function set_select(sel,val){
-            for(var x=0;x<sel.length;x++){
-                if(sel.options[x].value==val){
-                    sel.options[x].selected=true;
-                    break;
-                }
-            }
-        }
-        set_select(document.config_form.newlang,'".$cfg->data['lang']."');
-        set_select(document.config_form.newerror,'".$cfg->data['error_reporting']."');
-        function test_config_form(arg){
-            document.config_form.config_action.value = arg;
-            document.config_form.submit();
-        }
-        function open_win(url){
-            var w = 800;
-            var h = 600;
-            window.open(url, '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=yes,menubar=yes,location=yes');
-        }
-        window.moveTo((window.screen.width-600)/2,((window.screen.height-400)/2)-20);
-        window.focus();
-    //-->
-    </script>
-    ";
-    echo "</body>\n</html>";
-}
 function shell_form(){
     global $dir_atual,$shell_form,$cmd_arg,$path_info;
     $data_out = "";
@@ -2201,129 +2077,6 @@ function shell_form(){
             </frameset>
             </html>";
     }
-}
-function server_info(){
-    if (!@phpinfo()) echo et('NoPhpinfo')."...";
-    echo "<br><br>";
-    $a=ini_get_all();
-    $output="<table border=1 cellspacing=0 cellpadding=4 align=center>";
-    while(list($key, $value)=each($a)) {
-        list($k, $v)= each($a[$key]);
-        $output.="<tr><td align=right>$key</td><td>$v</td></tr>";
-    }
-    $output.="</table>";
-    echo $output;
-    echo "<br><br><table border=1 cellspacing=0 cellpadding=4 align=center>";
-    $safe_mode=trim(ini_get("safe_mode"));
-    if ((strlen($safe_mode)==0)||($safe_mode==0)) $safe_mode=false;
-    else $safe_mode=true;
-    $is_windows_server = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-    echo "<tr><td colspan=2>".php_uname();
-    echo "<tr><td>safe_mode<td>".($safe_mode?"on":"off");
-    if ($is_windows_server) echo "<tr><td>sisop<td>Windows<br>";
-    else echo "<tr><td>sisop<td>Linux<br>";
-    echo "</table><br><br><table border=1 cellspacing=0 cellpadding=4 align=center>";
-    $display_errors=ini_get("display_errors");
-    $ignore_user_abort = ignore_user_abort();
-    $max_execution_time = ini_get("max_execution_time");
-    $upload_max_filesize = ini_get("upload_max_filesize");
-    $memory_limit=ini_get("memory_limit");
-    $output_buffering=ini_get("output_buffering");
-    $default_socket_timeout=ini_get("default_socket_timeout");
-    $allow_url_fopen = ini_get("allow_url_fopen");
-    $magic_quotes_gpc = ini_get("magic_quotes_gpc");
-    ignore_user_abort(true);
-    ini_set("display_errors",0);
-    ini_set("max_execution_time",0);
-    ini_set("upload_max_filesize","10M");
-    ini_set("memory_limit","20M");
-    ini_set("output_buffering",0);
-    ini_set("default_socket_timeout",30);
-    ini_set("allow_url_fopen",1);
-    ini_set("magic_quotes_gpc",0);
-    echo "<tr><td> <td>Get<td>Set<td>Get";
-    echo "<tr><td>display_errors<td>$display_errors<td>0<td>".ini_get("display_errors");
-    echo "<tr><td>ignore_user_abort<td>".($ignore_user_abort?"on":"off")."<td>on<td>".(ignore_user_abort()?"on":"off");
-    echo "<tr><td>max_execution_time<td>$max_execution_time<td>0<td>".ini_get("max_execution_time");
-    echo "<tr><td>upload_max_filesize<td>$upload_max_filesize<td>10M<td>".ini_get("upload_max_filesize");
-    echo "<tr><td>memory_limit<td>$memory_limit<td>20M<td>".ini_get("memory_limit");
-    echo "<tr><td>output_buffering<td>$output_buffering<td>0<td>".ini_get("output_buffering");
-    echo "<tr><td>default_socket_timeout<td>$default_socket_timeout<td>30<td>".ini_get("default_socket_timeout");
-    echo "<tr><td>allow_url_fopen<td>$allow_url_fopen<td>1<td>".ini_get("allow_url_fopen");
-    echo "<tr><td>magic_quotes_gpc<td>$magic_quotes_gpc<td>0<td>".ini_get("magic_quotes_gpc");
-    echo "</table><br><br>";
-    echo "
-    <script language=\"Javascript\" type=\"text/javascript\">
-    <!--
-        window.moveTo((window.screen.width-800)/2,((window.screen.height-600)/2)-20);
-        window.focus();
-    //-->
-    </script>";
-    echo "</body>\n</html>";
-}
-// +--------------------------------------------------
-// | Session
-// +--------------------------------------------------
-function logout(){
-    setcookie("loggedon",0,0,"/");
-    form_login();
-}
-function login(){
-    global $senha,$auth_pass,$path_info;
-    if (md5(trim($senha)) == $auth_pass){
-        setcookie("loggedon",$auth_pass,0,"/");
-        header ("Location: ".$path_info["basename"]."");
-    } else header ("Location: ".$path_info["basename"]."?erro=1");
-}
-function form_login(){
-    global $erro,$auth_pass,$path_info;
-    html_header();
-    echo "<body onLoad=\"if(parent.location.href != self.location.href){ parent.location.href = self.location.href } return true;\">\n";
-    if ($auth_pass != md5("")){
-        echo "
-        <table border=0 cellspacing=0 cellpadding=5>
-            <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\">
-            <tr>
-            <td><b>".et('FileMan')."</b>
-            </tr>
-            <tr>
-            <td align=left><font size=4>".et('TypePass').".</font>
-            </tr>
-            <tr>
-            <td><input name=senha type=password size=10> <input type=submit value=\"".et('Send')."\">
-            </tr>
-        ";
-        if (strlen($erro)) echo "
-            <tr>
-            <td align=left><font color=red size=4>".et('InvPass').".</font>
-            </tr>
-        ";
-        echo "
-            </form>
-        </table>
-             <script language=\"Javascript\" type=\"text/javascript\">
-             <!--
-             document.login_form.senha.focus();
-             //-->
-             </script>
-        ";
-    } else {
-        echo "
-        <table border=0 cellspacing=0 cellpadding=5>
-            <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\">
-            <input type=hidden name=frame value=3>
-            <input type=hidden name=senha value=\"\">
-            <tr>
-            <td><b>".et('FileMan')."</b>
-            </tr>
-            <tr>
-            <td><input type=submit value=\"".et('Enter')."\">
-            </tr>
-            </form>
-        </table>
-        ";
-    }
-    echo "</body>\n</html>";
 }
 function frame3(){
     global $islinux,$cmd_arg,$chmod_arg,$zip_dir,$fm_root_atual;
@@ -2542,28 +2295,8 @@ function frameset($dominio){
     ";
     echo "</html>";
 }
-// +--------------------------------------------------
-// | Open Source Contributions
-// +--------------------------------------------------
  /*-------------------------------------------------
  | TAR/GZIP/BZIP2/ZIP ARCHIVE CLASSES 2.0
- | By Devin Doucette
- | Copyright (c) 2004 Devin Doucette
- | Email: darksnoopy@shaw.ca
- +--------------------------------------------------
- | Email bugs/suggestions to darksnoopy@shaw.ca
- +--------------------------------------------------
- | This script has been created and released under
- | the GNU GPL and is free to use and redistribute
- | only if this copyright statement is not removed
- +--------------------------------------------------
- | Limitations:
- | - Only USTAR archives are officially supported for extraction, but others may work.
- | - Extraction of bzip2 and gzip archives is limited to compatible tar files that have
- | been compressed by either bzip2 or gzip.  For greater support, use the functions
- | bzopen and gzopen respectively for bzip2 and gzip extraction.
- | - Zip extraction is not supported due to the wide variety of algorithms that may be
- | used for compression and newer features such as encryption.
  +--------------------------------------------------
  */
 class archive
