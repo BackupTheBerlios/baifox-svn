@@ -1,47 +1,4 @@
 <?
-/*--------------------------------------------------
- | PHP FILE MANAGER
- +--------------------------------------------------
- | phpFileManager 0.9.3
- | By Fabrício Seger Kolling
- | Modified by Lorenzo Tejera
- | Copyright (c) 2004 Fabrício Seger Kolling
- | E-mail: dulldusk@nho.com.br
- | URL: http://phpfm.sf.net
- | Last Changed: 2005-12-06
- +--------------------------------------------------
- | OPEN SOURCE CONTRIBUTIONS
- +--------------------------------------------------
- | TAR/GZIP/BZIP2/ZIP ARCHIVE CLASSES 2.0
- | By Devin Doucette
- | Copyright (c) 2004 Devin Doucette
- | E-mail: darksnoopy@shaw.ca
- | URL: http://www.phpclasses.org
- +--------------------------------------------------
- | It is the AUTHOR'S REQUEST that you keep intact the above header information
- | and notify him if you conceive BUGFIXES or any IMPROVEMENTS to this program.
- +--------------------------------------------------
- | LICENCE - GPL [ GNU General Public License ]
- +--------------------------------------------------
- | This program is FREE SOFTWARE; you can REDISTRIBUTE it and/or MODIFY
- | it under the terms of the GNU General Public License as published by
- | the Free Software Foundation; either version 2 of the License, or
- | (at your option) any later version.
- | This program is distributed in the hope that it will be useful,
- | but WITHOUT ANY WARRANTY; without even the implied warranty of
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- | GNU General Public License for more details.
- | You should have gotten a copy of the GPL license with this program.
- | If not, it can found at http://www.gnu.org/copyleft/gpl.html
- +--------------------------------------------------
- | CONFIGURATION AND INSTALATION NOTES
- +--------------------------------------------------
- | This program does not include any instalation or configuration
- | notes because it simply does not require them.
- | Just throw this file anywhere in your webserver and enjoy !!
- +--------------------------------------------------
-*/
-
 function filemanager_info(){
 	$info["nombre"]="FileManager";
 	$info["version"]="1.0";
@@ -1010,7 +967,7 @@ function show_tree(){
         <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\" target=\"_parent\">
         <input type=hidden name=action value=1>
         <tr>
-        <td height=10 colspan=2><input type=submit value=\"".et('Leave')."\">
+        <td height=10 colspan=2><input type=button value=\"".et('Leave')."\" onclick="window.close();">
         </tr>
         </form>
     ";
@@ -1546,16 +1503,18 @@ function dir_list_form() {
             <input type=hidden name=\"dir_antes\" value=\"$dir_antes\">
             <input type=hidden name=\"selected_dir_list\" value=\"\">
             <input type=hidden name=\"selected_file_list\" value=\"\">";
+/* 
+            <input type=button onclick=\"config()\" value=\"".et('Config')."\">
+            <input type=button onclick=\"server_info()\" value=\"".et('ServerInfo')."\">
+            <input type=button onclick=\"execute()\" value=\"".et('ExecCmd')."\">
+            <input type=button onclick=\"shell()\" value=\"".et('Shell')."\">
+*/
         $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-            <input type=button onclick=\"config()\" value=\"".et('Config')."\">
-            <input type=button onclick=\"server_info()\" value=\"".et('ServerInfo')."\">
             <input type=button onclick=\"test_prompt(1)\" value=\"".et('CreateDir')."\">
             <input type=button onclick=\"test_prompt(2)\" value=\"".et('CreateArq')."\">
-            <input type=button onclick=\"execute()\" value=\"".et('ExecCmd')."\">
             <input type=button onclick=\"upload()\" value=\"".et('Upload')."\">
-            <input type=button onclick=\"shell()\" value=\"".et('Shell')."\">
             <b>$ip</b>
             </nobr>";
         if ($dir_atual != $fm_root_atual){
