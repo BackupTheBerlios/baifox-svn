@@ -37,11 +37,12 @@ function filemanager_visualiza($dominio){
     if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) $ip = $_SERVER["REMOTE_ADDR"]; //nao usa proxy
     else $ip = $_SERVER["HTTP_X_FORWARDED_FOR"]; //usa proxy
     $islinux = !(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-    $url_info = parse_url($_SERVER["HTTP_REFERER"]);
-    $doc_root = ($islinux) ? _CFG_INTERFACE_DIR : ucfirst(_CFG_INTERFACE_DIR);
+    //$url_info = parse_url($_SERVER["HTTP_REFERER"]);
+    $url_info = parse_url("http://www.".$dominio);
+    $doc_root = ($islinux) ? _CFG_APACHE_DOCUMENTROOT : ucfirst(_CFG_APACHE_DOCUMENTROOT);
     $script_filename = $doc_root."admin_panel/webpanel/sistema/filemanager/filemanager.php";
     $path_info = pathinfo($script_filename);
-    $fm_root_atual=_CFG_APACHE_DOCUMENTROOT.$dominio;
+    $fm_root_atual=_CFG_APACHE_DOCUMENTROOT.$dominio."/";
 // +--------------------------------------------------
 // | Config
 // +--------------------------------------------------
@@ -796,11 +797,11 @@ echo "
 ";
 }
 function reloadframe($ref,$frame_number,$plus=""){
-    global $dir_atual,$path_info;
+    global $dir_atual,$path_info,$dominio;
     echo "
     <script language=\"Javascript\" type=\"text/javascript\">
     <!--
-        ".$ref.".frame".$frame_number.".location.href='".$path_info["basename"]."?frame=".$frame_number."&dir_atual=".$dir_atual.$plus."';
+        ".$ref.".frame".$frame_number.".location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=".$frame_number."&dir_atual=".$dir_atual.$plus."';
     //-->
     </script>
     ";
@@ -970,7 +971,7 @@ function getmicrotime(){
    return ((float)$usec + (float)$sec);
 }
 function dir_list_form() {
-    global $fm_root_atual,$dir_atual,$quota_mb,$resolveIDs,$order_dir_list_by,$islinux,$cmd_name,$ip,$is_reachable,$path_info,$fm_color;
+    global $fm_root_atual,$dir_atual,$quota_mb,$resolveIDs,$order_dir_list_by,$islinux,$cmd_name,$ip,$is_reachable,$path_info,$fm_color,$dominio;
     $ti = getmicrotime();
     clearstatcache();
     $out = "<table border=0 cellspacing=1 cellpadding=4 width=\"100%\" bgcolor=\"#eeeeee\">\n";
@@ -1096,10 +1097,10 @@ function dir_list_form() {
             document.cookie = name + '=' + cval + '; expires=' + exp.toGMTString();
         }
         function go(arg) {
-            document.location.href='".$path_info["basename"]."?frame=3&dir_atual=$dir_atual'+arg+'/';
+            document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual'+arg+'/';
         }
         function resolveIDs() {
-            document.location.href='".$path_info["basename"]."?frame=3&set_resolveIDs=1&dir_atual=$dir_atual';
+            document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&set_resolveIDs=1&dir_atual=$dir_atual';
         }
         var entry_list = new Array();
         // Custom object constructor
@@ -1368,7 +1369,7 @@ function dir_list_form() {
         }
         function rename(arg){
                 var nome = '';
-                if (nome = prompt('".strtoupper(et('Ren'))." \\' '+arg+' \\' ".et('To')." ...')) document.location.href='".$path_info["basename"]."?frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
+                if (nome = prompt('".strtoupper(et('Ren'))." \\' '+arg+' \\' ".et('To')." ...')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
         }
         function set_dir_dest(arg){
             document.form_action.dir_dest.value=arg;
@@ -1486,6 +1487,7 @@ function dir_list_form() {
         $out .= "
         <form name=\"form_action\" action=\"".$path_info["basename"]."\" method=\"post\" onsubmit=\"return test_action();\">
             <input type=hidden name=\"frame\" value=3>
+	    <input type=hidden name=\"dominio\" value=\"$dominio\">
             <input type=hidden name=\"action\" value=0>
             <input type=hidden name=\"dir_dest\" value=\"\">
             <input type=hidden name=\"chmod_arg\" value=\"\">
@@ -1512,11 +1514,11 @@ function dir_list_form() {
             $mat = explode("/",$dir_atual);
             $dir_antes = "";
             for($x=0;$x<(count($mat)-2);$x++) $dir_antes .= $mat[$x]."/";
-            $uplink = "<a href=\"".$path_info["basename"]."?frame=3&dir_atual=$dir_antes\"><img src=\"../../../modulos/mod_filemanager/images/anterior.gif\" width=\"16\" height=\"16\" border=\"0\"></a> ";
+            $uplink = "<a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_antes\"><img src=\"../../../modulos/mod_filemanager/images/anterior.gif\" width=\"16\" height=\"16\" border=\"0\"></a> ";
         }
         if($entry_count){
             $out .= "
-                <tr><td bgcolor=\"#993333\" colspan=20><nobr>$uplink <a href=\"".$path_info["basename"]."?frame=3&dir_atual=$dir_atual\" class=blanco>$dir_atual</a></nobr>
+                <tr><td bgcolor=\"#993333\" colspan=20><nobr>$uplink <a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\" class=blanco>$dir_atual</a></nobr>
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
                       <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".et('SelAll')."\">
@@ -1550,7 +1552,7 @@ function dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Dir']."\" align=center>[dir]";
                      // Opciones de directorio
                      if ( is_writable($dir_atual.$file) ) $dir_out .= "
-                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
+                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
                                  <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".et('Ren')."</a>";
                      $dir_out .= "
                                  </tr>";
@@ -1630,13 +1632,13 @@ function dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Ext']."\">".$dir_entry["extt"];
                      // Opciones de archivo
                      if ( is_writable($dir_atual.$file) ) $file_out .= "
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(et('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
+                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(et('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
                                  <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".et('Ren')."</a>";
                      if ( is_readable($dir_atual.$file) && (strpos(".wav#.mp3#.mid#.avi#.mov#.mpeg#.mpg#.rm#.iso#.bin#.img#.dll#.psd#.fla#.swf#.class#.ppt#.jpg#.gif#.png#.wmf#.eps#.bmp#.msi#.exe#.com#.rar#.tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) === false)) $file_out .= "
                                  <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".et('Edit')."</a>";
                      if ( is_readable($dir_atual.$file) && strlen($dir_entry["ext"]) && (strpos(".tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
                                  <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".et('Decompress')."</a>";
-                     if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
+			if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
                                  <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".et('View')."</a>";
                      $file_out .= "</tr>";
                  }
@@ -1645,14 +1647,14 @@ function dir_list_form() {
                 $out .= "
                 <tr>
  		      <td bgcolor=\"#".$fm_color['Title']."\"><img src=\"\" width=\"1\" height=\"1\" border=\"0\">
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or1&dir_atual=$dir_atual\">".et('Name')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or2&dir_atual=$dir_atual\">".et('Perms')."</a>";
-                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or3&dir_atual=$dir_atual\">".et('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or4&dir_atual=$dir_atual\">".et('Group')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or1&dir_atual=$dir_atual\">".et('Name')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or2&dir_atual=$dir_atual\">".et('Perms')."</a>";
+                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or3&dir_atual=$dir_atual\">".et('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or4&dir_atual=$dir_atual\">".et('Group')."</a>";
                 $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or5&dir_atual=$dir_atual\">".et('Size')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or6&dir_atual=$dir_atual\">".et('Date')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or5&dir_atual=$dir_atual\">".et('Size')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or6&dir_atual=$dir_atual\">".et('Date')."</a>";
                 if ($file_count) $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?frame=3&or_by=$or7&dir_atual=$dir_atual\">".et('Type')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or7&dir_atual=$dir_atual\">".et('Type')."</a>";
                 $out .= "
                       <td bgcolor=\"#".$fm_color['Title']."\" colspan=20>";
 
@@ -1699,7 +1701,7 @@ function dir_list_form() {
         } else {
             $out .= "
             <tr>
-            <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=20><nobr><a href=\"".$path_info["basename"]."?frame=3&dir_atual=$dir_atual\">$dir_atual</a></nobr>
+            <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=20><nobr><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\">$dir_atual</a></nobr>
             <tr><td bgcolor=\"#DDDDDD\" colspan=20>".et('EmptyDir').".</tr>";
         }
     } else $out .= "<tr><td><font color=red>".et('IOError').".<br>$dir_atual</font>";
@@ -2099,8 +2101,10 @@ function frame3(){
             if (strlen($cmd_arg)){
                 $cmd_arg = formatpath($dir_atual.$cmd_arg);
                 if (!file_exists($cmd_arg)){
-                    mkdir($cmd_arg,0777);
-                    chmod($cmd_arg,0777);
+		    execute_cmd("mkdir $cmd_arg");
+		    execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $cmd_arg");
+                    //mkdir($cmd_arg,0777);
+                    //chmod($cmd_arg,0777);
                     reloadframe("parent",2,"&ec_dir=".$cmd_arg);
                 } else alert(et('FileDirExists').".");
             }
@@ -2109,16 +2113,19 @@ function frame3(){
             if (strlen($cmd_arg)){
                 $cmd_arg = $dir_atual.$cmd_arg;
                 if (!file_exists($cmd_arg)){
-                    if ($fh = @fopen($cmd_arg, "w")){
-                        @fclose($fh);
-                    }
-                    chmod($cmd_arg,0666);
+		    execute_cmd("touch $cmd_arg");
+		    execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $cmd_arg");
+                    //if ($fh = @fopen($cmd_arg, "w")){
+                    //    @fclose($fh);
+                    //}
+                    //chmod($cmd_arg,0666);
                 } else alert(et('FileDirExists').".");
             }
             break;
             case 3: // rename arq ou dir
             if ((strlen($old_name))&&(strlen($new_name))){
-                rename($dir_atual.$old_name,$dir_atual.$new_name);
+		execute_cmd("mv $dir_atual.$old_name $dir_atual.$new_name");
+                //rename($dir_atual.$old_name,$dir_atual.$new_name);
                 if (is_dir($dir_atual.$new_name)) reloadframe("parent",2);
             }
             break;
@@ -2259,11 +2266,20 @@ function frame3(){
             if((strlen($chmod_arg) == 4)&&(strlen($dir_atual))){
                 if ($chmod_arg[0]=="1") $chmod_arg = "0".$chmod_arg;
                 else $chmod_arg = "0".substr($chmod_arg,strlen($chmod_arg)-3);
-                $new_mod = octdec($chmod_arg);
+                $new_mod = $chmod_arg; //octdec($chmod_arg);
                 $selected_file_list = explode("<|*|>",$selected_file_list);
-                if (count($selected_file_list)) for($x=0;$x<count($selected_file_list);$x++) @chmod($dir_atual.$selected_file_list[$x],$new_mod);
-                $selected_dir_list = explode("<|*|>",$selected_dir_list);
-                if (count($selected_dir_list)) for($x=0;$x<count($selected_dir_list);$x++) @chmod($dir_atual.$selected_dir_list[$x],$new_mod);
+                if (count($selected_file_list)) 
+			for($x=0;$x<count($selected_file_list);$x++)
+				if($selected_file_list[$x]!="")
+					execute_cmd("chmod $new_mod ".$dir_atual.$selected_file_list[$x]);
+		//@chmod($dir_atual.$selected_file_list[$x],$new_mod);
+		$selected_dir_list = explode("<|*|>",$selected_dir_list);
+                if (count($selected_dir_list)) 
+			for($x=0;$x<count($selected_dir_list);$x++) 
+				if($selected_dir_list[$x]!="")
+					execute_cmd("chmod $new_mod ".$dir_atual.$selected_dir_list[$x]);
+		//@chmod($dir_atual.$selected_dir_list[$x],$new_mod);
+		
             }
             break;
         }
