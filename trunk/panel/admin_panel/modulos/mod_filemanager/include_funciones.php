@@ -25,7 +25,7 @@ return $array_modules;
 }
 
 function filemanager_visualiza($dominio){
-    global $cfg,$doc_root,$path_info,$url_info,$dir_atual,$islinux,$filename,$is_reachable,$fm_color,$fm_root_atual,$islinux;
+    global $cfg,$doc_root,$path_info,$url_info,$dir_atual,$islinux,$filename,$is_reachable,$fm_color,$fm_root_atual,$islinux,$quota_mb;
 // +--------------------------------------------------
 // | Header and Globals
 // +--------------------------------------------------
@@ -43,6 +43,9 @@ function filemanager_visualiza($dominio){
     $script_filename = $doc_root."admin_panel/webpanel/sistema/filemanager/filemanager.php";
     $path_info = pathinfo($script_filename);
     $fm_root_atual=_CFG_APACHE_DOCUMENTROOT.$dominio."/";
+
+    //Cambiar a quota de mysql
+    $quota_mb=0;
 // +--------------------------------------------------
 // | Config
 // +--------------------------------------------------
@@ -128,8 +131,6 @@ class config {
         global $script_filename;
         $this->data = array(
             'lang'=>'es',
-            'auth_pass'=>md5(''),
-            'quota_mb'=>0,
             'upload_ext_filter'=>array(),
             'download_ext_filter'=>array(),
             'error_reporting'=>'',
@@ -407,34 +408,42 @@ function total_size($arg) {
 }
 function total_delete($arg) {
  if (file_exists($arg)) {
-   chmod($arg,0777);
+   //chmod($arg,0777);
    if (is_dir($arg)) {
-     $handle = opendir($arg);
+     /* $handle = opendir($arg);
      while($aux = readdir($handle)) {
        if ($aux != "." && $aux != "..") total_delete($arg."/".$aux);
      }
      closedir($handle);
-     rmdir($arg);
-   } else unlink($arg);
+     rmdir($arg); */
+     execute_cmd("rm -R $arg");
+   } else execute_cmd("rm $arg"); //unlink($arg);
  }
 }
 function total_copy($orig,$dest) {
  $ok = true;
  if (file_exists($orig)) {
    if (is_dir($orig)) {
-     mkdir($dest,0777);
+     execute_cmd("cp -R $orig $dest");
+     $ok=true;
+     /*mkdir($dest,0777);
      $handle = opendir($orig);
      while(($aux = readdir($handle))&&($ok)) {
        if ($aux != "." && $aux != "..") $ok = total_copy($orig."/".$aux,$dest."/".$aux);
      }
-     closedir($handle);
-   } else $ok = copy((string)$orig,(string)$dest);
+     closedir($handle); */
+   } else {
+	execute_cmd("cp $orig $dest");
+	$ok = true;
+   }
+   //$ok = copy((string)$orig,(string)$dest);
  }
  return $ok;
 }
 function total_move($orig,$dest) {
     // Just why doesn't it has a MOVE alias?!
-    return rename((string)$orig,(string)$dest);
+    execute_cmd("mv $orig $dest");
+    return true;// rename((string)$orig,(string)$dest);
 }
 function download(){
     global $dir_atual,$filename;
@@ -492,10 +501,17 @@ function save_upload($temp_file,$filename,$dir_dest) {
                     } else $out = 2;
                 } else $out = 5;
             } else {
-                if (copy($temp_file,$file)){
+		execute_cmd("cp $temp_file $file");
+		execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file");
+		execute_cmd("chmod 644 $file");
+		if (file_exists($file))
+			$out = 1;
+		else
+			$out = 2;
+               /* if (copy($temp_file,$file)){
                     chmod($file,0777);
                     $out = 1;
-                } else $out = 2;
+                } else $out = 2; */
             }
         } else $out = 3;
     } else $out = 4;
@@ -1551,7 +1567,7 @@ function dir_list_form() {
                      if ($file_count) $dir_out .= "
                                  <td bgcolor=\"#".$fm_color['Dir']."\" align=center>[dir]";
                      // Opciones de directorio
-                     if ( is_writable($dir_atual.$file) ) $dir_out .= "
+                     if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $dir_out .= "
                                  <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
                                  <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".et('Ren')."</a>";
                      $dir_out .= "
@@ -1631,15 +1647,15 @@ function dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['File']."\">".$dir_entry["datet"]."
                                  <td bgcolor=\"#".$fm_color['Ext']."\">".$dir_entry["extt"];
                      // Opciones de archivo
-                     if ( is_writable($dir_atual.$file) ) $file_out .= "
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(et('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".et('Ren')."</a>";
+                     if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $file_out .= "
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(et('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".et('Ren')."</a>";
                      if ( is_readable($dir_atual.$file) && (strpos(".wav#.mp3#.mid#.avi#.mov#.mpeg#.mpg#.rm#.iso#.bin#.img#.dll#.psd#.fla#.swf#.class#.ppt#.jpg#.gif#.png#.wmf#.eps#.bmp#.msi#.exe#.com#.rar#.tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) === false)) $file_out .= "
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".et('Edit')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".et('Edit')."</a>";
                      if ( is_readable($dir_atual.$file) && strlen($dir_entry["ext"]) && (strpos(".tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".et('Decompress')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".et('Decompress')."</a>";
 			if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".et('View')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".et('View')."</a>";
                      $file_out .= "</tr>";
                  }
             }
@@ -2124,7 +2140,7 @@ function frame3(){
             break;
             case 3: // rename arq ou dir
             if ((strlen($old_name))&&(strlen($new_name))){
-		execute_cmd("mv $dir_atual.$old_name $dir_atual.$new_name");
+		execute_cmd("mv $dir_atual$old_name $dir_atual$new_name");
                 //rename($dir_atual.$old_name,$dir_atual.$new_name);
                 if (is_dir($dir_atual.$new_name)) reloadframe("parent",2);
             }
