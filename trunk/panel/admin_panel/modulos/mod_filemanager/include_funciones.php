@@ -31,9 +31,9 @@ function filemanager_visualiza($dominio){
 // +--------------------------------------------------
     header("Pragma: no-cache");
     header("Cache-Control: no-store");
-    foreach ($_GET as $key => $val) $$key=htmldecode($val);
-    foreach ($_POST as $key => $val) $$key=htmldecode($val);
-    foreach ($_COOKIE as $key => $val) $$key=htmldecode($val);
+    foreach ($_GET as $key => $val) $$key=filemanager_htmldecode($val);
+    foreach ($_POST as $key => $val) $$key=filemanager_htmldecode($val);
+    foreach ($_COOKIE as $key => $val) $$key=filemanager_htmldecode($val);
     if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) $ip = $_SERVER["REMOTE_ADDR"]; //nao usa proxy
     else $ip = $_SERVER["HTTP_X_FORWARDED_FOR"]; //usa proxy
     $islinux = !(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
@@ -57,7 +57,7 @@ function filemanager_visualiza($dominio){
         $dir_atual = _CFG_APACHE_DOCUMENTROOT.$dominio."/";
         if (!$islinux) $dir_atual = ucfirst($dir_atual);
         @chmod($dir_atual,0777);
-    } else $dir_atual = formatpath($dir_atual);
+    } else $dir_atual = filemanager_formatpath($dir_atual);
     $is_reachable = (stristr($dir_atual,$doc_root)!==false);
     // Auto Expand Local Path
     if (!isset($expanded_dir_list)){
@@ -106,18 +106,16 @@ function filemanager_visualiza($dominio){
 // +--------------------------------------------------
     switch ($frame){
         case 1: break; // Empty Frame
-        case 2: frame2(); break;
-        case 3: frame3(); break;
+        case 2: filemanager_left(); break;
+        case 3: filemanager_right(); break;
         default:
             switch($action){
-                case 3: download(); break;
-                case 4: view(); break;
-            //    case 6: execute(); break;
-                case 7: edit_file_form(); break;
-                case 8: chmod_form(); break;
-             //   case 9: shell_form(); break;
-                case 10: upload_form(); break;
-                default: frameset($dominio);
+                case 3: filemanager_download(); break;
+                case 4: filemanager_view(); break;
+                case 7: filemanager_edit_file_form(); break;
+                case 8: filemanager_chmod_form(); break;
+                case 10: filemanager_upload_form(); break;
+                default: filemanager_html($dominio);
             }
     }
 }
@@ -168,7 +166,7 @@ class config {
 // +--------------------------------------------------
 // | Internationalization
 // +--------------------------------------------------
-function et($tag){
+function filemanager_st($tag){
     global $lang;
     // English
     $en['Version'] = 'Version';
@@ -387,65 +385,50 @@ function et($tag){
     $es['ErrorReport'] = 'Reporte de Error';
 
     $lang_ = $$lang;
-    if (isset($lang_[$tag])) return htmlencode($lang_[$tag]);
+    if (isset($lang_[$tag])) return filemanager_htmlencode($lang_[$tag]);
     else return "undefined";
 }
 // +--------------------------------------------------
 // | File System
 // +--------------------------------------------------
-function total_size($arg) {
+function filemanager_total_size($arg) {
  $total = 0;
  if (file_exists($arg)) {
    if (is_dir($arg)) {
      $handle = opendir($arg);
      while($aux = readdir($handle)) {
-       if ($aux != "." && $aux != "..") $total += total_size($arg."/".$aux);
+       if ($aux != "." && $aux != "..") $total += filemanager_total_size($arg."/".$aux);
      }
      closedir($handle);
    } else $total = filesize($arg);
  }
  return $total;
 }
-function total_delete($arg) {
+function filemanager_total_delete($arg) {
  if (file_exists($arg)) {
-   //chmod($arg,0777);
    if (is_dir($arg)) {
-     /* $handle = opendir($arg);
-     while($aux = readdir($handle)) {
-       if ($aux != "." && $aux != "..") total_delete($arg."/".$aux);
-     }
-     closedir($handle);
-     rmdir($arg); */
      execute_cmd("rm -R $arg");
-   } else execute_cmd("rm $arg"); //unlink($arg);
+   } else execute_cmd("rm $arg"); 
  }
 }
-function total_copy($orig,$dest) {
+function filemanager_total_copy($orig,$dest) {
  $ok = true;
  if (file_exists($orig)) {
    if (is_dir($orig)) {
      execute_cmd("cp -R $orig $dest");
      $ok=true;
-     /*mkdir($dest,0777);
-     $handle = opendir($orig);
-     while(($aux = readdir($handle))&&($ok)) {
-       if ($aux != "." && $aux != "..") $ok = total_copy($orig."/".$aux,$dest."/".$aux);
-     }
-     closedir($handle); */
    } else {
 	execute_cmd("cp $orig $dest");
 	$ok = true;
    }
-   //$ok = copy((string)$orig,(string)$dest);
  }
  return $ok;
 }
-function total_move($orig,$dest) {
-    // Just why doesn't it has a MOVE alias?!
+function filemanager_total_move($orig,$dest) {
     execute_cmd("mv $orig $dest");
-    return true;// rename((string)$orig,(string)$dest);
+    return true;
 }
-function download(){
+function filemanager_download(){
     global $dir_atual,$filename;
     $file = $dir_atual.$filename;
     if(file_exists($file)){
@@ -465,23 +448,22 @@ function download(){
             if ($fh = fopen("$file", "rb")){
                 fpassthru($fh);
                 fclose($fh);
-            } else alert(et('ReadDenied').": ".$file);
-        } else alert(et('ReadDenied').": ".$file);
-    } else alert(et('FileNotFound').": ".$file);
+            } else filemanager_alert(filemanager_st('ReadDenied').": ".$file);
+        } else filemanager_alert(filemanager_st('ReadDenied').": ".$file);
+    } else filemanager_alert(filemanager_st('FileNotFound').": ".$file);
 }
-function execute(){
-    global $cmd;
-    header("Content-type: text/plain");
-    if (strlen($cmd)){
-        echo "# ".$cmd."\n";
-        exec($cmd,$mat);
-        if (count($mat)) echo trim(implode("\n",$mat));
-        else echo "exec(\"$cmd\") ".et('NoReturn')."...";
-    } else echo et('NoCmd');
+
+function filemanager_borrarfichero($file){
+	execute_cmd("rm $file");
+	if (file_exists($file)){
+		return false;
+	}else{
+		return true;
+	}
 }
-function save_upload($temp_file,$filename,$dir_dest) {
+function filemanager_save_upload($temp_file,$filename,$dir_dest) {
     global $upload_ext_filter;
-    $filename = remove_acentos($filename);
+    $filename = filemanager_remove_acentos($filename);
     $file = $dir_dest.$filename;
     $filesize = filesize($temp_file);
     $is_proibido = false;
@@ -492,13 +474,16 @@ function save_upload($temp_file,$filename,$dir_dest) {
         }
     }
     if (!$is_proibido){
-        if (!limite($filesize)){
+        if (!filemanager_limite($filesize)){
             if (file_exists($file)){
-                if (unlink($file)){
-                    if (copy($temp_file,$file)){
-                        chmod($file,0777);
-                        $out = 6;
-                    } else $out = 2;
+                if (filemanager_borrarfichero($file)){
+			execute_cmd("cp $temp_file $file");
+			execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file");
+			execute_cmd("chmod 644 $file");
+			if (file_exists($file))
+				$out = 6;
+			else
+				$out = 2;
                 } else $out = 5;
             } else {
 		execute_cmd("cp $temp_file $file");
@@ -508,16 +493,12 @@ function save_upload($temp_file,$filename,$dir_dest) {
 			$out = 1;
 		else
 			$out = 2;
-               /* if (copy($temp_file,$file)){
-                    chmod($file,0777);
-                    $out = 1;
-                } else $out = 2; */
             }
         } else $out = 3;
     } else $out = 4;
     return $out;
 }
-function zip_extract(){
+function filemanager_zip_extract(){
   global $cmd_arg,$dir_atual,$islinux;
   $zip = zip_open($dir_atual.$cmd_arg);
   if ($zip) {
@@ -549,40 +530,40 @@ function zip_extract(){
 // +--------------------------------------------------
 // | Data Formating
 // +--------------------------------------------------
-function htmlencode($str){
+function filemanager_htmlencode($str){
     return htmlentities($str);
 }
 // html_entity_decode() replacement
-function html_entity_decode_for_php4_compatibility ($string)  {
+function filemanager_html_entity_decode_for_php4_compatibility ($string)  {
    $trans_tbl = get_html_translation_table (HTML_ENTITIES);
    $trans_tbl = array_flip ($trans_tbl);
    $ret = strtr ($string, $trans_tbl);
    return  preg_replace('/\&\#([0-9]+)\;/me',
        "chr('\\1')",$ret);
 }
-function htmldecode($str){
+function filemanager_htmldecode($str){
     if (is_string($str)){
-       if (get_magic_quotes_gpc()) return stripslashes(html_entity_decode_for_php4_compatibility($str));
+       if (get_magic_quotes_gpc()) return stripslashes(filemanager_html_entity_decode_for_php4_compatibility($str));
        else return html_entity_decode($str);
     } else return $str;
 }
-function rep($x,$y){
+function filemanager_rep($x,$y){
   if ($x) {
     $aux = "";
     for ($a=1;$a<=$x;$a++) $aux .= $y;
     return $aux;
   } else return "";
 }
-function strzero($arg1,$arg2){
+function filemanager_strzero($arg1,$arg2){
     if (strstr($arg1,"-") == false){
         $aux = intval($arg2) - strlen($arg1);
-        if ($aux) return rep($aux,"0").$arg1;
+        if ($aux) return filemanager_rep($aux,"0").$arg1;
         else return $arg1;
     } else {
         return "[$arg1]";
     }
 }
-function replace_double($sub,$str){
+function filemanager_replace_double($sub,$str){
     $out=str_replace($sub.$sub,$sub,$str);
     while ( strlen($out) != strlen($str) ){
         $str=$out;
@@ -590,14 +571,14 @@ function replace_double($sub,$str){
     }
     return $out;
 }
-function remove_acentos($str){
+function filemanager_remove_acentos($str){
     $str = trim($str);
     $str = strtr($str,"¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ!@#%&*()[]{}+=?",
                       "YuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy_______________");
     $str = str_replace("..","",str_replace("/","",str_replace("\\","",str_replace("\$","",$str))));
     return $str;
 }
-function formatpath($str){
+function filemanager_formatpath($str){
     global $islinux;
     $str = trim($str);
     $str = str_replace("..","",str_replace("\\","/",str_replace("\$","",$str)));
@@ -615,7 +596,7 @@ function formatpath($str){
     }
     return $str;
 }
-function array_csort() {
+function filemanager_array_csort() {
   $args = func_get_args();
   $marray = array_shift($args);
   $msortline = "return(array_multisort(";
@@ -634,7 +615,7 @@ function array_csort() {
    eval($msortline);
    return $marray;
 }
-function show_perms( $in_Perms ) {
+function filemanager_show_perms( $in_Perms ) {
    $sP = "<b>";
    if($in_Perms & 0x1000) $sP .= 'p';            // FIFO pipe
    elseif($in_Perms & 0x2000) $sP .= 'c';        // Character special
@@ -651,7 +632,7 @@ function show_perms( $in_Perms ) {
    $sP .= (($in_Perms & 0x0004) ? 'r' : '&minus;') . (($in_Perms & 0x0002) ? 'w' : '&minus;') . (($in_Perms & 0x0001) ? (($in_Perms & 0x0200) ? 't' : 'x' ) : (($in_Perms & 0x0200) ? 'T' : '&minus;'));
    return $sP;
 }
-function formatsize($arg) {
+function filemanager_formatsize($arg) {
     if ($arg>0){
         $j = 0;
         $ext = array(" bytes"," Kb"," Mb"," Gb"," Tb");
@@ -659,19 +640,19 @@ function formatsize($arg) {
         return round($arg / pow(1024,$j-1) * 100) / 100 . $ext[$j-1];
     } else return "0 Mb";
 }
-function getsize($file) {
-    return formatsize(filesize($file));
+function filemanager_getsize($file) {
+    return filemanager_formatsize(filesize($file));
 }
-function limite($new_filesize=0) {
+function filemanager_limite($new_filesize=0) {
     global $fm_root_atual;
     global $quota_mb;
     if($quota_mb){
-        $total = total_size($fm_root_atual);
+        $total = filemanager_total_size($fm_root_atual);
         if (floor(($total+$new_filesize)/(1024*1024)) > $quota_mb) return true;
     }
     return false;
 }
-function getuser ($arg) {
+function filemanager_getuser ($arg) {
     global $mat_passwd;
     $aux = "x:".trim($arg).":";
     for($x=0;$x<count($mat_passwd);$x++){
@@ -682,7 +663,7 @@ function getuser ($arg) {
     }
     return $arg;
 }
-function getgroup ($arg) {
+function filemanager_getgroup ($arg) {
     global $mat_group;
     $aux = "x:".trim($arg).":";
     for($x=0;$x<count($mat_group);$x++){
@@ -696,12 +677,12 @@ function getgroup ($arg) {
 // +--------------------------------------------------
 // | Interface
 // +--------------------------------------------------
-function html_header($plus=""){
+function filemanager_html_header($plus=""){
     global $fm_color;
 echo "
 <html>
 <head>
-<title>".et('FileMan')."</title>
+<title>".filemanager_st('FileMan')."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
 $plus
 </head>
@@ -744,7 +725,7 @@ $plus
         break;
     }
 ";
-echo replace_double(" ",str_replace(chr(13),"",str_replace(chr(10),"","
+echo filemanager_replace_double(" ",str_replace(chr(13),"",str_replace(chr(10),"","
     document.writeln('
     <style>
     body {
@@ -812,7 +793,7 @@ echo "
 </script>
 ";
 }
-function reloadframe($ref,$frame_number,$plus=""){
+function filemanager_reloadframe($ref,$frame_number,$plus=""){
     global $dir_atual,$path_info,$dominio;
     echo "
     <script language=\"Javascript\" type=\"text/javascript\">
@@ -822,7 +803,7 @@ function reloadframe($ref,$frame_number,$plus=""){
     </script>
     ";
 }
-function alert($arg){
+function filemanager_alert($arg){
     echo "
     <script language=\"Javascript\" type=\"text/javascript\">
     <!--
@@ -831,7 +812,7 @@ function alert($arg){
     </script>
     ";
 }
-function tree($dir_antes,$dir_corrente,$indice){
+function filemanager_tree($dir_antes,$dir_corrente,$indice){
     global $fm_root_atual, $dir_atual, $islinux;
     global $expanded_dir_list;
     $indice++;
@@ -874,7 +855,7 @@ function tree($dir_antes,$dir_corrente,$indice){
                 }
                 for ($x=0;$x<count($mat_dir);$x++){
                     if (($dir_antes == $dir_corrente)||(strstr($expanded_dir_list,":$dir_corrente/$dir_name"))){
-                        tree($dir_corrente."/",$dir_corrente."/".$mat_dir[$x],$indice);
+                        filemanager_tree($dir_corrente."/",$dir_corrente."/".$mat_dir[$x],$indice);
                     } else flush();
                 }
             } else {
@@ -909,10 +890,10 @@ function tree($dir_antes,$dir_corrente,$indice){
         }
     }
 }
-function show_tree(){
+function filemanager_show_tree(){
     global $fm_root_atual,$path_info,$setflag,$islinux,$dominio;
 
-    html_header();
+    filemanager_html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">\n";
     echo "
     <script language=\"Javascript\" type=\"text/javascript\">
@@ -963,32 +944,32 @@ function show_tree(){
         }
         echo "</select></form>";
     }
-    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"../../../modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".et('Refresh')."</a></tr>";
+    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"../../../modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".filemanager_st('Refresh')."</a></tr>";
     //if (!$islinux) $aux=substr($fm_root_atual,0,strlen($fm_root_atual)-1);
     //else
     $aux=$fm_root_atual;
     echo "<tr valign=top><td>";
             clearstatcache();
-            tree($aux,$aux,-1,0);
+            filemanager_tree($aux,$aux,-1,0);
     echo "</td></tr>";
     echo "
         <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\" target=\"_parent\">
         <input type=hidden name=action value=1>
         <tr>
-        <td height=10 colspan=2 align=center><input type=button value=\"".et('Leave')."\" onclick=\"window.parent.close();window.close();\">
+        <td height=10 colspan=2 align=center><input type=button value=\"".filemanager_st('Leave')."\" onclick=\"window.parent.close();window.close();\">
         </tr>
         </form>
     ";
     echo "</table>\n";
     echo "</body>\n</html>";
 }
-function getmicrotime(){
+function filemanager_getmicrotime(){
    list($usec, $sec) = explode(" ", microtime());
    return ((float)$usec + (float)$sec);
 }
-function dir_list_form() {
+function filemanager_dir_list_form() {
     global $fm_root_atual,$dir_atual,$quota_mb,$resolveIDs,$order_dir_list_by,$islinux,$cmd_name,$ip,$is_reachable,$path_info,$fm_color,$dominio;
-    $ti = getmicrotime();
+    $ti = filemanager_getmicrotime();
     clearstatcache();
     $out = "<table border=0 cellspacing=1 cellpadding=4 width=\"100%\" bgcolor=\"#eeeeee\">\n";
     if ($opdir = @opendir($dir_atual)) {
@@ -1007,7 +988,7 @@ function dir_list_form() {
                 $entry_list[$entry_count]["type"] = "file";
                 // Função filetype() returns only "file"...
                 $entry_list[$entry_count]["size"] = filesize($dir_atual.$file);
-                $entry_list[$entry_count]["sizet"] = getsize($dir_atual.$file);
+                $entry_list[$entry_count]["sizet"] = filemanager_getsize($dir_atual.$file);
                 if (strstr($ext,".")){
                     $entry_list[$entry_count]["ext"] = $ext;
                     $entry_list[$entry_count]["extt"] = $ext;
@@ -1029,9 +1010,9 @@ function dir_list_form() {
             $entry_list[$entry_count]["time"] = date("his", filemtime($dir_atual.$file));
             $entry_list[$entry_count]["datet"] = date("d/m/Y h:i:s", filemtime($dir_atual.$file));
             if ($islinux && $resolveIDs){
-                $entry_list[$entry_count]["p"] = show_perms(fileperms($dir_atual.$file));
-                $entry_list[$entry_count]["u"] = getuser(fileowner($dir_atual.$file));
-                $entry_list[$entry_count]["g"] = getgroup(filegroup($dir_atual.$file));
+                $entry_list[$entry_count]["p"] = filemanager_show_perms(fileperms($dir_atual.$file));
+                $entry_list[$entry_count]["u"] = filemanager_getuser(fileowner($dir_atual.$file));
+                $entry_list[$entry_count]["g"] = filemanager_getgroup(filegroup($dir_atual.$file));
             } else {
                 $entry_list[$entry_count]["p"] = base_convert(fileperms($dir_atual.$file),10,8);
                 $entry_list[$entry_count]["p"] = substr($entry_list[$entry_count]["p"],strlen($entry_list[$entry_count]["p"])-3);
@@ -1056,22 +1037,23 @@ function dir_list_form() {
             $or6="6D";
             $or7="7D";
             switch($order_dir_list_by){
-                case "1A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or1="1D"; break;
-                case "1D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_DESC); $or1="1A"; break;
-                case "2A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"p",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC); $or2="2D"; break;
-                case "2D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"p",SORT_STRING,SORT_DESC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC); $or2="2A"; break;
-                case "3A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC); $or3="3D"; break;
-                case "3D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_DESC,"g",SORT_STRING,SORT_ASC); $or3="3A"; break;
-                case "4A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_DESC); $or4="4D"; break;
-                case "4D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_DESC,"u",SORT_STRING,SORT_DESC); $or4="4A"; break;
-                case "5A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"size",SORT_NUMERIC,SORT_ASC); $or5="5D"; break;
-                case "5D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"size",SORT_NUMERIC,SORT_DESC); $or5="5A"; break;
-                case "6A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"date",SORT_STRING,SORT_ASC,"time",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or6="6D"; break;
-                case "6D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"date",SORT_STRING,SORT_DESC,"time",SORT_STRING,SORT_DESC,"name",SORT_STRING,SORT_ASC); $or6="6A"; break;
-                case "7A": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"ext",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or7="7D"; break;
-                case "7D": $entry_list = array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"ext",SORT_STRING,SORT_DESC,"name",SORT_STRING,SORT_ASC); $or7="7A"; break;
+                case "1A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or1="1D"; break;
+                case "1D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_DESC); $or1="1A"; break;
+                case "2A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"p",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC); $or2="2D"; break;
+                case "2D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"p",SORT_STRING,SORT_DESC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC); $or2="2A"; break;
+                case "3A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC); $or3="3D"; break;
+                case "3D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_DESC,"g",SORT_STRING,SORT_ASC); $or3="3A"; break;
+                case "4A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_ASC,"u",SORT_STRING,SORT_DESC); $or4="4D"; break;
+                case "4D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"g",SORT_STRING,SORT_DESC,"u",SORT_STRING,SORT_DESC); $or4="4A"; break;
+                case "5A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"size",SORT_NUMERIC,SORT_ASC); $or5="5D"; break;
+                case "5D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"size",SORT_NUMERIC,SORT_DESC); $or5="5A"; break;
+                case "6A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"date",SORT_STRING,SORT_ASC,"time",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or6="6D"; break;
+                case "6D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"date",SORT_STRING,SORT_DESC,"time",SORT_STRING,SORT_DESC,"name",SORT_STRING,SORT_ASC); $or6="6A"; break;
+                case "7A": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"ext",SORT_STRING,SORT_ASC,"name",SORT_STRING,SORT_ASC); $or7="7D"; break;
+                case "7D": $entry_list = filemanager_array_csort ($entry_list,"type",SORT_STRING,SORT_ASC,"ext",SORT_STRING,SORT_DESC,"name",SORT_STRING,SORT_ASC); $or7="7A"; break;
             }
         }
+
         $out .= "
         <script language=\"Javascript\" type=\"text/javascript\">
         <!--
@@ -1289,7 +1271,7 @@ function dir_list_form() {
         }
         var sel_totalsize = 0;
         function update_sel_status(){
-            var t = total_dirs_selected+' ".et('Dir_s')." ".et('And')." '+total_files_selected+' ".et('File_s')." ".et('Selected_s')." = '+formatsize(sel_totalsize);
+            var t = total_dirs_selected+' ".filemanager_st('Dir_s')." ".filemanager_st('And')." '+total_files_selected+' ".filemanager_st('File_s')." ".filemanager_st('Selected_s')." = '+formatsize(sel_totalsize);
             document.getElementById(\"sel_status\").innerHTML = t;
         }
         // Select all/none/inverse
@@ -1305,13 +1287,13 @@ function dir_list_form() {
                 var Cells = Row.getElementsByTagName('td');
                 var newColor = null;
                 switch (Butt.value){
-                    case '".et('SelAll')."':
+                    case '".filemanager_st('SelAll')."':
                         if (select(entry_list[Row.id])) newColor = MarkColor;
                     break;
-                    case '".et('SelNone')."':
+                    case '".filemanager_st('SelNone')."':
                         if (unselect(entry_list[Row.id])) newColor = DefaultColor;
                     break;
-                    case '".et('SelInverse')."':
+                    case '".filemanager_st('SelInverse')."':
                         if (entry_list[Row.id].selected){
                             if (unselect(entry_list[Row.id])) newColor = DefaultColor;
                         } else {
@@ -1326,10 +1308,10 @@ function dir_list_form() {
                     }
                 }
             }
-            if (Butt.value == '".et('SelAll')."'){
-                Butt.value = '".et('SelNone')."';
-            } else if (Butt.value == '".et('SelNone')."'){
-                Butt.value = '".et('SelAll')."';
+            if (Butt.value == '".filemanager_st('SelAll')."'){
+                Butt.value = '".filemanager_st('SelNone')."';
+            } else if (Butt.value == '".filemanager_st('SelNone')."'){
+                Butt.value = '".filemanager_st('SelAll')."';
             }
             return true;
         }
@@ -1342,9 +1324,9 @@ function dir_list_form() {
                 window.open('".$path_info["basename"]."?action=10&dir_atual=$dir_atual', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function execute(){
-                document.form_action.cmd_arg.value = prompt('".et('TypeCmd').".');
+                document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeCmd').".');
                 if(document.form_action.cmd_arg.value.length>0){
-                    if(confirm('".et('ConfExec')." \\' '+document.form_action.cmd_arg.value+' \\' ?')) {
+                    if(confirm('".filemanager_st('ConfExec')." \\' '+document.form_action.cmd_arg.value+' \\' ?')) {
                         var w = 800;
                         var h = 600;
                         window.open('".$path_info["basename"]."?action=6&dir_atual=$dir_atual&cmd='+escape(document.form_action.cmd_arg.value), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
@@ -1352,7 +1334,7 @@ function dir_list_form() {
                 }
         }
         function decompress(arg){
-                if(confirm('".strtoupper(et('Decompress'))." \\' '+arg+' \\' ?')) {
+                if(confirm('".strtoupper(filemanager_st('Decompress'))." \\' '+arg+' \\' ?')) {
                     document.form_action.action.value = 72;
                     document.form_action.cmd_arg.value = arg;
                     document.form_action.submit();
@@ -1361,7 +1343,7 @@ function dir_list_form() {
         function edit_file(arg){
                 var w = 800;
                 var h = 600;
-                if(confirm('".strtoupper(et('Edit'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=7&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+                if(confirm('".strtoupper(filemanager_st('Edit'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=7&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function config(){
                 var w = 600;
@@ -1381,24 +1363,24 @@ function dir_list_form() {
         function view(arg){
                 var w = 800;
                 var h = 600;
-                if(confirm('".strtoupper(et('View'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=4&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
+                if(confirm('".strtoupper(filemanager_st('View'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=4&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
         }
         function rename(arg){
                 var nome = '';
-                if (nome = prompt('".strtoupper(et('Ren'))." \\' '+arg+' \\' ".et('To')." ...')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
+                if (nome = prompt('".strtoupper(filemanager_st('Ren'))." \\' '+arg+' \\' ".filemanager_st('To')." ...')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
         }
         function set_dir_dest(arg){
             document.form_action.dir_dest.value=arg;
             if (document.form_action.action.value.length>0) test(document.form_action.action.value);
-            else alert('".et('JSError').".');
+            else alert('".filemanager_st('JSError').".');
         }
         function sel_dir(arg){
             document.form_action.action.value = arg;
             document.form_action.dir_dest.value='';
-            if (!is_anything_selected()) alert('".et('NoSel').".');
+            if (!is_anything_selected()) alert('".filemanager_st('NoSel').".');
             else {
                 if (!getCookie('sel_dir_warn')) {
-                    alert('".et('SelDir').".');
+                    alert('".filemanager_st('SelDir').".');
                     document.cookie='sel_dir_warn'+'='+escape('true')+';';
                 }
                 parent.frame2.set_flag(true);
@@ -1407,13 +1389,13 @@ function dir_list_form() {
         function set_chmod_arg(arg){
             document.form_action.chmod_arg.value=arg;
             if (document.form_action.action.value.length>0) test(document.form_action.action.value);
-            else alert('".et('JSError')."');
+            else alert('".filemanager_st('JSError')."');
         }
         function chmod(arg){
             document.form_action.action.value = arg;
             document.form_action.dir_dest.value='';
             document.form_action.chmod_arg.value='';
-            if (!is_anything_selected()) alert('".et('NoSel').".');
+            if (!is_anything_selected()) alert('".filemanager_st('NoSel').".');
             else {
                 var w = 280;
                 var h = 180;
@@ -1428,12 +1410,12 @@ function dir_list_form() {
                 var erro='';
                 var conf='';
                 if (arg == 1){
-                    document.form_action.cmd_arg.value = prompt('".et('TypeDir').".');
+                    document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeDir').".');
                 } else if (arg == 2){
-                    document.form_action.cmd_arg.value = prompt('".et('TypeArq').".');
+                    document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeArq').".');
                 } else if (arg == 71){
-                    if (!is_anything_selected()) erro = '".et('NoSel').".';
-                    else document.form_action.cmd_arg.value = prompt('".et('TypeArqComp')."');
+                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
+                    else document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeArqComp')."');
                 }
                 if (erro!=''){
                     document.form_action.cmd_arg.focus();
@@ -1466,24 +1448,24 @@ function dir_list_form() {
                 var erro='';
                 var conf='';
                 if (arg == 4){
-                    if (!is_anything_selected()) erro = '".et('NoSel').".\\n';
-                    conf = '".et('RemSel')." ?\\n';
+                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".\\n';
+                    conf = '".filemanager_st('RemSel')." ?\\n';
                 } else if (arg == 5){
-                    if (!is_anything_selected()) erro = '".et('NoSel').".\\n';
-                    else if(document.form_action.dir_dest.value.length == 0) erro = '".et('NoDestDir').".';
-                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".et('DestEqOrig').".';
-                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".et('InvalidDest').".';
-                    conf = '".et('CopyTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".\\n';
+                    else if(document.form_action.dir_dest.value.length == 0) erro = '".filemanager_st('NoDestDir').".';
+                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".filemanager_st('DestEqOrig').".';
+                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".filemanager_st('InvalidDest').".';
+                    conf = '".filemanager_st('CopyTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
                 } else if (arg == 6){
-                    if (!is_anything_selected()) erro = '".et('NoSel').".';
-                    else if(document.form_action.dir_dest.value.length == 0) erro = '".et('NoDestDir').".';
-                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".et('DestEqOrig').".';
-                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".et('InvalidDest').".';
-                    conf = '".et('MoveTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
+                    else if(document.form_action.dir_dest.value.length == 0) erro = '".filemanager_st('NoDestDir').".';
+                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".filemanager_st('DestEqOrig').".';
+                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".filemanager_st('InvalidDest').".';
+                    conf = '".filemanager_st('MoveTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
                 } else if (arg == 9){
-                    if (!is_anything_selected()) erro = '".et('NoSel').".';
-                    else if(document.form_action.chmod_arg.value.length == 0) erro = '".et('NoNewPerm').".';
-                    conf = '".et('AlterPermTo')." \\' '+document.form_action.chmod_arg.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
+                    else if(document.form_action.chmod_arg.value.length == 0) erro = '".filemanager_st('NoNewPerm').".';
+                    conf = '".filemanager_st('AlterPermTo')." \\' '+document.form_action.chmod_arg.value+' \\' ?\\n';
                 }
                 if (erro!=''){
                     document.form_action.cmd_arg.focus();
@@ -1513,17 +1495,17 @@ function dir_list_form() {
             <input type=hidden name=\"selected_dir_list\" value=\"\">
             <input type=hidden name=\"selected_file_list\" value=\"\">";
 /* 
-            <input type=button onclick=\"config()\" value=\"".et('Config')."\">
-            <input type=button onclick=\"server_info()\" value=\"".et('ServerInfo')."\">
-            <input type=button onclick=\"execute()\" value=\"".et('ExecCmd')."\">
-            <input type=button onclick=\"shell()\" value=\"".et('Shell')."\">
+            <input type=button onclick=\"config()\" value=\"".filemanager_st('Config')."\">
+            <input type=button onclick=\"server_info()\" value=\"".filemanager_st('ServerInfo')."\">
+            <input type=button onclick=\"execute()\" value=\"".filemanager_st('ExecCmd')."\">
+            <input type=button onclick=\"shell()\" value=\"".filemanager_st('Shell')."\">
 */
         $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-            <input type=button onclick=\"test_prompt(1)\" value=\"".et('CreateDir')."\">
-            <input type=button onclick=\"test_prompt(2)\" value=\"".et('CreateArq')."\">
-            <input type=button onclick=\"upload()\" value=\"".et('Upload')."\">
+            <input type=button onclick=\"test_prompt(1)\" value=\"".filemanager_st('CreateDir')."\">
+            <input type=button onclick=\"test_prompt(2)\" value=\"".filemanager_st('CreateArq')."\">
+            <input type=button onclick=\"upload()\" value=\"".filemanager_st('Upload')."\">
             <b>$ip</b>
             </nobr>";
         if ($dir_atual != $fm_root_atual){
@@ -1537,16 +1519,16 @@ function dir_list_form() {
                 <tr><td bgcolor=\"#993333\" colspan=20><nobr>$uplink <a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\" class=blanco>$dir_atual</a></nobr>
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".et('SelAll')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".et('SelInverse')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".et('Rem')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".et('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".et('Move')."\">
-                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".et('Compress')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelAll')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">
+                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".filemanager_st('Compress')."\">";
             if ($islinux) $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".et('ResolveIDs')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
             $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".et('Perms')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".filemanager_st('Perms')."\">";
             $out .= "
                 </nobr>
                 <tr><td bgcolor=\"#DDDDDD\" colspan=20><DIV ID=\"sel_status\"></DIV></td></tr>";
@@ -1568,8 +1550,8 @@ function dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Dir']."\" align=center>[dir]";
                      // Opciones de directorio
                      if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $dir_out .= "
-                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
-                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".et('Ren')."</a>";
+                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".filemanager_st('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".filemanager_st('Rem')."</a>
+                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".filemanager_st('Ren')."</a>";
                      $dir_out .= "
                                  </tr>";
                  } else {
@@ -1648,14 +1630,14 @@ function dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Ext']."\">".$dir_entry["extt"];
                      // Opciones de archivo
                      if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(et('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".et('Rem')."</a>
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".et('Ren')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(filemanager_st('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".filemanager_st('Rem')."</a>
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".filemanager_st('Ren')."</a>";
                      if ( is_readable($dir_atual.$file) && (strpos(".wav#.mp3#.mid#.avi#.mov#.mpeg#.mpg#.rm#.iso#.bin#.img#.dll#.psd#.fla#.swf#.class#.ppt#.jpg#.gif#.png#.wmf#.eps#.bmp#.msi#.exe#.com#.rar#.tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) === false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".et('Edit')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".filemanager_st('Edit')."</a>";
                      if ( is_readable($dir_atual.$file) && strlen($dir_entry["ext"]) && (strpos(".tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".et('Decompress')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".filemanager_st('Decompress')."</a>";
 			if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".et('View')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".filemanager_st('View')."</a>";
                      $file_out .= "</tr>";
                  }
             }
@@ -1663,14 +1645,14 @@ function dir_list_form() {
                 $out .= "
                 <tr>
  		      <td bgcolor=\"#".$fm_color['Title']."\"><img src=\"\" width=\"1\" height=\"1\" border=\"0\">
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or1&dir_atual=$dir_atual\">".et('Name')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or2&dir_atual=$dir_atual\">".et('Perms')."</a>";
-                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or3&dir_atual=$dir_atual\">".et('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or4&dir_atual=$dir_atual\">".et('Group')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or1&dir_atual=$dir_atual\">".filemanager_st('Name')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or2&dir_atual=$dir_atual\">".filemanager_st('Perms')."</a>";
+                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or3&dir_atual=$dir_atual\">".filemanager_st('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or4&dir_atual=$dir_atual\">".filemanager_st('Group')."</a>";
                 $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or5&dir_atual=$dir_atual\">".et('Size')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or6&dir_atual=$dir_atual\">".et('Date')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or5&dir_atual=$dir_atual\">".filemanager_st('Size')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or6&dir_atual=$dir_atual\">".filemanager_st('Date')."</a>";
                 if ($file_count) $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or7&dir_atual=$dir_atual\">".et('Type')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or7&dir_atual=$dir_atual\">".filemanager_st('Type')."</a>";
                 $out .= "
                       <td bgcolor=\"#".$fm_color['Title']."\" colspan=20>";
 
@@ -1680,34 +1662,34 @@ function dir_list_form() {
             $out .= "
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".et('SelAll')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".et('SelInverse')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".et('Rem')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".et('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".et('Move')."\">
-                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".et('Compress')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelAll')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">
+                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".filemanager_st('Compress')."\">";
             if ($islinux) $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".et('ResolveIDs')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
             $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".et('Perms')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".filemanager_st('Perms')."\">";
             $out .= "
                 </nobr></td>
                 </tr>";
             $out .= "
             </form>";
             $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>$dir_count ".et('Dir_s')." ".et('And')." $file_count ".et('File_s')." = ".formatsize($total_size)."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>$dir_count ".filemanager_st('Dir_s')." ".filemanager_st('And')." $file_count ".filemanager_st('File_s')." = ".filemanager_formatsize($total_size)."</td></tr>";
             if ($quota_mb) {
                 $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".et('Partition').": ".formatsize(($quota_mb*1024*1024))." ".et('Total')." - ".formatsize(($quota_mb*1024*1024)-total_size($fm_root_atual))." ".et('Free')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(($quota_mb*1024*1024))." ".filemanager_st('Total')." - ".filemanager_formatsize(($quota_mb*1024*1024)-filemanager_total_size($fm_root_atual))." ".filemanager_st('Free')."</td></tr>";
             } else {
                 $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".et('Partition').": ".formatsize(disk_total_space($dir_atual))." ".et('Total')." - ".formatsize(disk_free_space($fm_root_atual))." ".et('Free')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(disk_total_space($dir_atual))." ".filemanager_st('Total')." - ".filemanager_formatsize(disk_free_space($fm_root_atual))." ".filemanager_st('Free')."</td></tr>";
             }
-            $tf = getmicrotime();
+            $tf = filemanager_getmicrotime();
             $tt = ($tf - $ti);
             $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".et('RenderTime').": ".substr($tt,0,strrpos($tt,".")+5)." ".et('Seconds')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('RenderTime').": ".substr($tt,0,strrpos($tt,".")+5)." ".filemanager_st('Seconds')."</td></tr>";
             $out .= "
             <script language=\"Javascript\" type=\"text/javascript\">
             <!--
@@ -1718,16 +1700,16 @@ function dir_list_form() {
             $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=20><nobr><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\">$dir_atual</a></nobr>
-            <tr><td bgcolor=\"#DDDDDD\" colspan=20>".et('EmptyDir').".</tr>";
+            <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('EmptyDir').".</tr>";
         }
-    } else $out .= "<tr><td><font color=red>".et('IOError').".<br>$dir_atual</font>";
+    } else $out .= "<tr><td><font color=red>".filemanager_st('IOError').".<br>$dir_atual</font>";
     $out .= "</table>";
     echo $out;
 }
-function upload_form(){
+function filemanager_upload_form(){
     global $_FILES,$dir_atual,$dir_dest,$fechar,$quota_mb,$path_info;
     $num_uploads = 5;
-    html_header();
+    filemanager_html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">";
     if (count($_FILES)==0){
         echo "
@@ -1735,15 +1717,15 @@ function upload_form(){
         <form name=\"upload_form\" action=\"".$path_info["basename"]."\" method=\"post\" ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=dir_dest value=\"$dir_atual\">
         <input type=hidden name=action value=10>
-        <tr><th colspan=2>".et('Upload')."</th></tr>
-        <tr><td align=right><b>".et('Destination').":<td><b><nobr>$dir_atual</nobr>";
+        <tr><th colspan=2>".filemanager_st('Upload')."</th></tr>
+        <tr><td align=right><b>".filemanager_st('Destination').":<td><b><nobr>$dir_atual</nobr>";
         for ($x=0;$x<$num_uploads;$x++){
-            echo "<tr><td width=1 align=right><b>".et('File').":<td><nobr><input type=\"file\" name=\"file$x\"></nobr>";
+            echo "<tr><td width=1 align=right><b>".filemanager_st('File').":<td><nobr><input type=\"file\" name=\"file$x\"></nobr>";
             $test_js .= "(document.upload_form.file$x.value.length>0)||";
         }
         echo "
-        <input type=button value=\"".et('Send')."\" onclick=\"test_upload_form()\"></nobr>
-        <tr><td> <td><input type=checkbox name=fechar value=\"1\"> <a href=\"JavaScript:troca();\">".et('AutoClose')."</a>
+        <input type=button value=\"".filemanager_st('Send')."\" onclick=\"test_upload_form()\"></nobr>
+        <tr><td> <td><input type=checkbox name=fechar value=\"1\"> <a href=\"JavaScript:troca();\">".filemanager_st('AutoClose')."</a>
         <tr><td colspan=2> </td></tr>
         </form>
         </table>
@@ -1755,47 +1737,47 @@ function upload_form(){
             foi = false;
             function test_upload_form(){
                 if(".substr($test_js,0,strlen($test_js)-2)."){
-                    if (foi) alert('".et('SendingForm')."...');
+                    if (foi) alert('".filemanager_st('SendingForm')."...');
                     else {
                         foi = true;
                         document.upload_form.submit();
                     }
-                } else alert('".et('NoFileSel').".');
+                } else alert('".filemanager_st('NoFileSel').".');
             }
             window.moveTo((window.screen.width-400)/2,((window.screen.height-200)/2)-20);
         //-->
         </script>";
     } else {
-        $out = "<tr><th colspan=2>".et('UploadEnd')."</th></tr>
-                <tr><th colspan=2><nobr>".et('Destination').": $dir_dest</nobr>";
+        $out = "<tr><th colspan=2>".filemanager_st('UploadEnd')."</th></tr>
+                <tr><th colspan=2><nobr>".filemanager_st('Destination').": $dir_dest</nobr>";
         for ($x=0;$x<$num_uploads;$x++){
             $temp_file = $_FILES["file".$x]["tmp_name"];
             $filename = $_FILES["file".$x]["name"];
-            if (strlen($filename)) $resul = save_upload($temp_file,$filename,$dir_dest);
+            if (strlen($filename)) $resul = filemanager_save_upload($temp_file,$filename,$dir_dest);
             else $resul = 7;
             switch($resul){
                 case 1:
-                $out .= "<tr><td><b>".strzero($x+1,3).".<font color=green><b> ".et('FileSent').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".filemanager_st('FileSent').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 2:
-                $out .= "<tr><td colspan=2><font color=red><b>".et('IOError')."</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><font color=red><b>".filemanager_st('IOError')."</font></td></tr>\n";
                 $x = $upload_num;
                 break;
                 case 3:
-                $out .= "<tr><td colspan=2><font color=red><b>".et('SpaceLimReached')." ($quota_mb Mb)</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><font color=red><b>".filemanager_st('SpaceLimReached')." ($quota_mb Mb)</font></td></tr>\n";
                 $x = $upload_num;
                 break;
                 case 4:
-                $out .= "<tr><td><b>".strzero($x+1,3).".<font color=red><b> ".et('InvExt').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('InvExt').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 5:
-                $out .= "<tr><td><b>".strzero($x+1,3).".<font color=red><b> ".et('FileNoOverw')."</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('FileNoOverw')."</font><td>".$filename."</td></tr>\n";
                 break;
                 case 6:
-                $out .= "<tr><td><b>".strzero($x+1,3).".<font color=green><b> ".et('FileOverw').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".filemanager_st('FileOverw').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 7:
-                $out .= "<tr><td colspan=2><b>".strzero($x+1,3).".<font color=red><b> ".et('FileIgnored')."</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('FileIgnored')."</font></td></tr>\n";
             }
         }
         if ($fechar) {
@@ -1822,7 +1804,7 @@ function upload_form(){
     }
     echo "</body>\n</html>";
 }
-function chmod_form(){
+function filemanager_chmod_form(){
     $aux = "
     <script language=\"Javascript\" type=\"text/javascript\">
     <!--
@@ -1906,11 +1888,11 @@ function chmod_form(){
     //-->
     </script>
     ";
-    html_header($aux);
+    filemanager_html_header($aux);
     echo "<body marginwidth=\"0\" marginheight=\"0\">
     <form name=\"chmod_form\">
     <TABLE BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"4\" ALIGN=CENTER>
-    <tr><th colspan=4>".et('Perms')."</th></tr>
+    <tr><th colspan=4>".filemanager_st('Perms')."</th></tr>
     <TR ALIGN=\"LEFT\" VALIGN=\"MIDDLE\">
     <TD><input type=\"text\" name=\"t_total\" value=\"0777\" size=\"4\" onKeyUp=\"octalchange()\"> </TD>
     <TD><input type=\"text\" name=\"sym_total\" value=\"\" size=\"12\" READONLY=\"1\"></TD>
@@ -1919,15 +1901,15 @@ function chmod_form(){
     <table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" ALIGN=CENTER>
     <tr bgcolor=\"#333333\">
     <td WIDTH=\"60\" align=\"left\"> </td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".et('Owner')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Owner')."
     </b></td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".et('Group')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Group')."
     </b></td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".et('Other')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Other')."
     <b></td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".et('Read')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Read')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner4\" value=\"4\" onclick=\"calc_chmod()\">
     </td>
@@ -1938,7 +1920,7 @@ function chmod_form(){
     </td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".et('Write')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Write')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner2\" value=\"2\" onclick=\"calc_chmod()\"></td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#FFFFFF\"><input type=\"checkbox\" name=\"group2\" value=\"2\" onclick=\"calc_chmod()\">
@@ -1948,7 +1930,7 @@ function chmod_form(){
     </td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".et('Exec')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Exec')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner1\" value=\"1\" onclick=\"calc_chmod()\">
     </td>
@@ -1960,14 +1942,14 @@ function chmod_form(){
     </tr>
     </TABLE>
     <TABLE BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"4\" ALIGN=CENTER>
-    <tr><td colspan=2><input type=checkbox name=sticky value=\"1\" onclick=\"calc_chmod()\"> <a href=\"JavaScript:troca();\">".et('StickyBit')."</a><td colspan=2 align=right><input type=button value=\"".et('Apply')."\" onClick=\"window.opener.set_chmod_arg(document.chmod_form.t_total.value); window.close();\"></tr>
+    <tr><td colspan=2><input type=checkbox name=sticky value=\"1\" onclick=\"calc_chmod()\"> <a href=\"JavaScript:troca();\">".filemanager_st('StickyBit')."</a><td colspan=2 align=right><input type=button value=\"".filemanager_st('Apply')."\" onClick=\"window.opener.set_chmod_arg(document.chmod_form.t_total.value); window.close();\"></tr>
     </table>
     </form>
     </body>\n</html>";
 }
-function view(){
+function filemanager_view(){
     global $doc_root,$path_info,$url_info,$dir_atual,$islinux,$filename,$is_reachable;
-    html_header();
+    filemanager_html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">
     <script language=\"Javascript\" type=\"text/javascript\">
     <!--
@@ -1981,7 +1963,7 @@ function view(){
         document.location.href='$url';";
     } else {
         echo "
-        alert('".et('OutDocRoot').":\\n".$doc_root."\\n');
+        alert('".filemanager_st('OutDocRoot').":\\n".$doc_root."\\n');
         window.close();";
     }
     echo "
@@ -1989,18 +1971,17 @@ function view(){
     </script>
     </body>\n</html>";
 }
-function edit_file_form(){
+function filemanager_edit_file_form(){
     global $dir_atual,$filename,$file_data,$save_file,$path_info;
     $file = $dir_atual.$filename;
     if ($save_file){
-        $fh=fopen($file,"w");
-        fputs($fh,$file_data,strlen($file_data));
-        fclose($fh);
+	$permisos=substr(sprintf('%o', fileperms($file)),-3);
+	execute_cmd("chmod 777 $file");
+	execute_cmd("echo \"".$file_data."\">".$file);
+	execute_cmd("chmod $permisos $file");
     }
-    $fh=fopen($file,"r");
-    $file_data=fread($fh, filesize($file));
-    fclose($fh);
-    html_header();
+    $file_data=file_get_contents($file);
+    filemanager_html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">
     <table border=0 cellspacing=0 cellpadding=5 align=center>
     <form name=\"edit_form\" action=\"".$path_info["basename"]."\" method=\"post\">
@@ -2009,8 +1990,8 @@ function edit_file_form(){
     <input type=hidden name=dir_atual value=\"$dir_atual\">
     <input type=hidden name=filename value=\"$filename\">
     <tr><th colspan=2>".$file."</th></tr>
-    <tr><td colspan=2><textarea name=file_data rows=33 cols=105>".htmlencode($file_data)."</textarea></td></tr>
-    <tr><td><input type=button value=\"".et('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".et('SaveFile')."\" onclick=\"go_save()\"></td></tr>
+    <tr><td colspan=2><textarea name=file_data rows=33 cols=105>".filemanager_htmlencode($file_data)."</textarea></td></tr>
+    <tr><td><input type=button value=\"".filemanager_st('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".filemanager_st('SaveFile')."\" onclick=\"go_save()\"></td></tr>
     </form>
     <form name=\"edit_form_refresh\" action=\"".$path_info["basename"]."\" method=\"post\">
     <input type=hidden name=action value=\"7\">
@@ -2022,12 +2003,12 @@ function edit_file_form(){
     <!--
         window.moveTo((window.screen.width-800)/2,((window.screen.height-600)/2)-20);
         function go_save(){";
-    if (is_writable($file)) {
+    if (is_writable($file) || fileowner($file)==_CFG_PUREFTPD_UID) {
         echo "
         document.edit_form.submit();";
     } else {
         echo "
-        if(confirm('".et('ConfTrySave')." ?')) document.edit_form.submit();";
+        if(confirm('".filemanager_st('ConfTrySave')." ?')) document.edit_form.submit();";
     }
     echo "
         }
@@ -2035,68 +2016,7 @@ function edit_file_form(){
     </script>
     </body>\n</html>";
 }
-function shell_form(){
-    global $dir_atual,$shell_form,$cmd_arg,$path_info;
-    $data_out = "";
-    if (strlen($cmd_arg)){
-        exec($cmd_arg,$mat);
-        if (count($mat)) $data_out = trim(implode("\n",$mat));
-    }
-    switch ($shell_form){
-        case 1:
-            html_header();
-            echo "
-            <body marginwidth=\"0\" marginheight=\"0\">
-            <table border=0 cellspacing=0 cellpadding=0 align=center>
-            <form name=\"data_form\">
-            <tr><td><textarea name=data_out rows=36 cols=105 READONLY=\"1\"></textarea></td></tr>
-            </form>
-            </table>
-            </body></html>";
-        break;
-        case 2:
-            html_header();
-            echo "
-            <body marginwidth=\"0\" marginheight=\"0\">
-            <table border=0 cellspacing=0 cellpadding=0 align=center>
-            <form name=\"shell_form\" action=\"".$path_info["basename"]."\" method=\"post\">
-            <input type=hidden name=dir_atual value=\"$dir_atual\">
-            <input type=hidden name=action value=\"9\">
-            <input type=hidden name=shell_form value=\"2\">
-            <tr><td align=center><input type=text size=90 name=cmd_arg></td></tr>
-            </form>";
-            echo "
-            <script language=\"Javascript\" type=\"text/javascript\">
-            <!--";
-            if (strlen($data_out)) echo "
-                var val = '# ".htmlencode($cmd_arg)."\\n".htmlencode(str_replace("<","[",str_replace(">","]",str_replace("\n","\\n",str_replace("\\","\\\\",$data_out)))))."\\n';
-                parent.frame1.document.data_form.data_out.value += val;";
-            echo "
-                document.shell_form.cmd_arg.focus();
-            //-->
-            </script>
-            ";
-            echo "
-            </table>
-            </body></html>";
-        break;
-        default:
-            $aux = "
-            <script language=\"Javascript\" type=\"text/javascript\">
-            <!--
-                window.moveTo((window.screen.width-800)/2,((window.screen.height-600)/2)-20);
-            //-->
-            </script>";
-            html_header($aux);
-            echo "
-            <frameset rows=\"570,*\" framespacing=\"0\" frameborder=no>
-                <frame src=\"".$path_info["basename"]."?action=9&shell_form=1\" name=frame1 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
-                <frame src=\"".$path_info["basename"]."?action=9&shell_form=2\" name=frame2 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
-            </frameset>
-            </html>";
-    }
-}
-function frame3(){
+function filemanager_right(){
     global $islinux,$cmd_arg,$chmod_arg,$zip_dir,$fm_root_atual;
     global $dir_dest,$dir_atual,$dir_antes;
     global $selected_file_list,$selected_dir_list,$old_name,$new_name;
@@ -2109,20 +2029,20 @@ function frame3(){
         $order_dir_list_by = $or_by;
         setcookie("order_dir_list_by", $or_by , $cookie_cache_time , "/");
     }
-    html_header();
+    filemanager_html_header();
     echo "<body>\n";
     if ($action){
         switch ($action){
             case 1: // create dir
             if (strlen($cmd_arg)){
-                $cmd_arg = formatpath($dir_atual.$cmd_arg);
+                $cmd_arg = filemanager_formatpath($dir_atual.$cmd_arg);
                 if (!file_exists($cmd_arg)){
 		    execute_cmd("mkdir $cmd_arg");
 		    execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $cmd_arg");
                     //mkdir($cmd_arg,0777);
                     //chmod($cmd_arg,0777);
-                    reloadframe("parent",2,"&ec_dir=".$cmd_arg);
-                } else alert(et('FileDirExists').".");
+                    filemanager_reloadframe("parent",2,"&ec_dir=".$cmd_arg);
+                } else filemanager_alert(filemanager_st('FileDirExists').".");
             }
             break;
             case 2: // create arq
@@ -2135,14 +2055,14 @@ function frame3(){
                     //    @fclose($fh);
                     //}
                     //chmod($cmd_arg,0666);
-                } else alert(et('FileDirExists').".");
+                } else filemanager_alert(filemanager_st('FileDirExists').".");
             }
             break;
             case 3: // rename arq ou dir
             if ((strlen($old_name))&&(strlen($new_name))){
 		execute_cmd("mv $dir_atual$old_name $dir_atual$new_name");
                 //rename($dir_atual.$old_name,$dir_atual.$new_name);
-                if (is_dir($dir_atual.$new_name)) reloadframe("parent",2);
+                if (is_dir($dir_atual.$new_name)) filemanager_reloadframe("parent",2);
             }
             break;
             case 4: // delete sel
@@ -2152,7 +2072,7 @@ function frame3(){
                     if (count($selected_file_list)) {
                         for($x=0;$x<count($selected_file_list);$x++) {
                             $selected_file_list[$x] = trim($selected_file_list[$x]);
-                            if (strlen($selected_file_list[$x])) total_delete($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
+                            if (strlen($selected_file_list[$x])) filemanager_total_delete($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
                         }
                     }
                 }
@@ -2161,9 +2081,9 @@ function frame3(){
                     if (count($selected_dir_list)) {
                         for($x=0;$x<count($selected_dir_list);$x++) {
                             $selected_dir_list[$x] = trim($selected_dir_list[$x]);
-                            if (strlen($selected_dir_list[$x])) total_delete($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
+                            if (strlen($selected_dir_list[$x])) filemanager_total_delete($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
                         }
-                        reloadframe("parent",2);
+                        filemanager_reloadframe("parent",2);
                     }
                 }
             }
@@ -2176,7 +2096,7 @@ function frame3(){
                         if (count($selected_file_list)) {
                             for($x=0;$x<count($selected_file_list);$x++) {
                                 $selected_file_list[$x] = trim($selected_file_list[$x]);
-                                if (strlen($selected_file_list[$x])) total_copy($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
+                                if (strlen($selected_file_list[$x])) filemanager_total_copy($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
                             }
                         }
                     }
@@ -2185,9 +2105,9 @@ function frame3(){
                         if (count($selected_dir_list)) {
                             for($x=0;$x<count($selected_dir_list);$x++) {
                                 $selected_dir_list[$x] = trim($selected_dir_list[$x]);
-                                if (strlen($selected_dir_list[$x])) total_copy($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
+                                if (strlen($selected_dir_list[$x])) filemanager_total_copy($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
                             }
-                            reloadframe("parent",2);
+                            filemanager_reloadframe("parent",2);
                         }
                     }
                     $dir_atual = $dir_dest;
@@ -2202,7 +2122,7 @@ function frame3(){
                         if (count($selected_file_list)) {
                             for($x=0;$x<count($selected_file_list);$x++) {
                                 $selected_file_list[$x] = trim($selected_file_list[$x]);
-                                if (strlen($selected_file_list[$x])) total_move($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
+                                if (strlen($selected_file_list[$x])) filemanager_total_move($dir_atual.$selected_file_list[$x],$dir_dest.$selected_file_list[$x]);
                             }
                         }
                     }
@@ -2211,9 +2131,9 @@ function frame3(){
                         if (count($selected_dir_list)) {
                             for($x=0;$x<count($selected_dir_list);$x++) {
                                 $selected_dir_list[$x] = trim($selected_dir_list[$x]);
-                                if (strlen($selected_dir_list[$x])) total_move($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
+                                if (strlen($selected_dir_list[$x])) filemanager_total_move($dir_atual.$selected_dir_list[$x],$dir_dest.$selected_dir_list[$x]);
                             }
-                            reloadframe("parent",2);
+                            filemanager_reloadframe("parent",2);
                         }
                     }
                     $dir_atual = $dir_dest;
@@ -2259,7 +2179,7 @@ function frame3(){
             if (strlen($cmd_arg)){
                 if (file_exists($dir_atual.$cmd_arg)){
                     $zipfile=false;
-                    if (strstr($cmd_arg,".zip")) zip_extract();
+                    if (strstr($cmd_arg,".zip")) filemanager_zip_extract();
                     elseif (strstr($cmd_arg,".bzip")||strstr($cmd_arg,".bz2")||strstr($cmd_arg,".tbz2")||strstr($cmd_arg,".bz")||strstr($cmd_arg,".tbz")) $zipfile = new bzip_file($cmd_arg);
                     elseif (strstr($cmd_arg,".gzip")||strstr($cmd_arg,".gz")||strstr($cmd_arg,".tgz")) $zipfile = new gzip_file($cmd_arg);
                     elseif (strstr($cmd_arg,".tar")) $zipfile = new tar_file($cmd_arg);
@@ -2268,14 +2188,14 @@ function frame3(){
                         $zipfile->extract_files();
                     }
                     unset($zipfile);
-                    reloadframe("parent",2);
+                    filemanager_reloadframe("parent",2);
                 }
             }
             break;
             case 8: // delete arq/dir
             if (strlen($cmd_arg)){
-                if (file_exists($dir_atual.$cmd_arg)) total_delete($dir_atual.$cmd_arg);
-                if (is_dir($dir_atual.$cmd_arg)) reloadframe("parent",2);
+                if (file_exists($dir_atual.$cmd_arg)) filemanager_total_delete($dir_atual.$cmd_arg);
+                if (is_dir($dir_atual.$cmd_arg)) filemanager_reloadframe("parent",2);
             }
             break;
             case 9: // CHMOD
@@ -2299,11 +2219,11 @@ function frame3(){
             }
             break;
         }
-        if ($action != 10) dir_list_form();
-    } else dir_list_form();
+        if ($action != 10) filemanager_dir_list_form();
+    } else filemanager_dir_list_form();
     echo "</body>\n</html>";
 }
-function frame2(){
+function filemanager_left(){
     global $expanded_dir_list,$ec_dir;
     if (!isset($expanded_dir_list)) $expanded_dir_list = "";
     if (strlen($ec_dir)){
@@ -2311,11 +2231,11 @@ function frame2(){
         else $expanded_dir_list .= ":".$ec_dir;
         setcookie("expanded_dir_list", $expanded_dir_list , 0 , "/");
     }
-    show_tree();
+    filemanager_show_tree();
 }
-function frameset($dominio){
+function filemanager_html($dominio){
     global $path_info;
-    html_header();
+    filemanager_html_header();
     echo "
     <frameset cols=\"200,*\" framespacing=\"0\">
         <frameset rows=\"0,*\" framespacing=\"0\" frameborder=no>
