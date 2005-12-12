@@ -7,6 +7,34 @@ function filemanager_info(){
 	return $info;
 }
 
+function filemanager_test(){
+	$test= array();
+
+	$test[0]=true;
+
+	$test[1]= "mod_filemanager test...<br>";
+	$test[1].= "==================<br>";
+   	if (!($link=@mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD)))
+   	{
+		$test[1].= "[ERROR] Conectando al mysql <br>";
+		$test[0]=false;
+   	}
+   	if (!@mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link))
+   	{
+		$test[1].= "[ERROR] Conectando a la base de datos "._CFG_INTERFACE_MYSQLDB."<br>";
+		$test[0]=false;
+	}
+	if(@mysql_num_rows(mysql_query("SHOW TABLES LIKE '"._CFG_PUREFTPD_TABLE."'",$link))<1){
+		$test[1].= "[ERROR] No se existe la tabla "._CFG_PUREFTPD_TABLE."<br>";
+		$test[0]=false;
+	}
+	@mysql_close($link);
+
+	if($test[0])
+		$test[1].= "El módulo esta correctamente instalado<br>";
+	return $test;
+}
+
 function filemanager_listdomains(){
 $handle=GetDirArray(_CFG_APACHE_CONF); 
 $array_modules= array();
@@ -22,6 +50,28 @@ $array_modules= array();
      }
  }
 return $array_modules;
+}
+
+function filemanager_quotacalculate($dominio){
+	$exec_cmd = _CFG_PUREFTPD_QUOTACHECK;
+	execute_cmd("$exec_cmd -u "._CFG_PUREFTPD_UID." -g "._CFG_PUREFTPD_GID." -d "._CFG_APACHE_DOCUMENTROOT.$dominio."/");
+}
+
+function filemanager_quotasize($dominio){
+   $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+   mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+   $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." where dominio='$dominio'",$link);
+   $rs = mysql_fetch_array($result);
+   $tamanio=$rs["quotasize"];
+   mysql_close($link);
+   return $tamanio;
+}
+
+function filemanager_quotastatus($dominio){
+   $exec_cmd = _CFG_CMD_CAT;	
+   $contenido=execute_cmd("$exec_cmd "._CFG_APACHE_DOCUMENTROOT.$dominio."/.ftpquota");
+   list($ficheros, $tamanio)=split(" ", $contenido[0], 2);
+   return $tamanio;
 }
 
 function filemanager_visualiza($dominio){
@@ -44,8 +94,9 @@ function filemanager_visualiza($dominio){
     $path_info = pathinfo($script_filename);
     $fm_root_atual=_CFG_APACHE_DOCUMENTROOT.$dominio."/";
 
-    //Cambiar a quota de mysql
-    $quota_mb=0;
+    //Actualiza quota y obtiene quota
+    filemanager_quotacalculate($dominio);
+    $quota_mb=filemanager_quotasize($dominio);
 // +--------------------------------------------------
 // | Config
 // +--------------------------------------------------
@@ -379,7 +430,7 @@ function filemanager_st($tag){
     $es['SelInverse'] = 'Inverso';
     $es['Selected_s'] = 'selecionado(s)';
     $es['Total'] = 'total';
-    $es['Partition'] = 'Partición';
+    $es['Partition'] = 'Espacio asignado';
     $es['RenderTime'] = 'Tiempo de renderización de página';
     $es['Seconds'] = 'seg';
     $es['ErrorReport'] = 'Reporte de Error';
@@ -646,8 +697,10 @@ function filemanager_getsize($file) {
 function filemanager_limite($new_filesize=0) {
     global $fm_root_atual;
     global $quota_mb;
+    global $dominio;
+
     if($quota_mb){
-        $total = filemanager_total_size($fm_root_atual);
+        $total = filemanager_quotastatus($dominio);
         if (floor(($total+$new_filesize)/(1024*1024)) > $quota_mb) return true;
     }
     return false;
@@ -1681,7 +1734,7 @@ function filemanager_dir_list_form() {
                 <tr><td bgcolor=\"#DDDDDD\" colspan=20>$dir_count ".filemanager_st('Dir_s')." ".filemanager_st('And')." $file_count ".filemanager_st('File_s')." = ".filemanager_formatsize($total_size)."</td></tr>";
             if ($quota_mb) {
                 $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(($quota_mb*1024*1024))." ".filemanager_st('Total')." - ".filemanager_formatsize(($quota_mb*1024*1024)-filemanager_total_size($fm_root_atual))." ".filemanager_st('Free')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(($quota_mb*1024*1024))." ".filemanager_st('Total')." - ".filemanager_formatsize(($quota_mb*1024*1024)-filemanager_quotastatus($dominio))." ".filemanager_st('Free')."</td></tr>";
             } else {
                 $out .= "
                 <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(disk_total_space($dir_atual))." ".filemanager_st('Total')." - ".filemanager_formatsize(disk_free_space($fm_root_atual))." ".filemanager_st('Free')."</td></tr>";
@@ -1972,13 +2025,14 @@ function filemanager_view(){
     </body>\n</html>";
 }
 function filemanager_edit_file_form(){
-    global $dir_atual,$filename,$file_data,$save_file,$path_info;
+    global $dir_atual,$filename,$file_data,$save_file,$path_info,$dominio;
     $file = $dir_atual.$filename;
     if ($save_file){
 	$permisos=substr(sprintf('%o', fileperms($file)),-3);
 	execute_cmd("chmod 777 $file");
 	execute_cmd("echo \"".$file_data."\">".$file);
 	execute_cmd("chmod $permisos $file");
+	filemanager_quotacalculate($dominio);
     }
     $file_data=file_get_contents($file);
     filemanager_html_header();
