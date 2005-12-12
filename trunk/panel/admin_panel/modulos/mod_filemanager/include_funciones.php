@@ -75,7 +75,7 @@ function filemanager_quotastatus($dominio){
 }
 
 function filemanager_visualiza($dominio){
-    global $cfg,$doc_root,$path_info,$url_info,$dir_atual,$islinux,$filename,$is_reachable,$fm_color,$fm_root_atual,$islinux,$quota_mb;
+    global $cfg,$doc_root,$path_info,$url_info,$dir_atual,$islinux,$filename,$is_reachable,$fm_color,$fm_root_atual,$islinux,$quota_mb,$resolveIDs,$mat_passwd,$mat_group;
 // +--------------------------------------------------
 // | Header and Globals
 // +--------------------------------------------------
@@ -2204,8 +2204,12 @@ function filemanager_right(){
                 elseif (strstr($cmd_arg,".zip")) $zipfile = new zip_file($cmd_arg);
                 elseif (strstr($cmd_arg,".bzip")) $zipfile = new bzip_file($cmd_arg);
                 elseif (strstr($cmd_arg,".gzip")) $zipfile = new gzip_file($cmd_arg);
+
+		$zipfile_name="/tmp/$cmd_arg";
                 if ($zipfile){
-                    $zipfile->set_options(array('basedir'=>$dir_atual,'overwrite'=>1,'level'=>3));
+		    if(file_exists($zipfile_name))
+			execute_cmd($zipfile_name);
+                    $zipfile->set_options(array('basedir'=>$dir_atual,'name'=>$zipfile_name,'overwrite'=>1,'level'=>3));
                     if (strlen($selected_file_list)){
                         $selected_file_list = explode("<|*|>",$selected_file_list);
                         if (count($selected_file_list)) {
@@ -2225,6 +2229,9 @@ function filemanager_right(){
                         }
                     }
                     $zipfile->create_archive();
+		    filemanager_total_move($zipfile_name,$dir_atual.$cmd_arg);
+		    execute_cmd("chmod 644 ".$dir_atual.$cmd_arg);
+	            execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." ".$dir_atual.$cmd_arg);
                 }
                 unset($zipfile);
             }
@@ -2232,7 +2239,7 @@ function filemanager_right(){
             case 72: // decompress arq
             if (strlen($cmd_arg)){
                 if (file_exists($dir_atual.$cmd_arg)){
-                    $zipfile=false;
+                   /* $zipfile=false;
                     if (strstr($cmd_arg,".zip")) filemanager_zip_extract();
                     elseif (strstr($cmd_arg,".bzip")||strstr($cmd_arg,".bz2")||strstr($cmd_arg,".tbz2")||strstr($cmd_arg,".bz")||strstr($cmd_arg,".tbz")) $zipfile = new bzip_file($cmd_arg);
                     elseif (strstr($cmd_arg,".gzip")||strstr($cmd_arg,".gz")||strstr($cmd_arg,".tgz")) $zipfile = new gzip_file($cmd_arg);
@@ -2243,6 +2250,7 @@ function filemanager_right(){
                     }
                     unset($zipfile);
                     filemanager_reloadframe("parent",2);
+		  */
                 }
             }
             break;
@@ -2816,7 +2824,8 @@ class tar_file extends archive
                     {
                         if(!is_dir($file['name']))
                         {
-                            mkdir($file['name'],0777);
+			    execute_cmd("mkdir ".$file['name']);
+                            //mkdir($file['name'],0777);
                             //mkdir($file['name'],$file['stat'][2]);
                             //chown($file['name'],$file['stat'][4]);
                             //chgrp($file['name'],$file['stat'][5]);
