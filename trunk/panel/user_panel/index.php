@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Untitled Document</title>
+<title>Panel Administraci&oacute;n</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -60,9 +60,25 @@
           <td width="21%" bgcolor="#D6D6D6"><font face="Arial, Helvetica, sans-serif" size="2">tr&aacute;fico</font></td>
         </tr>
         <tr align="center"> 
-          <td width="61%">&nbsp;</td>
-          <td width="18%">&nbsp;</td>
-          <td width="21%">&nbsp;</td>
+          <td colspan="3">
+            <table width="100%" border="0" cellspacing="5" cellpadding="0">
+              <tr align="center"> 
+                <td width="61%" align="left"><b><font face="Arial, Helvetica, sans-serif" size="2" color="#D65300">&nbsp;fidojones.com</font></b></td>
+                <td width="18%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">20.00&nbsp;</font></b></td>
+                <td width="21%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">5.00&nbsp;</font></b></td>
+              </tr>
+              <tr align="center"> 
+                <td width="61%" align="left"><b><font face="Arial, Helvetica, sans-serif" size="2" color="#D65300">&nbsp;esdominios.com</font></b></td>
+                <td width="18%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">10.50&nbsp;</font></b></td>
+                <td width="21%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">13.00&nbsp;</font></b></td>
+              </tr>
+              <tr align="center"> 
+                <td width="61%" align="left"><b><font face="Arial, Helvetica, sans-serif" size="2" color="#D65300">&nbsp;hostaplus.com</font></b></td>
+                <td width="18%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">35.10&nbsp;</font></b></td>
+                <td width="21%" align="right"><b><font face="Arial, Helvetica, sans-serif" size="2">100.00&nbsp;</font></b></td>
+              </tr>
+            </table>
+          </td>
         </tr>
         <tr align="center"> 
           <td colspan="2"><font face="Arial, Helvetica, sans-serif" size="2"><b>0 
@@ -79,9 +95,9 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_disco.gif">
               <tr> 
                 <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font size="3" color="#FFFFFF">Espacion 
+                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font size="3" color="#FFFFFF">Espacio 
                   en disco</font><font size="2" color="#FFFFFF"><br>
-                  consumo y dipsponibilidad</font></b></font></td>
+                  consumo y disponibilidad</font></b></font></td>
               </tr>
             </table>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
