@@ -31,7 +31,7 @@
 			    <td colspan="4" align="center"><br>
         <table width="340" border="0" cellpadding="2" cellspacing="2">
           <tr> 
-            <td colspan="2" align="center" valign="bottom"><img src="logo.gif" width="155" height="165" border="0" align="absmiddle"><br>
+            <td colspan="2" align="center" valign="bottom"><img src="logo.gif" width="147" height="107" border="0" align="absmiddle"><br>
               <font face="Verdana, Arial, Helvetica, sans-serif"><strong></strong></font></td>
           </tr>
           <tr align="center"> 
