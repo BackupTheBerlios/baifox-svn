@@ -1,3 +1,17 @@
+.Estilo2 {font-size: 11px}
+.Estilo5 {font-size: 11px}
+.Estilo6 {font-size: 11px}
+
+A.blanco  { text-decoration : none; color : white; }
+A.blanco:Visited  { text-decoration : none; color : white; }
+A.blanco:Active  { text-decoration : none; color : white; }
+A.blanco:Hover  { text-decoration : underline; color : white; }
+
+A.naranja  { text-decoration : none; color : #D65300; }
+A.naranja:Visited  { text-decoration : none; color : #D65300; }
+A.naranja:Active  { text-decoration : none; color : #D65300; }
+A.naranja:Hover  { text-decoration : underline; color : #D65300; }
+
 td {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
