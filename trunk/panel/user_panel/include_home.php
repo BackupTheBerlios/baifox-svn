@@ -10,7 +10,7 @@ $numpage_total=$total_registros;
     <td width="57%"> <br>
       <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
-          <td colspan="3" bgcolor="#E27400"> 
+          <td colspan="4" bgcolor="#E27400"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
                 <td width="12%" align="center"><img src="images/img_mundo.gif" width="39" height="39"></td>
@@ -33,20 +33,29 @@ $numpage_total=$total_registros;
           </td>
         </tr>
         <tr align="center"> 
-          <td colspan="3"> 
+          <td colspan="4"> 
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
-<?php
+              <?php
    $x=0;
    for($i=1;$i<=$total_registros;$i++){
    $rs = $conf->getConfigValue($i);
 	if($rs){
 		if($rs["IDCLIENTE"]==$_SESSION['SEC_ID']){ 
-?>            <tr align="center"> 
-                <td width="61%" align="left"><span class="Estilo5"><font color="#D65300">&nbsp; <a href="" class="naranja"><?php echo $rs["DOMINIO"]; ?></a></font></span></td>
-                <td width="18%" align="right"><strong><span class="Estilo6">0.00&nbsp;</span></strong></td>
-                <td width="21%" align="right"><span class="Estilo5"><b>0.00</b></span><b>&nbsp;</b></td>
+			$total_espacio=pureftpd_quotastatus($rs["IDFTP"]);
+?>
+              <tr align="center"> 
+                <td width="61%" align="left"><span class="Estilo5"><font color="#D65300">&nbsp; 
+                  <a href="index.php?grupo=dominio&seccion=dominio&pag=principal&dominio=<?php echo $rs["DOMINIO"]; ?>" class="naranja">
+                  <?php echo $rs["DOMINIO"]; ?>
+                  </a></font></span></td>
+                <td width="18%" align="right"><strong><span class="Estilo6">
+                  <?php echo number_format(bitconversor($total_espacio,"byte","mbyte"), 2, ',', '.'); ?>
+                  MB&nbsp;</span></strong></td>
+                <td width="21%" align="right"><span class="Estilo5"><b>
+                  <?php echo bandwidth_estadisticas_mes_total($rs["DOMINIO"],date("Y"),date("n")); ?>
+                  </b></span><b>&nbsp;</b></td>
               </tr>
-  <?php 	$x++;
+              <?php 	$x++;
 		}
 	}	
    }
@@ -56,8 +65,12 @@ $numpage_total=$total_registros;
           </td>
         </tr>
         <tr align="center"> 
-          <td colspan="2"><?php echo $x; ?> Dominios en total</td>
-          <td width="21%">&nbsp;</td>
+          <td colspan="2">
+            <?php echo $x; ?>
+            Dominios en total</td>
+          <td width="9%" valign="middle" align="right"><img src="images/icn_dominio.gif" width="30" height="29"> 
+          </td>
+          <td width="24%" valign="middle">A&ntilde;adir dominio</td>
         </tr>
       </table>
     </td>

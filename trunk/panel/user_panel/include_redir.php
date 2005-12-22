@@ -6,6 +6,9 @@
 			case "":
 	  			include "include_home.php";
   			break;		
+			case "principal":
+	  			include "include_dominio.php";
+  			break;		
 			default:
 	  			include "webpanel/".$_GET['grupo']."/".$_GET['seccion']."/".$_GET['pag'].".php";
 			break;
