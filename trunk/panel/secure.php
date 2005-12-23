@@ -28,6 +28,7 @@ if(!$_SESSION['SEC_ID']) {
 	 			$_SESSION['SEC_PERM']=$rs["PERMISO"];
 	 			$_SESSION['SEC_USER_NOMBRE']=$rs["NOMBRE"];
 	 			$_SESSION['SEC_USER_EMAIL']=$rs["EMAIL"];
+				$_SESSION['SEC_USER_DOMINIOS']=rellenaarray_dominios($rs["ID"]);
 				header ("Location: user_panel/index.php\n\n");
 				exit();
 			}else{

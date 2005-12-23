@@ -290,6 +290,26 @@ function rellenacombo_xml($mfichero,$mdirectorio,$mid,$mdescripcion,$mselected){
    }
 }
 
+function rellenaarray_dominios($IDCLIENTE){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
+	$total_registros=count($conf->getConfigValue());
+	$dominios_usuario=Array();
+	
+	$x=0;
+   	for($i=1;$i<=$total_registros;$i++){
+   		$rs = $conf->getConfigValue($i);
+		if($rs){
+			if($rs["IDCLIENTE"]==$IDCLIENTE){ 
+				$dominios_usuario[$rs["DOMINIO"]]=$rs["IDFTP"];
+		 		$x++;
+			}
+		}	
+   	}
+	return $dominios_usuario;
+}
+
 function execute_cmd($cmd)
 {
 //    exec("echo "._CFG_SUDO_PASSWORD."|"._CFG_SUDO." -v -S 1>/dev/null 2>&1\n\n");
