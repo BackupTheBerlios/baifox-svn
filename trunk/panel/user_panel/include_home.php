@@ -1,10 +1,3 @@
-<?php
-$conf = new patConfiguration;
-$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-$conf->parseConfigFile(_CFG_XML_DOMINIOS);
-$total_registros=count($conf->getConfigValue());
-$numpage_total=$total_registros;
-?>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
     <td width="57%"> <br>
@@ -35,38 +28,31 @@ $numpage_total=$total_registros;
         <tr align="center"> 
           <td colspan="4"> 
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
-              <?php
-   $x=0;
-   for($i=1;$i<=$total_registros;$i++){
-   $rs = $conf->getConfigValue($i);
-	if($rs){
-		if($rs["IDCLIENTE"]==$_SESSION['SEC_ID']){ 
-			$total_espacio=pureftpd_quotastatus($rs["IDFTP"]);
+<?php
+   foreach($_SESSION['SEC_USER_DOMINIOS'] as $key => $value ) {
+	$total_espacio=pureftpd_quotastatus($value);
 ?>
               <tr align="center"> 
                 <td width="61%" align="left"><span class="Estilo5"><font color="#D65300">&nbsp; 
-                  <a href="index.php?grupo=dominio&seccion=dominio&pag=principal&dominio=<?php echo $rs["DOMINIO"]; ?>" class="naranja">
-                  <?php echo $rs["DOMINIO"]; ?>
+                  <a href="index.php?grupo=dominio&seccion=dominio&pag=principal&dominio=<?php echo $key; ?>" class="naranja">
+                  <?php echo $key; ?>
                   </a></font></span></td>
                 <td width="18%" align="right"><strong><span class="Estilo6">
                   <?php echo number_format(bitconversor($total_espacio,"byte","mbyte"), 2, ',', '.'); ?>
                   MB&nbsp;</span></strong></td>
                 <td width="21%" align="right"><span class="Estilo5"><b>
-                  <?php echo bandwidth_estadisticas_mes_total($rs["DOMINIO"],date("Y"),date("n")); ?>
+                  <?php echo bandwidth_estadisticas_mes_total($key,date("Y"),date("n")); ?>
                   </b></span><b>&nbsp;</b></td>
               </tr>
-              <?php 	$x++;
-		}
-	}	
+              <?php 
    }
-
 ?>
             </table>
           </td>
         </tr>
         <tr align="center"> 
           <td colspan="2">
-            <?php echo $x; ?>
+            <?php echo count($_SESSION['SEC_USER_DOMINIOS']); ?>
             Dominios en total</td>
           <td width="9%" valign="middle" align="right"><img src="images/icn_dominio.gif" width="30" height="29"> 
           </td>
