@@ -6,6 +6,7 @@ if (strlen(session_id())>0){
    session_register("SEC_USER");
    session_register("SEC_USER_NOMBRE");
    session_register("SEC_USER_EMAIL");
+   session_register("SEC_USER_DOMINIOS");
    session_register("SEC_PERM");
    session_register("SEC_EMAIL_ASUNTO");
    session_register("SEC_EMAIL_MENSAJE");

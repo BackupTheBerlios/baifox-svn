@@ -94,8 +94,7 @@
           <td colspan="3" valign="top"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_correo.gif" height="34">
               <tr> 
-                <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Correo</font></b></font></td>
+                <td align="center"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Correo</font></b></font></td>
               </tr>
             </table>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
@@ -126,8 +125,7 @@
           <td colspan="3" valign="top"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_discod.gif" height="34">
               <tr> 
-                <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Gesti&oacute;n 
+                <td align="center"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Gesti&oacute;n 
                   del Disco</font></b></font></td>
               </tr>
             </table>
@@ -153,8 +151,7 @@
           <td colspan="3" valign="top"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_basesd.gif" height="34">
               <tr> 
-                <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Bases 
+                <td align="center"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Bases 
                   de datos</font></b></font></td>
               </tr>
             </table>
@@ -180,8 +177,7 @@
           <td colspan="3" valign="top"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_estadisticas.gif" height="34">
               <tr> 
-                <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Estad&iacute;sticas</font></b></font></td>
+                <td align="center"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Estad&iacute;sticas</font></b></font></td>
               </tr>
             </table>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
