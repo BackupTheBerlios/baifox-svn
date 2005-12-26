@@ -13,6 +13,7 @@
 <title>Panel Administraci&oacute;n</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="main.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="javascript/funciones.js"></script>
 </head>
 <body bgcolor="#FFFFFF" text="#000000">
 <?php include "include_top.php"; ?>
