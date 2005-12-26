@@ -31,3 +31,15 @@
     </td>
   </tr>
 </table>
+<?php if($_GET['dominio']!=""){ ?>
+<br>
+<table width="80%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr valign="middle"> 
+    <td colspan="3">&nbsp;<img src="images/flechita.gif" width="6" height="10"> 
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: 
+      </b><font color="#CD3500">
+      <?php echo $_GET['dominio']; ?>
+      </font></font></td>
+  </tr>
+</table>
+<?php } ?>

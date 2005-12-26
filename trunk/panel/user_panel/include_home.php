@@ -34,7 +34,7 @@
 ?>
               <tr align="center"> 
                 <td width="61%" align="left"><span class="Estilo5"><font color="#D65300">&nbsp; 
-                  <a href="index.php?grupo=dominio&seccion=dominio&pag=principal&dominio=<?php echo $key; ?>" class="naranja">
+                  <a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $key; ?>" class="naranja">
                   <?php echo $key; ?>
                   </a></font></span></td>
                 <td width="18%" align="right"><strong><span class="Estilo6">
