@@ -36,9 +36,19 @@ function apache_version(){
 }
 
 function apache_phpversion(){
-	$exec_cmd = "HTTP/1.0 200 OK";
-	$result=execute_cmd("$exec_cmd -v");
-	list($buffer,$version) = split(":",$result[0],2);
+$socket = fsockopen(_CFG_SERVER_IP, 80, $errno, $errstr, 3);
+	if ($socket) {
+   		$buffer = "GET / HTTP/1.0\r\n";
+		$buffer .= "Connection: Close\r\n\r\n";
+   		fwrite($socket, $buffer);
+   		while (!feof($socket)) {
+       			if(strstr(fgets($socket, 128),"PHP")!=FALSE){
+				$version=strstr(fgets($socket, 128),"PHP");
+				break;
+			}
+   		}
+   		fclose($socket);
+	}
 	return $version;
 }
 
