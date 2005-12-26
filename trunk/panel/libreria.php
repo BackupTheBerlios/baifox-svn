@@ -310,6 +310,26 @@ function rellenaarray_dominios($IDCLIENTE){
 	return $dominios_usuario;
 }
 
+function buscardbase_dominio($dominio){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
+	$total_registros=count($conf->getConfigValue());
+	$dominios_usuario=Array();
+	
+	$x=0;
+   	for($i=1;$i<=$total_registros;$i++){
+   		$rs = $conf->getConfigValue($i);
+		if($rs){
+			if($rs["DOMINIO"]==$dominio){ 
+				return $rs["BASE"];
+		 		exit();
+			}
+		}	
+   	}
+	
+}
+
 function execute_cmd($cmd)
 {
 //    exec("echo "._CFG_SUDO_PASSWORD."|"._CFG_SUDO." -v -S 1>/dev/null 2>&1\n\n");

@@ -28,6 +28,20 @@ function apache_test(){
 	return $test;
 }
 
+function apache_version(){
+	$exec_cmd = _CFG_APACHE_HTTPD;
+	$result=execute_cmd("$exec_cmd -v");
+	list($buffer,$version) = split(":",$result[0],2);
+	return $version;
+}
+
+function apache_phpversion(){
+	$exec_cmd = "HTTP/1.0 200 OK";
+	$result=execute_cmd("$exec_cmd -v");
+	list($buffer,$version) = split(":",$result[0],2);
+	return $version;
+}
+
 function apache_listdomains(){
 $handle=GetDirArray(_CFG_APACHE_CONF); 
 $array_modules= array();

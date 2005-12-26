@@ -8,6 +8,12 @@ function sysinfo_info(){
 	return $info;
 }
 
+function sysinfo_osversion(){
+	$exec_cmd = _CFG_CMD_UNAME;
+	$result=execute_cmd("$exec_cmd -r -s");
+	return $result[0];
+}
+
 function sysinfo_generarinfo(){
 // phpSysInfo - A PHP System Information Script
 // http://phpsysinfo.sourceforge.net/

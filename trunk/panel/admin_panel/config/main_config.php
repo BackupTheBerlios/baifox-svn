@@ -12,6 +12,10 @@ define("_CFG_INTERFACE_LIBRERIA",_CFG_INTERFACE_DIR."libreria.php");
 define("_CFG_INTERFACE_FASTTEMPLATE",_CFG_INTERFACE_DIR."admin_panel/interface/class.FastTemplate.php");
 define("_CFG_INTERFACE_PLANTILLAS",_CFG_INTERFACE_DIR."admin_panel/plantillas/");
 
+define("_CFG_USERINTERFACE_PHPMYADMIN","http://mysql.dominio.com");
+define("_CFG_USERINTERFACE_WEBMAIL","http://webmail.dominio.com");
+define("_CFG_USERINTERFACE_AWSTATS","http://estadisticas.dominio.com/cgi-bin/awstats/awstats.pl?config=");
+
 define("_CFG_SERVER_NAME",""); // servidor.com
 define("_CFG_SERVER_NS",""); //ns1.servidor.com
 define("_CFG_SERVER_IP",""); // IP servidor
@@ -38,6 +42,7 @@ define("_CFG_SUDO_PASSWORD",""); //contraseña del usuario SUDO baifox
 define("_CFG_CMD_CAT","cat");
 define("_CFG_CMD_CUT","cut");
 define("_CFG_CMD_GREP","grep");
+define("_CFG_CMD_UNAME","uname");
 
 //Configuración VPOPMAIL
 define("_CFG_VPOPMAIL_HOMEDIR","/home/vpopmail/");

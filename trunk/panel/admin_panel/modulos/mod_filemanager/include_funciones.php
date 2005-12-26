@@ -37,19 +37,19 @@ function filemanager_test(){
 
 function filemanager_listdomains(){
 $handle=GetDirArray(_CFG_APACHE_CONF); 
-$array_modules= array();
+$array_modulos= array();
 
  while (list ($key, $file) = each ($handle)) { 
     if ($file != "." && $file != "..") { 
 	if(!is_dir(_CFG_APACHE_CONF.$file)){
 		if(substr($file,-5)=="_conf"){
 			if (trim(substr($file,-5))!="")
-				$array_modules[]=substr($file,0,-5);
+				$array_modulos[]=substr($file,0,-5);
 		}
 	}
      }
  }
-return $array_modules;
+return $array_modulos;
 }
 
 function filemanager_quotacalculate($dominio){
@@ -90,7 +90,7 @@ function filemanager_visualiza($dominio){
     //$url_info = parse_url($_SERVER["HTTP_REFERER"]);
     $url_info = parse_url("http://www.".$dominio);
     $doc_root = ($islinux) ? _CFG_APACHE_DOCUMENTROOT : ucfirst(_CFG_APACHE_DOCUMENTROOT);
-    $script_filename = $doc_root."admin_panel/webpanel/sistema/filemanager/filemanager.php";
+    $script_filename = _CFG_INTERFACE_DIR."admin_panel/webpanel/sistema/filemanager/filemanager.php";
     $path_info = pathinfo($script_filename);
     $fm_root_atual=_CFG_APACHE_DOCUMENTROOT.$dominio."/";
 
@@ -900,11 +900,11 @@ function filemanager_tree($dir_antes,$dir_corrente,$indice){
                     echo " ";
                 }
                 if ($dir_antes != $dir_corrente){
-                    if (strstr($expanded_dir_list,":$dir_corrente/$dir_name")) $op_str = "<img src=\"../../../modulos/mod_filemanager/images/menos.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"../../../modulos/mod_filemanager/images/folderopen.gif\" width=\"16\" height=\"16\" border=\"0\">";
-                    else $op_str = "<img src=\"../../../modulos/mod_filemanager/images/mas.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"../../../modulos/mod_filemanager/images/folderclosed.gif\" width=\"16\" height=\"16\" border=\"0\">";
+                    if (strstr($expanded_dir_list,":$dir_corrente/$dir_name")) $op_str = "<img src=\"/admin_panel/modulos/mod_filemanager/images/menos.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"/admin_panel/modulos/mod_filemanager/images/folderopen.gif\" width=\"16\" height=\"16\" border=\"0\">";
+                    else $op_str = "<img src=\"/admin_panel/modulos/mod_filemanager/images/mas.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"/admin_panel/modulos/mod_filemanager/images/folderclosed.gif\" width=\"16\" height=\"16\" border=\"0\">";
                     echo "<a href=\"JavaScript:go_dir('$dir_corrente/$dir_name')\"><b>$op_str</b></a> <a href=\"JavaScript:go('$dir_corrente')\"><b>$dir_name</b></a><br>\n";
                 } else {
-                    echo "<a href=\"JavaScript:go('$dir_corrente')\"><img src=\"../../../modulos/mod_filemanager/images/home.gif\" width=\"16\" height=\"16\" border=\"0\"> <b>$fm_root_atual</b></a><br>\n";
+                    echo "<a href=\"JavaScript:go('$dir_corrente')\"><img src=\"/admin_panel/modulos/mod_filemanager/images/home.gif\" width=\"16\" height=\"16\" border=\"0\"> <b>$fm_root_atual</b></a><br>\n";
                 }
                 for ($x=0;$x<count($mat_dir);$x++){
                     if (($dir_antes == $dir_corrente)||(strstr($expanded_dir_list,":$dir_corrente/$dir_name"))){
@@ -916,7 +916,7 @@ function filemanager_tree($dir_antes,$dir_corrente,$indice){
               if ($dir_antes != $dir_corrente){
                 for ($aux=1;$aux<$indice;$aux++) echo "    ";
                 echo " ";
-                echo "<img src=\"../../../modulos/mod_filemanager/images/linea.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"../../../modulos/mod_filemanager/images/folderclosed.gif\" width=\"16\" height=\"16\" border=\"0\"><a href=\"JavaScript:go('$dir_corrente')\"> <b>$dir_name</b></a><br>\n";
+                echo "<img src=\"/admin_panel/modulos/mod_filemanager/images/linea.gif\" width=\"16\" height=\"16\" border=\"0\"><img src=\"/admin_panel/modulos/mod_filemanager/images/folderclosed.gif\" width=\"16\" height=\"16\" border=\"0\"><a href=\"JavaScript:go('$dir_corrente')\"> <b>$dir_name</b></a><br>\n";
               } else {
                 echo "<a href=\"JavaScript:go('$dir_corrente')\"> <b>$fm_root_atual</b></a><br>\n";
               }
@@ -997,7 +997,7 @@ function filemanager_show_tree(){
         }
         echo "</select></form>";
     }
-    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"../../../modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".filemanager_st('Refresh')."</a></tr>";
+    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"/admin_panel/modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".filemanager_st('Refresh')."</a></tr>";
     //if (!$islinux) $aux=substr($fm_root_atual,0,strlen($fm_root_atual)-1);
     //else
     $aux=$fm_root_atual;
@@ -1565,7 +1565,7 @@ function filemanager_dir_list_form() {
             $mat = explode("/",$dir_atual);
             $dir_antes = "";
             for($x=0;$x<(count($mat)-2);$x++) $dir_antes .= $mat[$x]."/";
-            $uplink = "<a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_antes\"><img src=\"../../../modulos/mod_filemanager/images/anterior.gif\" width=\"16\" height=\"16\" border=\"0\"></a> ";
+            $uplink = "<a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_antes\"><img src=\"/admin_panel/modulos/mod_filemanager/images/anterior.gif\" width=\"16\" height=\"16\" border=\"0\"></a> ";
         }
         if($entry_count){
             $out .= "
@@ -1592,7 +1592,7 @@ function filemanager_dir_list_form() {
                  if ($dir_entry["type"]=="dir"){
                      $dir_out .= "
                                  <tr ID=\"entry$ind\" onmouseover=\"selectEntry(this, 'over');\" onmousedown=\"selectEntry(this, 'click');\">
-				 <td align=center bgcolor=\"#".$fm_color['Dir']."\"><img src=\"../../../modulos/mod_filemanager/images/icon/icon_dir.gif\" width=\"16\" height=\"16\" border=\"0\">
+				 <td align=center bgcolor=\"#".$fm_color['Dir']."\"><img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_dir.gif\" width=\"16\" height=\"16\" border=\"0\">
                                  <td align=left bgcolor=\"#".$fm_color['Dir']."\"><nobr><a href=\"JavaScript:go('$file')\">$file</a></nobr>
                                  <td bgcolor=\"#".$fm_color['Dir']."\">".$dir_entry["p"];
                      if ($islinux) $dir_out .= "<td bgcolor=\"#".$fm_color['Dir']."\">".$dir_entry["u"]."<td bgcolor=\"#".$fm_color['Dir']."\">".$dir_entry["g"];
@@ -1614,64 +1614,64 @@ function filemanager_dir_list_form() {
 		    		switch($dir_entry["ext"]){
 				case ".html":
 				case ".htm":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_html.gif\" width=\"20\" height=\"20\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_html.gif\" width=\"20\" height=\"20\" border=\"0\">";
 				break;
 				case ".php":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_php.gif\" width=\"20\" height=\"20\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_php.gif\" width=\"20\" height=\"20\" border=\"0\">";
 				break;
 				case ".asp":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_asp.gif\" width=\"20\" height=\"20\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_asp.gif\" width=\"20\" height=\"20\" border=\"0\">";
 				break;
 				case ".rar":
 				case ".zip":
 				case ".arj":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_zip.gif\" width=\"20\" height=\"20\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_zip.gif\" width=\"20\" height=\"20\" border=\"0\">";
 				break;
 				case ".pdf":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_pdf.gif\" width=\"20\" height=\"20\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_pdf.gif\" width=\"20\" height=\"20\" border=\"0\">";
 				break;
 				case ".doc":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_word.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_word.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".xls":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_excel.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_excel.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".jpeg":
 				case ".jpg":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_jpg.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_jpg.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".png":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_png.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_png.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".bmp":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_bmp.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_bmp.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".js":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_js.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_js.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".mp3":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_mp3.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_mp3.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".css":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_css.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_css.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".ppt":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_ppt.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_ppt.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".swf":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_swf.gif\" width=\"19\" height=\"19\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_swf.gif\" width=\"19\" height=\"19\" border=\"0\">";
 				break;
 				case ".exe":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_exe.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_exe.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".gif":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_gif.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_gif.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				case ".txt":
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_txt.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_txt.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				default:
-					$file_out .= "<img src=\"../../../modulos/mod_filemanager/images/icon/icon_misc.gif\" width=\"16\" height=\"16\" border=\"0\">";
+					$file_out .= "<img src=\"/admin_panel/modulos/mod_filemanager/images/icon/icon_misc.gif\" width=\"16\" height=\"16\" border=\"0\">";
 				break;
 				}
 		     $file_out .= "<td align=left bgcolor=\"#FFFFFF\"><nobr><a href=\"JavaScript:download('$file')\">$file</a></nobr>
