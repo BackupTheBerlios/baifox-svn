@@ -7,6 +7,11 @@ body {
 .Estilo5 {font-size: 11px}
 .Estilo6 {font-size: 11px}
 
+A  { text-decoration : none; color : black; }
+A:Visited  { text-decoration : none; color : black; }
+A:Active  { text-decoration : none; color : black; }
+A:Hover  { text-decoration : underline; color : black; }
+
 A.blanco  { text-decoration : none; color : white; }
 A.blanco:Visited  { text-decoration : none; color : white; }
 A.blanco:Active  { text-decoration : none; color : white; }
