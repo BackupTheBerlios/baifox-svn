@@ -175,23 +175,15 @@ function vpopmail_aliasadd($cuentaorigen,$dominio,$cuentadestino){
 function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio){
 	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
 	$result = execute_cmd("mkdir $directorio");
-	$result = execute_cmd("touch $directorio/message");
-	$cuerpo="From: $cuenta@$dominio\\n";
-	$cuerpo.="Subject: $asunto\\n";
-	$cuerpo.="\\n";
-	$cuerpo.="$mensaje\\n";
-	$result = execute_cmd("chmod 777 $directorio");
-	$result = execute_cmd("chmod 777 $directorio/message");
-	$filename="$directorio/message";
- 	if (!$handle = fopen($filename, 'a')) {
-          	echo "Cannot open file ($filename)";
-          	exit;
-    	}
-	// Write $somecontent to our opened file.
-    	if (fwrite($handle, $cuerpo) === FALSE) {
-	        echo "Cannot write to file ($filename)";
-        	exit;
-	    }
+	$cuerpo="From: $cuenta@$dominio";
+	$result = execute_cmd("echo $cuerpo>/tmp/message");
+	$cuerpo="Subject: $asunto";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$cuerpo="";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$cuerpo="$mensaje";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$result = execute_cmd("mv /tmp/message $directorio/message");
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
 	$result = execute_cmd("chmod 700 $directorio");
 	$result = execute_cmd("chmod 600 $directorio/message");
