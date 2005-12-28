@@ -20,6 +20,11 @@ function vpopmail_test(){
 		$test[0]=false;
 	}
 
+	if (!file_exists(_CFG_VPOPMAIL_ALIAS)){
+		$test[1].= "[ERROR] No existe el fichero "._CFG_VPOPMAIL_ALIAS."<br>";
+		$test[0]=false;
+	}
+
 	if (!file_exists(_CFG_VPOPMAIL_ADDDOMAIN)){
 		$test[1].= "[ERROR] No existe el fichero "._CFG_VPOPMAIL_ADDDOMAIN."<br>";
 		$test[0]=false;
@@ -94,6 +99,39 @@ function vpopmail_listdomains(){
 	return $array_listado;
 }
 
+function vpopmail_listalias($dominio){
+	$array_listado=Array();
+
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd $dominio");
+	for($i=0;$i<count($result);$i++)
+	{
+		if(strpos($result[$i],"autorespond")===false){
+			list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
+			$array_listado[$i]["cuenta_origen"]=trim($cuenta_origen);
+			$array_listado[$i]["cuenta_destino"]=substr(trim($cuenta_destino),1);
+		}
+	}
+	array_multisort($array_listado);
+	return $array_listado;
+}
+
+function vpopmail_listautorespuesta($dominio){
+	$array_listado=Array();
+
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd $dominio");
+	for($i=0;$i<count($result);$i++)
+	{
+		if(strpos($result[$i],"autorespond")!==false){
+			list($cuenta, $cadena) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
+			$array_listado[$i]["cuenta"]=trim($cuenta);
+		}
+	}
+	array_multisort($array_listado);
+	return $array_listado;
+}
+
 function vpopmail_listcuentas($dominio){
 	$array_listado=Array();
 
@@ -128,6 +166,58 @@ function vpopmail_domainadd($dominio,$password){
 	return $result;
 }
 
+function vpopmail_aliasadd($cuentaorigen,$dominio,$cuentadestino){
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd -i '&$cuentadestino' '$cuentaorigen@$dominio'");
+	return $result;
+}
+
+function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio){
+	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
+	$result = execute_cmd("mkdir $directorio");
+	$result = execute_cmd("touch $directorio/message");
+	$cuerpo="From: $cuenta@$dominio\\n";
+	$cuerpo.="Subject: $asunto\\n";
+	$cuerpo.="\\n";
+	$cuerpo.="$mensaje\\n";
+	$result = execute_cmd("chmod 777 $directorio");
+	$result = execute_cmd("chmod 777 $directorio/message");
+	$filename="$directorio/message";
+ 	if (!$handle = fopen($filename, 'a')) {
+          	echo "Cannot open file ($filename)";
+          	exit;
+    	}
+	// Write $somecontent to our opened file.
+    	if (fwrite($handle, $cuerpo) === FALSE) {
+	        echo "Cannot write to file ($filename)";
+        	exit;
+	    }
+	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
+	$result = execute_cmd("chmod 700 $directorio");
+	$result = execute_cmd("chmod 600 $directorio/message");
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd -i '|"._CFG_VPOPMAIL_AUTORESPOND." 10000 5 $directorio/message $directorio' '$cuenta@$dominio'");
+	return $result;
+}
+
+function vpopmail_homedir($dominio){
+	$array_listado=Array();
+
+	$exec_cmd = _CFG_VPOPMAIL_INFODOMAIN;
+	$result = execute_cmd("$exec_cmd  -a $dominio|"._CFG_CMD_GREP." -e "._CFG_VPOPMAIL_CFG_DIR." |"._CFG_CMD_CUT." -d\":\" -f2");
+	return trim($result[0]);
+}
+
+function vpopmail_autoresponddel($usuario,$dominio){
+	list($cuenta,$cadena)=split("@",$usuario,2);
+	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
+	$exec_cmd = "rm";
+	$result = execute_cmd("$exec_cmd -R $directorio");
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd -d $usuario");
+	return $result;
+}
+
 function vpopmail_domaindel($dominio){
 	$exec_cmd = _CFG_VPOPMAIL_DELDOMAIN;
 	$result = execute_cmd("$exec_cmd $dominio");
@@ -137,6 +227,12 @@ function vpopmail_domaindel($dominio){
 function vpopmail_cuentadel($usuario,$dominio){
 	$exec_cmd = _CFG_VPOPMAIL_DELUSER;
 	$result = execute_cmd("$exec_cmd $usuario@$dominio");
+	return $result;
+}
+
+function vpopmail_aliasdel($usuario){
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd -d $usuario");
 	return $result;
 }
 

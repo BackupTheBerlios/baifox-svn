@@ -46,6 +46,10 @@ define("_CFG_CMD_UNAME","uname");
 
 //Configuración VPOPMAIL
 define("_CFG_VPOPMAIL_HOMEDIR","/home/vpopmail/");
+define("_CFG_VPOPMAIL_USER","vpopmail");
+define("_CFG_VPOPMAIL_GROUP","vchkpw");
+define("_CFG_VPOPMAIL_AUTORESPOND","/usr/bin/autorespond");
+define("_CFG_VPOPMAIL_ALIAS","/home/vpopmail/bin/valias");
 define("_CFG_VPOPMAIL_ADDDOMAIN","/home/vpopmail/bin/vadddomain");
 define("_CFG_VPOPMAIL_DELDOMAIN","/home/vpopmail/bin/vdeldomain");
 define("_CFG_VPOPMAIL_DOMAINLIMITS","/home/vpopmail/bin/vmoddomlimits");
@@ -66,9 +70,11 @@ define("_CFG_VPOPMAIL_CFG_QUOTA","Default User Quota:");
 define("_CFG_VPOPMAIL_CFG_ESTADO","NO_POP");
 define("_CFG_VPOPMAIL_CFG_DOMAIN","domain:");
 define("_CFG_VPOPMAIL_CFG_USERS","users:");
+define("_CFG_VPOPMAIL_CFG_DIR","dir:");
 define("_CFG_VPOPMAIL_CFG_CUENTANAME","name:");
 define("_CFG_VPOPMAIL_CFG_CUENTAQUOTA","quota:");
 define("_CFG_VPOPMAIL_CFG_CUENTAESTADO","pop access closed");
+define("_CFG_VPOPMAIL_CFG_CUENTAALIAS","->");
 
 define("_CFG_LOGROTATE_CFG_FILE","/etc/logrotate.conf");
 define("_CFG_LOGROTATE_CFG_AWSTATSTRING","_awstats_log");

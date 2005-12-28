@@ -1,5 +1,6 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
+include "webpanel/".$_GET['grupo']."/".$_GET['seccion']."/menu.php"; 
 ?>
 <?php
 $array_listado=vpopmail_listcuentas($_GET['dominio']);
