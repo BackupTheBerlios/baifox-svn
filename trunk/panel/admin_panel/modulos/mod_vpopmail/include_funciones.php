@@ -189,6 +189,9 @@ function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio)
 	$result = execute_cmd("chmod 600 $directorio/message");
 	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
 	$result = execute_cmd("$exec_cmd -i '|"._CFG_VPOPMAIL_AUTORESPOND." 10000 5 $directorio/message $directorio' '$cuenta@$dominio'");
+	if($cuentacopia!=""){
+		$result = execute_cmd("$exec_cmd -i '&$cuentacopia' '$cuenta@$dominio'");
+	}
 	return $result;
 }
 
