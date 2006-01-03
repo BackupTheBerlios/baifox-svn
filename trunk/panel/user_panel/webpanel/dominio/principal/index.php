@@ -124,8 +124,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Gesti&oacute;n Correo</a></td>
                 <td width="17%"><img src="images/icn_listascorreo.gif" width="50" height="50"><br>
                   Listas Correo</td>
-                <td width="17%"><img src="images/icn_redir.gif" width="50" height="50"><br>
-                  Redirecciones Alias</td>
+                <td width="17%"><a href="index.php?grupo=dominio&seccion=redirecciones&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_redir.gif" width="50" height="50" border="0"><br>
+                  Redirecciones Alias</a></td>
               </tr>
               <tr align="center" valign="top"> 
                 <td width="23%" class="Estilo2"><img src="images/icn_autor.gif" width="50" height="50"><br>
