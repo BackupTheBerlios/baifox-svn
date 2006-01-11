@@ -1,7 +1,7 @@
 <?php include "webpanel/".$_GET['grupo']."/include_permiso.php"; ?>
 <form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/autorespond_save.php?id=0&dominio=<?php echo $_GET['dominio']; ?>">
   <input type="hidden" name="frmEstado" value="1">
-  <font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir Nuevo Autorespuesta
+  <font size="2" face="Arial, Helvetica, sans-serif">Modificar Autorespuesta
   [ 
   <?php echo $_GET['dominio']; ?>
   ]</font> <br>
@@ -18,33 +18,34 @@
             <td height="25" align="left" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Cuenta 
               Origen </font></td>
             <td height="25" align="left"> 
-              <input type="text" name="frmCuenta" size="25">@<?php echo $_GET['dominio']; ?>
+              <?php echo $_GET['usuario']; ?>
+	      <input type="hidden" name="frmCuenta" value="<?php list($cuenta,$dominio)=split("@",$_GET['usuario'],2); echo $cuenta; ?>">
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Enviar 
               copia a</font></td>
             <td> 
-              <input type="text" name="frmCuentaCopia" size="25">
-              <font face="Arial, Helvetica, sans-serif" size="2"> </font></td>
+              <input type="text" name="frmCuentaCopia" size="25" value="<?php echo vpopmail_autorespondread($_GET['usuario'],$_GET['dominio'],"copia"); ?>">
+              </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Asunto</font></td>
             <td> 
-              <input type="text" name="frmAsunto" size="25">
-              <font face="Arial, Helvetica, sans-serif" size="2"> </font></td>
+              <input type="text" name="frmAsunto" size="25" value="<?php echo vpopmail_autorespondread($_GET['usuario'],$_GET['dominio'],"asunto"); ?>">
+              </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF" valign="top"> 
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Mensaje</font></td>
             <td> 
-              <textarea name="frmMensaje" cols="50" rows="20"></textarea>
-              <font face="Arial, Helvetica, sans-serif" size="2"> </font></td>
+              <textarea name="frmMensaje" cols="50" rows="20"><?php echo vpopmail_autorespondread($_GET['usuario'],$_GET['dominio'],"mensaje"); ?></textarea>
+             </td>
           </tr>
           <tr align="center" bgcolor="#FFFFFF"> 
             <td colspan="2">&nbsp; </td>
           </tr>
         </table>
-      <input type="submit" name="Submit" value="A&ntilde;adir">
+      <input type="submit" name="Submit" value="Modificar">
     </td>
   </tr>
 </table>

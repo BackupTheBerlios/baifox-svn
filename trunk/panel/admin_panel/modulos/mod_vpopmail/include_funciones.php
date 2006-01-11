@@ -101,15 +101,25 @@ function vpopmail_listdomains(){
 
 function vpopmail_listalias($dominio){
 	$array_listado=Array();
+	$array_autorespond=Array();
 
 	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
 	$result = execute_cmd("$exec_cmd $dominio");
+	$x=0;
+	$z=0;
 	for($i=0;$i<count($result);$i++)
 	{
 		if(strpos($result[$i],"autorespond")===false){
 			list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
-			$array_listado[$i]["cuenta_origen"]=trim($cuenta_origen);
-			$array_listado[$i]["cuenta_destino"]=substr(trim($cuenta_destino),1);
+			if(!array_search_match($cuenta_origen,$array_autorespond)){
+				$array_listado[$x]["cuenta_origen"]=trim($cuenta_origen);
+				$array_listado[$x]["cuenta_destino"]=substr(trim($cuenta_destino),1);
+				$x++;
+			}
+		}elseif(strpos($result[$i],"autorespond")!==false){
+			list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
+			$array_autorespond[$z]=trim($cuenta_origen);
+			$z++;
 		}
 	}
 	array_multisort($array_listado);
@@ -126,6 +136,10 @@ function vpopmail_listautorespuesta($dominio){
 		if(strpos($result[$i],"autorespond")!==false){
 			list($cuenta, $cadena) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
 			$array_listado[$i]["cuenta"]=trim($cuenta);
+			if(strpos($result[$i+1],$cuenta)!==false){
+				list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i+1], 2);
+				$array_listado[$i]["cuenta_copia"]=substr(trim($cuenta_destino),1);
+			}
 		}
 	}
 	array_multisort($array_listado);
@@ -172,9 +186,42 @@ function vpopmail_aliasadd($cuentaorigen,$dominio,$cuentadestino){
 	return $result;
 }
 
+function vpopmail_autorespondread($usuario,$dominio,$flag){
+	list($cuenta,$cadena)=split("@",$usuario,2);
+	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
+	$result = execute_cmd(_CFG_CMD_CAT." $directorio/message");
+
+	switch($flag){
+        case "asunto":
+		list($cadena, $asunto) =split("Subject: ", $result[1], 2);
+		return $asunto;
+	break;
+        case "mensaje":
+		unset($result[0]);
+		unset($result[1]);
+		unset($result[2]);
+		$cuerpo=implode("\n", $result);
+		return $cuerpo;
+	break;
+	case "copia":
+		$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+		$result=execute_cmd("$exec_cmd $dominio");
+		for($i=0;$i<count($result);$i++)
+		{
+			if(strpos($result[$i],$cuenta)!==false && strpos($result[$i],"autorespond")===false){
+				list($cuenta, $copia) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
+				return substr(trim($copia),1);
+			}
+		}
+	break;
+	}
+}
+
 function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio){
 	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
-	$result = execute_cmd("mkdir $directorio");
+	if(!file_exists($directorio)){
+		$result = execute_cmd("mkdir $directorio");
+	}
 	$cuerpo="From: $cuenta@$dominio";
 	$result = execute_cmd("echo $cuerpo>/tmp/message");
 	$cuerpo="Subject: $asunto";
@@ -183,11 +230,14 @@ function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio)
 	$result = execute_cmd("echo $cuerpo>>/tmp/message");
 	$cuerpo="$mensaje";
 	$result = execute_cmd("echo $cuerpo>>/tmp/message");
-	$result = execute_cmd("mv /tmp/message $directorio/message");
+	$result = execute_cmd("mv -f /tmp/message $directorio/message");
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
 	$result = execute_cmd("chmod 700 $directorio");
 	$result = execute_cmd("chmod 600 $directorio/message");
 	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	//Borra primero, por si habia uno anterior definido
+	$result = execute_cmd("$exec_cmd -d '$cuenta@$dominio'");
+	//Crea despues los alias para el autorespond
 	$result = execute_cmd("$exec_cmd -i '|"._CFG_VPOPMAIL_AUTORESPOND." 10000 5 $directorio/message $directorio' '$cuenta@$dominio'");
 	if($cuentacopia!=""){
 		$result = execute_cmd("$exec_cmd -i '&$cuentacopia' '$cuenta@$dominio'");
