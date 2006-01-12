@@ -1,44 +1,103 @@
-<?php 
-include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
-?>
-<form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/cuentas_save.php?dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $_GET['id']; ?>">
-  <font size="2" face="Arial, Helvetica, sans-serif">Modificar Cuenta[<?php echo $_GET['usuario']; ?>@<?php echo $_GET['dominio']; ?>]</font><br>
-<br>
-<table width="75%" border="1" bordercolor="#333333" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign="top" align="center"> 
-        <table width="100%" border="0" cellspacing="0" cellpadding="3" height="121" align="center" bordercolor="#000000">
-          <tr align="center" bgcolor="#CC3300"> 
-            <td width="30%"><font face="Verdana, Arial, Helvetica, sans-serif"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Concepto</font></b></font></td>
-            <td width="70%"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Datos</font></b></td>
-          </tr>
-          <tr align="left" bgcolor="#FFFFFF"> 
-            <td height="25" align="left" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Cuenta</font></td>
-            <td height="25" align="left"> 
-              <input type="hidden" name="frmCuenta" value="<?php echo $_GET['usuario']; ?>" >
-              <?php echo $_GET['usuario']."@".$_GET['dominio']; ?>
+
+<table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
+  <tr valign="top"> 
+    <td>
+      <form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo $_GET["id"]; ?>&dominio=<?php echo $_GET['dominio']; ?>">
+        <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr> 
+            <td width="50%" valign="top"> 
+              <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr> 
+                  <td colspan="3" bgcolor="#F2A500" valign="top"> 
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr> 
+                        <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+                        <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Modificar 
+                          cuenta</font></b></font></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td colspan="3"> 
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                      <tr align="center"> 
+                        <td width="9%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;nombre</td>
+                        <td width="18%" align="left" bgcolor="#d6d6d6"> 
+                          <?php echo $_GET["usuario"]."@".$_GET["dominio"]; ?>
+                          <input type="hidden" name="frmCuenta2" class="boxBlur" value="<?php echo $_GET["cuenta"]; ?>" size="20">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td width="11%" bgcolor="#d6d6d6" align="right">contrase&ntilde;a</td>
+                        <td width="17%" bgcolor="#d6d6d6" align="left"> 
+                          <input type="text" name="frmPassword2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td width="11%" bgcolor="#d6d6d6" align="right">confirmar 
+                          contrase&ntilde;a</td>
+                        <td width="17%" bgcolor="#d6d6d6" align="left"> 
+                          <input type="text" name="frmRePassword2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td bgcolor="#d6d6d6" align="right" width="6%">espacio</td>
+                        <td bgcolor="#d6d6d6" align="left" width="3%"> 
+                          <input type="text" name="frmQuota2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td bgcolor="#d6d6d6" colspan="2"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onClick="document.formulario.submit()"><br>
+                          [ Modificar ] </a></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
             </td>
-          </tr>
-          <tr align="left" bgcolor="#FFFFFF"> 
-            <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Password</font></td>
-            <td> 
-              <input type="text" name="frmPassword" size="15" value="<?php echo vpopmail_usershowpasswd($_GET['usuario'],$_GET['dominio']); ?>" maxlength="14">
-              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font> 
+            <td width="56%" valign="top"> 
+              <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr> 
+                  <td colspan="3" bgcolor="#F2A500"> 
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr> 
+                        <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+                        <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Ayuda</font></b></font></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td colspan="3"> 
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                      <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="42%" align="right">&nbsp;&nbsp;nombre</td>
+                        <td align="left" width="58%"> introduzca solo su nombre 
+                          de usuario sin el nombre de dominio</td>
+                      </tr>
+                      <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="42%" align="right">contrase&ntilde;a</td>
+                        <td width="58%" align="left"> una contrase&ntilde;a para 
+                          su correo</td>
+                      </tr>
+                      <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="42%" align="right">confirmar contrase&ntilde;a</td>
+                        <td width="58%" align="left"> vuelva a escribir la contrase&ntilde;a 
+                          para verificar que este correcta </td>
+                      </tr>
+                      <tr align="center" bgcolor="#FFFFCC"> 
+                        <td align="right" width="42%">espacio</td>
+                        <td align="left" width="58%"> Ej: 10M, 500K, 5MB</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
             </td>
-          </tr>
-          <tr bgcolor="#FFFFFF"> 
-            <td><font face="Arial, Helvetica, sans-serif" size="2">Quota</font></td>
-            <td> <font face="Arial, Helvetica, sans-serif" size="2"> 
-              <input type="text" name="frmQuota" value="<?php echo vpopmail_cuentalimits($_GET['usuario'],$_GET['dominio'],"quota"); ?>" size="10">
-              ejemplo: 10M, 500K, 5MB</font></td>
-          </tr>
-          <tr align="center" bgcolor="#FFFFFF"> 
-            <td colspan="2">&nbsp; </td>
           </tr>
         </table>
-      <input type="submit" name="Submit" value="Modificar">
+        </form>
     </td>
   </tr>
 </table>
-</form>
-

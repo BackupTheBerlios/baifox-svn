@@ -61,47 +61,102 @@ include "include_top_numpage.php";
           </td>
         </tr>
       </table>
-      <br>
-<form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=0&dominio=<?php echo $_GET['dominio']; ?>">
-        <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
-          <tr> 
-          <td colspan="3" bgcolor="#F2A500">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <p>&nbsp;</p>
+     <form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=0&dominio=<?php echo $_GET['dominio']; ?>">
+      <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+            <td width="50%" valign="top"> 
+              <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr> 
+                  <td colspan="3" bgcolor="#F2A500" valign="top"> 
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr> 
+                        <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+                        <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Crear 
+                          nueva cuenta</font></b></font></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td colspan="3"> 
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                      <tr align="center"> 
+                        <td width="9%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;nombre</td>
+                        <td width="18%" align="left" bgcolor="#d6d6d6"> 
+                          <input type="text" name="frmCuenta" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="10">@<?php echo $_GET['dominio']; ?>
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td width="11%" bgcolor="#d6d6d6" align="right">contrase&ntilde;a</td>
+                        <td width="17%" bgcolor="#d6d6d6" align="left"> 
+                          <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td width="11%" bgcolor="#d6d6d6" align="right">confirmar 
+                          contrase&ntilde;a</td>
+                        <td width="17%" bgcolor="#d6d6d6" align="left"> 
+                          <input type="text" name="frmRePassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td bgcolor="#d6d6d6" align="right" width="6%">espacio</td>
+                        <td bgcolor="#d6d6d6" align="left" width="3%"> 
+                          <input type="text" name="frmQuota" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5">
+                        </td>
+                      </tr>
+                      <tr align="center"> 
+                        <td bgcolor="#d6d6d6" colspan="2"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onClick="document.formulario.submit()"><br>
+                          [ A&ntilde;adir ] </a></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+    </td>
+          <td width="56%" valign="top"> 
+            <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
               <tr> 
-                <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
-                <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Crear 
-                  nueva cuenta</font></b></font></td>
+                <td colspan="3" bgcolor="#F2A500"> 
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr> 
+                      <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+                      <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Ayuda</font></b></font></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td colspan="3"> 
+                  <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                    <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="37%" align="right">&nbsp;&nbsp;nombre</td>
+                        <td align="left" width="63%"> introduzca solo su nombre 
+                          de usuario sin el nombre de dominio</td>
+                    </tr>
+                    <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="37%" align="right">contrase&ntilde;a</td>
+                        <td width="63%" align="left"> una contrase&ntilde;a para 
+                          su correo</td>
+                    </tr>
+                    <tr align="center" bgcolor="#FFFFCC"> 
+                        <td width="37%" align="right">confirmar contrase&ntilde;a</td>
+                        <td width="63%" align="left"> vuelva a escribir la contrase&ntilde;a 
+                          para verificar que este correcta </td>
+                    </tr>
+                    <tr align="center" bgcolor="#FFFFCC"> 
+                        <td align="right" width="37%">espacio</td>
+                        <td align="left" width="63%"> Ej: 10M, 500K, 5MB</td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr align="center"> 
-          <td colspan="3"> 
-              <table width="100%" border="0" cellspacing="2" cellpadding="0">
-                <tr align="center"> 
-                  <td width="9%" align="left" bgcolor="#d6d6d6">&nbsp;&nbsp;nombre</td>
-                  <td width="18%" align="left" bgcolor="#d6d6d6"> 
-                    <input type="text" name="frmCuenta" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="20">
-                  </td>
-                  <td width="11%" align="center" bgcolor="#d6d6d6">contrase&ntilde;a</td>
-                  <td width="17%" align="center" bgcolor="#d6d6d6"> 
-                    <input type="text" name="frmPassword" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="14">
-                  </td>
-                  <td width="22%" align="center" bgcolor="#d6d6d6">confirmar contrase&ntilde;a</td>
-                  <td bgcolor="#d6d6d6" align="right" width="11%"> 
-                    <input type="text" name="frmRePassword" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="14">
-                  </td>
-                  <td bgcolor="#d6d6d6" align="right" width="6%">espacio</td>
-                  <td bgcolor="#d6d6d6" align="right" width="3%"> 
-                    <input type="text" name="frmQuota" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="5">
-                  </td>
-                  <td bgcolor="#d6d6d6" align="center" width="3%"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onclick="document.formulario.submit()"></a></td>
-                </tr>
-              </table>
-          </td>
-        </tr>
       </table>
-</form>
+     </form>
     </td>
   </tr>
 </table>
