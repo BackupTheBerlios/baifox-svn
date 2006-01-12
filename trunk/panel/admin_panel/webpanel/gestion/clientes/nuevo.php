@@ -47,6 +47,30 @@
               <input type="text" name="frmPassword" size="20">
             </td>
           </tr>
+          <tr align="center" bgcolor="#FFFFFF"> 
+            <td colspan="2"><font face="Arial, Helvetica, sans-serif" size="2">Caracter&iacute;sticas</font></td>
+          </tr>
+          <tr align="left" bgcolor="#FFFFFF"> 
+            <td height="35" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Total 
+              dominios </font></td>
+            <td height="35"> <font face="Arial, Helvetica, sans-serif" size="2"> 
+              <input type="text" name="frmDominios" size="20">
+              <b>Unidades</b></font></td>
+          </tr>
+          <tr align="left" bgcolor="#FFFFFF"> 
+            <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Total 
+              espacio </font></td>
+            <td> <font face="Arial, Helvetica, sans-serif" size="2"> 
+              <input type="text" name="frmEspacio" size="20">
+              <b>MB</b></font></td>
+          </tr>
+          <tr align="left" bgcolor="#FFFFFF"> 
+            <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Total 
+              ancho banda</font></td>
+            <td> <font face="Arial, Helvetica, sans-serif" size="2"> 
+              <input type="text" name="frmAnchoBanda" size="20">
+              <b>MB</b> </font></td>
+          </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td colspan="2">&nbsp;</td>
           </tr>

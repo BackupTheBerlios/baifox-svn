@@ -19,6 +19,15 @@ function obtiene_id(){
 	}
 }
 
+function obtiene_password($id){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_CLIENTES);
+	$rs=$conf->getConfigValue($id);
+
+	return $rs["PASSWORD"];
+}
+
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
@@ -30,10 +39,17 @@ $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
   $mUsuario=addslashes(trim($_POST['frmUsuario']));
   if (trim($_POST['frmPassword'])!=""){
 	$mPassword=md5(trim($_POST['frmPassword']));
+  }elseif($_GET['id']!=0){
+	$mPassword=obtiene_password($_GET['id']);
+  }else{
+	$mPassword="";
   }
   $mEstado=$_POST['frmEstado'];
   $mPermiso=$_POST['frmPermiso'];
-  
+  $mDominios=$_POST['frmDominios'];
+  $mEspacio=$_POST['frmEspacio'];
+  $mAnchoBanda=$_POST['frmAnchoBanda'];
+
 	if ($_GET['id']!= 0 ){
 		$conf->setConfigValue($_GET['id'], array(
 					 "ID" 	  => $_GET['id'],
@@ -41,19 +57,29 @@ $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
 					 "EMAIL"  => $mEmail, 
 					 "USERNAME" => $mUsuario, 
 					 "PASSWORD" => $mPassword,
-					 "ESTADO" => $mEstado, 
-					 "PERMISO" => $mPermiso)
+  					 "ESTADO" => $mEstado, 
+					 "PERMISO" => $mPermiso,
+					 "DOMINIOS" => $mDominios, 
+					 "ESPACIO" => $mEspacio, 
+					 "ANCHOBANDA" => $mAnchoBanda
+					)
 			 	, "array");
 	}else{
+
+
 		$NEW_ID=obtiene_id();
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,
 					 "EMAIL"  => $mEmail, 
-					 "USERNAME" => $mUsuario, 
+					 "USERNAME" => $mUsuario,
 					 "PASSWORD" => $mPassword,
 					 "ESTADO" => $mEstado, 
-					 "PERMISO" => $mPermiso)
+					 "PERMISO" => $mPermiso,
+					 "DOMINIOS" => $mDominios, 
+					 "ESPACIO" => $mEspacio, 
+					 "ANCHOBANDA" => $mAnchoBanda
+					 )
 			 	, "array");
 	}
 	
