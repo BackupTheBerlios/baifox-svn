@@ -60,8 +60,6 @@ if(file_exists($ficherolog)){
 }
 
 function bandwidth_generar($anio,$dominio){
-	require_once _CFG_XML_PATCONFIG;
-
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 	$fichero="bandwidth-$anio.xml";
 
@@ -80,8 +78,6 @@ function bandwidth_generar($anio,$dominio){
 }
 
 function bandwidth_grabar($dia,$mes,$anio,$dominio,$total){
-	require_once _CFG_XML_PATCONFIG;
-
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 	if(file_exists($directorio)){
 		$fichero="bandwidth-$anio.xml";
@@ -129,7 +125,6 @@ function bandwidth_cron(){
 
 
 function bandwidth_estadisticas_dia($dominio,$mes,$anio){
-	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){
@@ -169,7 +164,6 @@ function bandwidth_estadisticas_dia($dominio,$mes,$anio){
 }
 
 function bandwidth_estadisticas_mes_total($dominio,$anio,$mes){
-	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){
@@ -189,7 +183,6 @@ function bandwidth_estadisticas_mes_total($dominio,$anio,$mes){
 }
 
 function bandwidth_estadisticas_mes($dominio,$anio){
-	require_once _CFG_XML_PATCONFIG;
 	$directorio=_CFG_AWSTATS_DATADIR.$dominio;
 
 	if(file_exists($directorio)){

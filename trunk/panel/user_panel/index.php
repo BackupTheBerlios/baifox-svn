@@ -1,7 +1,7 @@
-<?php require ("../libreria.php"); ?>
 <?php
 	include "../admin_panel/config/main_config.php"; 
-	require_once _CFG_XML_PATCONFIG;
+        require _CFG_INTERFACE_LIBRERIA; 
+
 	$modulos_instalados=modules_array(_CFG_INTERFACE_DIRMODULES);
 	foreach ($modulos_instalados as $modulo) { 
 		require _CFG_INTERFACE_DIRMODULES."mod_".$modulo."/include_funciones.php"; 

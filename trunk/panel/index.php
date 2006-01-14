@@ -1,6 +1,6 @@
-<?php require ("libreria.php"); ?>
 <?php
 	include "admin_panel/config/main_config.php"; 
+        require _CFG_INTERFACE_LIBRERIA; 
 ?>
 <html>
 <head>

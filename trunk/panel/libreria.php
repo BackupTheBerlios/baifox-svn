@@ -1,4 +1,7 @@
 <?php
+require_once _CFG_XML_PATERROR;
+patErrorManager::setErrorHandling(E_ALL, 'verbose');
+require_once _CFG_XML_PATCONFIG;
 
 session_start();
 if (strlen(session_id())>0){

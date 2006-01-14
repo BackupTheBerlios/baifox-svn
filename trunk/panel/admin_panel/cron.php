@@ -4,8 +4,6 @@
      require _CFG_INTERFACE_LIBRERIA; 
 ?>
 <?php 
-require_once _CFG_XML_PATCONFIG;
-	
 	//Carga todos los modulos
 	$modulos_instalados=modules_array(_CFG_INTERFACE_DIRMODULES);
 	foreach ($modulos_instalados as $modulo) { 

@@ -4,9 +4,6 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-require_once _CFG_XML_PATCONFIG;
-
-
 function obtiene_id(){
 	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);

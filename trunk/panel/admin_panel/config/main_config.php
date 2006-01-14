@@ -32,6 +32,7 @@ define("_CFG_APACHE_HTPASSWD","/usr/local/apache/bin/htpasswd");
 //Ficheros XML de datos
 define("_CFG_XML_CONFIG_DIR",_CFG_INTERFACE_DIR."admin_panel/config");  //No incluir barra al final
 define("_CFG_XML_PATCONFIG",_CFG_INTERFACE_DIR."admin_panel/interface/patConfiguration.php");
+define("_CFG_XML_PATERROR",_CFG_INTERFACE_DIR."admin_panel/interface/patErrorManager.php");
 define("_CFG_XML_USUARIOS","usuarios.xml");
 define("_CFG_XML_CLIENTES","clientes.xml");
 define("_CFG_XML_DOMINIOS","dominios.xml");

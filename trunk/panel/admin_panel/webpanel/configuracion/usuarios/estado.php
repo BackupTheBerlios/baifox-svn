@@ -4,7 +4,6 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-	require_once _CFG_XML_PATCONFIG;
     	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_USUARIOS,a);

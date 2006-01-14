@@ -1,7 +1,6 @@
-<?php require ("libreria.php"); ?>
 <?php
 	include "admin_panel/config/main_config.php"; 
-	require_once "admin_panel/interface/patConfiguration.php";
+        require _CFG_INTERFACE_LIBRERIA; 
 ?>
 <?php
 if(!$_SESSION['SEC_ID']) {

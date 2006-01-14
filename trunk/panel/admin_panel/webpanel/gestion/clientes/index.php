@@ -8,7 +8,6 @@ $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag'];
 include "include_top_numpage.php"; 
 ?>
-<pre><?php array_multisort($conf["NOMBRE"]); echo print_r($conf); ?></pre>
 <div align="center"><font size="2" face="Arial, Helvetica, sans-serif">Listado Clientes.</font><br>
   <br>
 </div>
