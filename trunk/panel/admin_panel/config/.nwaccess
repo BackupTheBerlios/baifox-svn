@@ -1,0 +1,3 @@
+ACPolicy = deny
+ACBlockError = 403
+ACBlockMessage = acceso restringido
