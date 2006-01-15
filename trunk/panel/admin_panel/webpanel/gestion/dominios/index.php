@@ -24,8 +24,10 @@ include "include_top_numpage.php";
    $bool_celdcolor=false;
 
    $x=1;
-   for($i=$from+1;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
-   $rs = $conf->getConfigValue($i);
+
+   $array_mostrar=array_ordenar_campo($conf->getConfigValue(),"DOMINIO");
+   for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
+   $rs = $array_mostrar[$i];
 	if($rs){
 ?>
   <tr align="left" <?php if($bool_celdcolor){ echo "class=fondocelda1"; }else{ echo "class=fondocelda2"; } ?>> 
@@ -44,9 +46,9 @@ include "include_top_numpage.php";
       <img src="images/suspendido.gif" width="20" height="20"> 
       <?php } ?>
     </td>
-    <td width="30%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $i; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $i; ?>&estado=<?php echo $rs["ESTADO"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $i; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["DOMINIO"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
+    <td width="30%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $x; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $x; ?>&estado=<?php echo $rs["ESTADO"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["DOMINIO"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mailus&id=<?php echo $rs["IDCLIENTE"]; ?>"><img src="images/btnmail.gif" border="0" width="20" height="20" alt="Enviar email: <?php echo $rs["DOMINIO"]; ?>"></a></td>
   </tr>
   <?php 	$x++;

@@ -377,6 +377,13 @@ function array_search_match($texto, $palabras){
     return false;
 }
 
+function array_ordenar_campo($listado_array,$campo){
+	foreach($listado_array as $rs)
+		$array_indice[] = $rs[$campo];
+	array_multisort($array_indice, SORT_ASC, $listado_array);
+	return $listado_array;
+}
+
 function word_exist($cadena,$fichero) {
 	$palabras=file($fichero);
    	$resultado=array_search_match ($cadena,$palabras);
