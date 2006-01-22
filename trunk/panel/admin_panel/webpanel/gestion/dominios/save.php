@@ -10,19 +10,6 @@ foreach ($modulos_instalados as $modulo) {
 	require _CFG_INTERFACE_DIRMODULES."mod_".$modulo."/include_funciones.php"; 
 }
 
-
-function obtiene_id(){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
-	if(count($conf->getConfigValue())<=0){
-		return 1;
-	}else{
-		$rs=end($conf->getConfigValue());
-		return $rs["ID"]+1;	
-	}
-}
-
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
@@ -85,7 +72,7 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 			vpopmail_domainconf($mDominio,"quota",$mQuotaCORREO);
         	} 
 	}else{
-		$NEW_ID=obtiene_id();
+		$NEW_ID=obtiene_xml_id(_CFG_XML_DOMINIOS);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "IDCLIENTE" => $mIDCliente,

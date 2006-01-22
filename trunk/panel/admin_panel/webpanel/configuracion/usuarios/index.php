@@ -25,8 +25,8 @@ include "include_top_numpage.php";
    $bool_celdcolor=false;
 
    $x=1;
-
-   $array_mostrar=array_ordenar_campo($conf->getConfigValue(),"DOMINIO");
+   if($total_registros>0)
+   	$array_mostrar=array_ordenar_campo($conf->getConfigValue(),"NOMBRE");
    for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
    $rs = $array_mostrar[$i];
 	if($rs){
@@ -36,7 +36,7 @@ include "include_top_numpage.php";
       <?php echo $rs["NOMBRE"]; ?>
       </font></td>
     <td width="23%" align="center" height="2"> 
-    <?php echo $rs["PERMISO"]; ?>
+    <font face="Arial, Helvetica, sans-serif" size="2"><?php echo $rs["PERMISO"]; ?></font>
     </td>
     <td width="6%" align="center" height="2"> 
       <?php if($rs["ESTADO"]==1){ ?>
@@ -45,10 +45,10 @@ include "include_top_numpage.php";
       <img src="images/suspendido.gif" width="20" height="20"> 
       <?php } ?>
     </td>
-    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $x; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $x; ?>&estado=<?php echo $rs["ESTADO"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["NOMBRE"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mailus&id=<?php echo $x; ?>"><img src="images/btnmail.gif" border="0" width="20" height="20" alt="Enviar email: <?php echo $rs["NOMBRE"]; ?>"></a></td>
+    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $rs["ID"]; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $rs["ID"]; ?>&estado=<?php echo $rs["ESTADO"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $rs["ID"]; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["NOMBRE"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mailus&id=<?php echo $rs["ID"]; ?>"><img src="images/btnmail.gif" border="0" width="20" height="20" alt="Enviar email: <?php echo $rs["NOMBRE"]; ?>"></a></td>
   </tr>
   <?php 	$x++;
         	if($bool_celdcolor){ $bool_celdcolor=false; }else{ $bool_celdcolor=true; }

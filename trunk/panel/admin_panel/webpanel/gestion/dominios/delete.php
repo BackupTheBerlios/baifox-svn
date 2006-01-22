@@ -14,7 +14,7 @@
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
-	$datos=$conf->getConfigValue($_GET['id']);
+	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
 
 	if (function_exists("apache_info")){
 		apache_domaindel($datos['DOMINIO']);
@@ -38,7 +38,7 @@
 		vpopmail_domaindel($datos['DOMINIO']);
 	}
 
-	$conf->clearConfigValue($_GET['id']); 
+	$conf->clearConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS)); 
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	header ("Location: ../../../index.php?grupo=gestion&seccion=dominios&pag=index\n\n");

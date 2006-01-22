@@ -4,18 +4,6 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-function obtiene_id(){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_CLIENTES);
-	if(count($conf->getConfigValue())<=0){
-		return 1;
-	}else{
-		$rs=end($conf->getConfigValue());
-		return $rs["ID"]+1;	
-	}
-}
-
 function obtiene_password($id){
 	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
@@ -62,9 +50,7 @@ $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
 					)
 			 	, "array");
 	}else{
-
-
-		$NEW_ID=obtiene_id();
+		$NEW_ID=obtiene_xml_id(_CFG_XML_CLIENTES);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,

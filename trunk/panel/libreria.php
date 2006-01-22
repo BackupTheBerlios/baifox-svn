@@ -251,7 +251,33 @@ function calcDateDiff( $date1, $date2 )
    return $days;
 }
 
-function buxcar_xml($mfichero,$mdirectorio,$mcampo1,$mcadena1,$mcampo2,$mcadena2){
+function busca_xml_id($id,$XML_RUTA){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile($XML_RUTA);
+
+  	for($i=1;$i<=count($conf->getConfigValue());$i++){
+   		$rs = $conf->getConfigValue($i);
+   		if($rs["ID"]==$id)
+			return $i;
+	}
+}
+
+function obtiene_xml_id($XML_RUTA){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile($XML_RUTA);
+	
+	if(count($conf->getConfigValue())<=0){
+		return 1;
+	}else{
+		$array_xml=$conf->getConfigValue();
+		$rs=end($array_xml);
+		return $rs["ID"]+1;	
+	}
+}
+
+function buscar_xml($mfichero,$mdirectorio,$mcampo1,$mcadena1,$mcampo2,$mcadena2){
    $conf = new patConfiguration;
    $conf->setConfigDir($mdirectorio);
    $conf->parseConfigFile($mfichero);
@@ -380,7 +406,8 @@ function array_search_match($texto, $palabras){
 function array_ordenar_campo($listado_array,$campo){
 	foreach($listado_array as $rs)
 		$array_indice[] = $rs[$campo];
-	array_multisort($array_indice, SORT_ASC, $listado_array);
+	$array_lowercase = array_map('strtolower', $array_indice);
+	array_multisort($array_lowercase, SORT_ASC,SORT_STRING, $listado_array);
 	return $listado_array;
 }
 

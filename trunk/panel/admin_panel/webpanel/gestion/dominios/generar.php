@@ -5,7 +5,7 @@
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
-	$datos=$conf->getConfigValue($_GET['id']);
+	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
 
 	$mDominio=$datos['DOMINIO'];
   	$mBase=$datos['BASE'];
@@ -76,7 +76,7 @@
             vpopmail_domainconf($mDominio,"quota",$mQuotaCORREO);
         } 
 	flush();
-	$conf->setConfigValue($_GET['id'], $datos, "array");
+	$conf->setConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	echo "Proceso finalizado.<br>";

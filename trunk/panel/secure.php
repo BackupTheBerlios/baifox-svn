@@ -21,7 +21,7 @@ if(!$_SESSION['SEC_ID']) {
 			header ("Location: admin_panel/index.php\n\n");
 			exit();
 		}else{
-			$rs=buxcar_xml(_CFG_XML_CLIENTES,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
+			$rs=buscar_xml(_CFG_XML_CLIENTES,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
 			if ($rs!=0){ 
 				$_SESSION['SEC_ID']=$rs["ID"];
 	 			$_SESSION['SEC_PERM']=$rs["PERMISO"];

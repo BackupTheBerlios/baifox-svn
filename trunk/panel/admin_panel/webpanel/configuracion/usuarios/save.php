@@ -4,18 +4,6 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-function obtiene_id(){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_USUARIOS);
-	if(count($conf->getConfigValue())<=0){
-		return 1;
-	}else{
-		$rs=end($conf->getConfigValue());
-		return $rs["ID"]+1;	
-	}
-}
-
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_USUARIOS,a);
@@ -42,7 +30,7 @@ $conf->parseConfigFile(_CFG_XML_USUARIOS,a);
 					 "PERMISO" => $mPermiso)
 			 	, "array");
 	}else{
-		$NEW_ID=obtiene_id();
+		$NEW_ID=obtiene_xml_id(_CFG_XML_USUARIOS);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,
