@@ -11,7 +11,7 @@ if(!$_SESSION['SEC_ID']) {
 	} else { 
 		// Escape both the password and username string to prevent users from inserting bogus data. 
 		$sPass=md5(trim($_POST['frmPassword']));
-		$rs=buxcar_xml(_CFG_XML_USUARIOS,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
+		$rs=buscar_xml(_CFG_XML_USUARIOS,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
 		// Check username and password agains the database. 
 		if ($rs!=0){ 
 			$_SESSION['SEC_ID']=$rs["ID"];
