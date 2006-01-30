@@ -15,27 +15,42 @@
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
 	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
-
-	if (function_exists("apache_info")){
-		apache_domaindel($datos['DOMINIO']);
-	}
-	if (function_exists("awstats_info")){
-		awstats_domaindel($datos['DOMINIO']);
-	}
-	if (function_exists("bind_info")){
-		bind_domaindel($datos['DOMINIO']);
-	}
-	if (function_exists("mysql_info")){
-		db_mysql_dbasedel($datos['BASE']);
-	}
-	if (function_exists("logrotate_info")){
-		logrotate_domaindel($datos['DOMINIO']);
-	}
-	if (function_exists("pureftpd_info")){
-		pureftpd_domaindel($datos['IDFTP']);
-	}
-	if (function_exists("vpopmail_info")){
-		vpopmail_domaindel($datos['DOMINIO']);
+	if($_POST['borrar']=="true"){
+		if (function_exists("apache_info")){
+			if($datos['DOMINIO']!=""){
+				apache_domaindel($datos['DOMINIO']);
+			}
+		}
+		if (function_exists("awstats_info")){
+			if($datos['DOMINIO']!=""){
+				awstats_domaindel($datos['DOMINIO']);
+			}
+		}
+		if (function_exists("bind_info")){
+			if($datos['DOMINIO']!=""){
+				bind_domaindel($datos['DOMINIO']);
+			}
+		}
+		if (function_exists("mysql_info")){
+			if($datos['BASE']!=""){
+				db_mysql_dbasedel($datos['BASE']);
+			}
+		}
+		if (function_exists("logrotate_info")){
+			if($datos['DOMINIO']!=""){
+				logrotate_domaindel($datos['DOMINIO']);
+			}
+		}
+		if (function_exists("pureftpd_info")){
+			if($datos['IDFTP']!=""){
+				pureftpd_domaindel($datos['IDFTP'],true);
+			}
+		}
+		if (function_exists("vpopmail_info")){
+			if($datos['DOMINIO']!=""){
+				vpopmail_domaindel($datos['DOMINIO']);
+			}
+		}
 	}
 
 	$conf->clearConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS)); 

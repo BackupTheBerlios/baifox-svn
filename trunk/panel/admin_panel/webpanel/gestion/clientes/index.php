@@ -48,6 +48,7 @@ include "include_top_numpage.php";
       &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mailus&id=<?php echo $rs["ID"]; ?>"><img src="images/btnmail.gif" border="0" width="20" height="20" alt="Enviar email: <?php echo $rs["NOMBRE"]; ?>"></a></td>
   </tr>
   <?php 	$x++;
+		flush();
         	if($bool_celdcolor){ $bool_celdcolor=false; }else{ $bool_celdcolor=true; }
 	}	
    }

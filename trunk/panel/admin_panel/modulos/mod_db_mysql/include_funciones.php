@@ -126,7 +126,8 @@ function db_mysql_quotastatus($dbase){
 		$database_tam += $rs['Data_length'] + $rs['Index_length']; 
 	}
 	mysql_close($link);
-	return number_format(bitconversor($database_tam,"byte","mbyte"), 2, ',', '.');
+	//return number_format(bitconversor($database_tam,"byte","mbyte"), 2, ',', '.');
+	return $database_tam;
 }
 
 function db_mysql_showstatus($dbase){

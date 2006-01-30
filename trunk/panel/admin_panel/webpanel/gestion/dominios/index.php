@@ -49,10 +49,11 @@ include "include_top_numpage.php";
     </td>
     <td width="30%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $rs["ID"]; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $rs["ID"]; ?>&estado=<?php echo $rs["ESTADO"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $rs["ID"]; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["DOMINIO"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=confirmar&id=<?php echo $rs["ID"]; ?>&dominio=<?php echo $rs["DOMINIO"]; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["DOMINIO"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mailus&id=<?php echo $rs["IDCLIENTE"]; ?>"><img src="images/btnmail.gif" border="0" width="20" height="20" alt="Enviar email: <?php echo $rs["DOMINIO"]; ?>"></a></td>
   </tr>
   <?php 	$x++;
+		flush();
         	if($bool_celdcolor){ $bool_celdcolor=false; }else{ $bool_celdcolor=true; }
 	}	
    }

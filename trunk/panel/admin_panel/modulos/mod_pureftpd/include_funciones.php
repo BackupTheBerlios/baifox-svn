@@ -105,14 +105,16 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 	mysql_close($link);
 }
 
-function pureftpd_domaindel($id){
+function pureftpd_domaindel($id,$borrar_contenido){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
 	$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE id=$id",$link);
 	if($rs=mysql_fetch_array($result)){
-		if (file_exists($rs["homedir"]) AND $rs["homedir"]!="") {
-				$exec_cmd = "rm -R -f";
-				$result = execute_cmd("$exec_cmd ".$rs["homedir"]);
+		if($borrar_contenido){
+			if (file_exists($rs["homedir"]) AND $rs["homedir"]!="") {
+					$exec_cmd = "rm -R -f";
+					$result = execute_cmd("$exec_cmd ".$rs["homedir"]);
+			}
 		}
 	}
 	mysql_query("delete from "._CFG_PUREFTPD_TABLE." where id=$id",$link);

@@ -256,10 +256,13 @@ function busca_xml_id($id,$XML_RUTA){
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile($XML_RUTA);
 
-  	for($i=1;$i<=count($conf->getConfigValue());$i++){
+  	for($i=1;$x<count($conf->getConfigValue());$i++){
    		$rs = $conf->getConfigValue($i);
-   		if($rs["ID"]==$id)
+		if($rs){
+   		    if($rs["ID"]==$id)
 			return $i;
+		    $x++;
+		}
 	}
 }
 

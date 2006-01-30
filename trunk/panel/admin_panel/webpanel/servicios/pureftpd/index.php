@@ -48,7 +48,7 @@ include "include_top_numpage.php";
     </td>
     <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs["dominio"]; ?>&id=<?php echo $rs["id"]; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $rs["id"]; ?>&dominio=<?php echo $rs["dominio"]; ?>&estado=<?php echo $rs["estado"]; ?>"><img src="images/suspender.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $rs["id"]; ?>&dominio=<?php echo $rs["dominio"]; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["dominio"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=confirmar&id=<?php echo $rs["id"]; ?>&dominio=<?php echo $rs["dominio"]; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["dominio"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
     </td>
   </tr>
   <?php 	$x++;
