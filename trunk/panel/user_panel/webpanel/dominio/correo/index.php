@@ -14,7 +14,7 @@ function correo_autoconfig(usuario,dominio) {
 	alert('Se va a configurar automáticamente la cuenta ' + usuario +'@'+ dominio + ' para su Microsoft (R) Outlook (Express)[tm]. Por favor cierre todas las copias abiertas de Microsoft (R) Outlook (Express)[tm] antes de continuar!  Cuando el proceso finalize debería tener la cuenta ' + usuario +'@'+ dominio + ' configurada en su Microsoft (R) Outlook (Express)[tm].'); 
 	alert('Si le pregunta si desea GUARDAR el archivo o ABRIRLO responda "Abrir el fichero."');
 	alert('Cuando le pregunte si desea introducir la información en el registro conteste que "SI".'); 
-	document.location.href = "<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/email_reg.php?usuario="+usuario+"&dominio="+dominio; 
+	document.location.href = "webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/email_reg.php?usuario="+usuario+"&dominio="+dominio; 
 } 
 // -->
 </script>
