@@ -8,6 +8,16 @@ $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag']."&dominio=".$_GET['dominio'];
 include "include_top_numpage.php"; 
 ?>
+<script  language="JavaScript" type="text/javascript">
+<!-- 
+function correo_autoconfig(usuario,dominio) { 
+	alert('Se va a configurar automáticamente la cuenta ' + usuario +'@'+ dominio + ' para su Microsoft (R) Outlook (Express)[tm]. Por favor cierre todas las copias abiertas de Microsoft (R) Outlook (Express)[tm] antes de continuar!  Cuando el proceso finalize debería tener la cuenta ' + usuario +'@'+ dominio + ' configurada en su Microsoft (R) Outlook (Express)[tm].'); 
+	alert('Si le pregunta si desea GUARDAR el archivo o ABRIRLO responda "Abrir el fichero."');
+	alert('Cuando le pregunte si desea introducir la información en el registro conteste que "SI".'); 
+	document.location.href = "<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/email_reg.php?usuario="+usuario+"&dominio="+dominio; 
+} 
+// -->
+</script>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
     <td> <br>
@@ -26,10 +36,14 @@ include "include_top_numpage.php";
         <tr align="center"> 
           <td colspan="3"> 
             <table width="100%" border="0" cellspacing="2" cellpadding="0">
-              <tr align="center"> 
-                <td width="63%" align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;nombre</span></td>
-                <td width="22%" align="center" bgcolor="#d6d6d6">espacio asignado</td>
-                <td bgcolor="#d6d6d6" align="right" width="15%">&nbsp; </td>
+              <tr align="center">
+                <td width="43%" align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;nombre</span></td>
+                <td width="9%" align="center" bgcolor="#d6d6d6">espacio asignado</td>
+                <td width="9%" align="center" bgcolor="#d6d6d6">webmail</td>
+                <td bgcolor="#d6d6d6" align="center" width="9%">autoconf. </td>
+                <td bgcolor="#d6d6d6" align="center" width="5%">antispam</td>
+                <td bgcolor="#d6d6d6" align="center" width="5%">autoresp.</td>
+                <td bgcolor="#d6d6d6" align="center" width="20%">borrar/editar</td>
               </tr>
               <?php
    $bool_celdcolor=false;
@@ -41,14 +55,26 @@ include "include_top_numpage.php";
 		$estado=vpopmail_cuentalimits($rs["cuenta"],$_GET['dominio'],"estado");
 ?>
               <tr align="center"> 
-                <td width="63%" align="left"> 
+                <td width="43%" align="left"> 
                   <?php echo $rs["cuenta"]; ?>
                 </td>
-                <td width="22%" align="center"><?php echo $rs["quota"]; ?></td>
-                <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta"]."@".$_GET['dominio']; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                <td width="9%" align="center"> 
+                  <?php echo $rs["quota"]; ?>
+                </td>
+                <td width="9%" align="center"><a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_WEBMAIL_LOGIN.$rs["cuenta"]."@".$_GET['dominio']; ?>');"><img src="images/icn_webmailcuenta.gif" width="30" height="30" border="0"></a></td>
+                <td width="9%" align="center"><a href="Javascript:correo_autoconfig('<?php echo $rs["cuenta"]; ?>','<?php echo $_GET['dominio']; ?>')"><img src="images/icn_outlookmail.gif" width="30" height="30" border="0"></a></td>
+                <td width="5%" align="center">
+		<?php if(vpopmail_cuentaantispam($rs["cuenta"],$_GET['dominio'],"estado")){ ?>
+		<img src="images/icn_spam.gif" width="30" height="30">
+		<?php }else{ ?>
+		<img src="images/icn_spam_off.gif" width="30" height="30">
+		<?php } ?>
+		</td>
+                <td width="5%" align="center"><img src="images/icn_autorcuenta.gif" width="30" height="30"></td>
+                <td width="20%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onClick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta"]."@".$_GET['dominio']; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr align="center"> 
-                <td colspan="3" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
+                <td colspan="7" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
                 </td>
               </tr>
               <?php 	$x++;

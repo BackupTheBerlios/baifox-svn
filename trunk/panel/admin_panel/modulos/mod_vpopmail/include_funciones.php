@@ -293,6 +293,24 @@ function vpopmail_domaindirectory($dominio){
 	return $result[0];
 }
 
+function vpopmail_cuentaantispam($cuenta,$dominio,$flag){
+
+	switch($flag){
+         case "estado":
+		$resultado=false;
+		$directorio=vpopmail_homedir($dominio)."/".$cuenta;
+		$result=execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
+		for($i=0;$i<count($result);$i++)
+		{
+			if(strpos($result[$i],_CFG_VPOPMAIL_CFG_ANTISPAM)!==false){
+				$resultado=true;
+			}
+		}
+		return $resultado;
+	break;
+	}
+}
+
 function vpopmail_cuentalimits($usuario,$dominio,$flag){
 	$exec_cmd = _CFG_VPOPMAIL_INFOUSER;
 	$result = execute_cmd("$exec_cmd $usuario@$dominio");

@@ -42,7 +42,7 @@ include "include_top_numpage.php";
       <?php } ?>
     </td>
     <td width="28%" align="center" height="2"> 
-    <font face="Arial, Helvetica, sans-serif" size="2"><b><?php echo bandwidth_estadisticas_mes_total($rs,date("Y"),date("n")); ?></b></font>
+    <font face="Arial, Helvetica, sans-serif" size="2"><b><?php echo number_format(bandwidth_estadisticas_mes_total($rs,date("Y"),date("n")),2,",",".")." MB"; ?></b></font>
     </td>
   </tr>
   <?php 	$x++;

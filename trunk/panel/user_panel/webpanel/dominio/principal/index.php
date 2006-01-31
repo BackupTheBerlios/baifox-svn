@@ -37,7 +37,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Ancho 
                   de banda usado</span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%"> 
-                  <?php echo bandwidth_estadisticas_mes_total($_GET['dominio'],date("Y"),date("n")); ?>
+                  <?php echo number_format(bandwidth_estadisticas_mes_total($_GET['dominio'],date("Y"),date("n")), 2, ',', '.'); ?> MB
                 </td>
               </tr>
               <tr align="center"> 

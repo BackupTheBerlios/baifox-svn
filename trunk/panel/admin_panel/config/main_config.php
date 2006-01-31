@@ -14,6 +14,7 @@ define("_CFG_INTERFACE_PLANTILLAS",_CFG_INTERFACE_DIR."admin_panel/plantillas/")
 
 define("_CFG_USERINTERFACE_PHPMYADMIN","http://mysql.dominio.com");
 define("_CFG_USERINTERFACE_WEBMAIL","http://webmail.dominio.com");
+define("_CFG_USERINTERFACE_WEBMAIL_LOGIN","http://webmail.dominio.com/src/login.php?loginname=");
 define("_CFG_USERINTERFACE_AWSTATS","http://estadisticas.dominio.com/cgi-bin/awstats/awstats.pl?config=");
 
 define("_CFG_SERVER_NAME",""); // servidor.com
@@ -76,6 +77,7 @@ define("_CFG_VPOPMAIL_CFG_CUENTANAME","name:");
 define("_CFG_VPOPMAIL_CFG_CUENTAQUOTA","quota:");
 define("_CFG_VPOPMAIL_CFG_CUENTAESTADO","pop access closed");
 define("_CFG_VPOPMAIL_CFG_CUENTAALIAS","->");
+define("_CFG_VPOPMAIL_CFG_ANTISPAM","|/var/qmail/bin/preline /usr/bin/procmail -p -m RUTA=`pwd` /home/vpopmail/etc/procmailrc");
 
 define("_CFG_LOGROTATE_CFG_FILE","/etc/logrotate.conf");
 define("_CFG_LOGROTATE_CFG_AWSTATSTRING","_awstats_log");

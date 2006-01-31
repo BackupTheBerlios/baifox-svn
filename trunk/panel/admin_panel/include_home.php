@@ -1,7 +1,7 @@
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber6">
   <tr> 
     <td width="100%" valign="top"> 
-	<font face="Arial, Helvetica, sans-serif" size="2">
+	<font face="Arial, Helvetica, sans-serif" size="1">
       <?php
 foreach ($modulos_instalados as $modulo) { 
 	if (function_exists($modulo."_test")){

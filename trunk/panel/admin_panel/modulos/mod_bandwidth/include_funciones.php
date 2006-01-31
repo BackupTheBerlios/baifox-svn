@@ -179,7 +179,7 @@ function bandwidth_estadisticas_mes_total($dominio,$anio,$mes){
 				$consumo+=$rs["Dia-$dia"];
 		}
 	}
-	return number_format($consumo,2,",",".")." MB";
+	return $consumo;
 }
 
 function bandwidth_estadisticas_mes($dominio,$anio){

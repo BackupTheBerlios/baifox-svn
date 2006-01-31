@@ -52,7 +52,7 @@
                   <?php echo number_format(bitconversor($total_espacio_ocupado,"byte","mbyte"), 2, ',', '.'); ?>
                   MB&nbsp;</span></strong></td>
                 <td width="21%" align="right"><span class="Estilo5"><b>
-                  <?php echo  $total_anchobanda; ?>
+                  <?php echo  number_format($total_anchobanda, 2, ',', '.'); ?> MB
                   </b></span><b>&nbsp;</b></td>
               </tr>
               <?php 
@@ -65,9 +65,11 @@
           <td colspan="2">
             <?php echo count($_SESSION['SEC_USER_DOMINIOS']); ?>
             Dominios en total - Max. [<?php echo $_SESSION['SEC_USER_TOTAL_DOMINIOS']; ?>]</td>
+	<?php if(count($_SESSION['SEC_USER_DOMINIOS'])<$_SESSION['SEC_USER_TOTAL_DOMINIOS']){ ?>
           <td width="9%" valign="middle" align="right"><img src="images/icn_dominio.gif" width="30" height="29"> 
           </td>
           <td width="24%" valign="middle">A&ntilde;adir dominio</td>
+	<?php } ?>
         </tr>
       </table>
     </td>
@@ -79,22 +81,21 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_disco.gif">
               <tr> 
                 <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="3" face="Verdana, Arial, Helvetica, sans-serif">Espacio 
-                  en disco</font><font color="#FFFFFF"><br>
-                  </font></b></font><font size="1"><font color="#FFFFFF"><font size="1">consumo 
-                  y disponibilidad</font></font></font><font size="1">&nbsp;</font></td>
+                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="3" color="#FFFFFF"><b>Espacio 
+                  en disco</b></font><br><font face="Arial, Helvetica, sans-serif" size="1" color="#FFFFFF">consumo y disponibilidad</font>&nbsp;</td>
               </tr>
             </table>
+	<?php $ancho_espacio=round((bitconversor($total_espacio_global,"byte","mbyte")*100)/$_SESSION['SEC_USER_TOTAL_ESPACIO']); ?>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center"> 
                 <td width="46%" align="left" class="Estilo2">&nbsp;Espacio en 
                   disco</td>
-                <td width="34%"><img src="images/barra_progreso.gif" width="120" height="11"></td>
+                <td width="34%"><img src="images/barra_azul.gif" width="<?php echo $ancho_espacio; ?>" height="11"><img src="images/barra_gris.gif" width="<?php echo abs(100-$ancho_espacio); ?>" height="11"></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left" class="Estilo2">&nbsp;Espacio total 
                 </td>
-                <td width="34%" align="right"><b><?php echo $_SESSION['SEC_USER_TOTAL_ESPACIO']; ?> MB</b></td>
+                <td width="34%" align="right"><b><?php echo number_format($_SESSION['SEC_USER_TOTAL_ESPACIO'], 2, ',', '.'); ?> MB</b></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left" class="Estilo2">&nbsp;Espacio Usado</td>
@@ -115,33 +116,33 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_trafico.gif">
               <tr> 
                 <td width="15%" align="center">&nbsp;</td>
-                <td width="85%"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="3" face="Verdana, Arial, Helvetica, sans-serif">Transferencia</font><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
-                  </font></b></font><font size="1"><font color="#FFFFFF">Transferencia 
-                  de Datos</font></font><font size="1">&nbsp;</font></td>
+                <td width="85%"><b><font color="#FFFFFF" size="3" face="Verdana, Arial, Helvetica, sans-serif">Transferencia</font></b>
+		<br><font color="#FFFFFF" size="1" face="Verdana, Arial, Helvetica, sans-serif">Transferencia de Datos</font>&nbsp;</td>
               </tr>
             </table>
+	<?php $ancho_banda=round(($total_anchobanda_global*100)/$_SESSION['SEC_USER_TOTAL_ANCHOBANDA']); ?>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center"> 
                 <td width="46%" align="left">&nbsp;Transferencia</td>
-                <td width="34%"><img src="images/barra_progreso.gif" width="120" height="11"></td>
+                <td width="34%"><img src="images/barra_azul.gif" width="<?php echo $ancho_banda; ?>" height="11"><img src="images/barra_gris.gif" width="<?php echo abs(100-$ancho_banda); ?>" height="11"></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left">&nbsp;L&iacute;mite Mensual </td>
-                <td width="34%" align="right"><b><?php echo $_SESSION['SEC_USER_TOTAL_ANCHOBANDA']; ?><font size="2"></font><font size="2"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;</font></b></td>
+                <td width="34%" align="right"><b><?php echo number_format($_SESSION['SEC_USER_TOTAL_ANCHOBANDA'], 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left">&nbsp;&Uacute;ltimo Mes </td>
-                <td width="34%" align="right"><b><?php echo $total_anchobanda_globalant; ?> MB</b></td>
+                <td width="34%" align="right"><b><?php echo number_format($total_anchobanda_globalant, 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left"><font face="Verdana, Arial, Helvetica, sans-serif">&nbsp;Mes 
                   actual</font></td>
-                <td width="34%" align="right"><b><?php echo $total_anchobanda_global; ?> MB</b></td>
+                <td width="34%" align="right"><b><?php echo number_format($total_anchobanda_global, 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
                 <td width="46%" align="left"><font face="Verdana, Arial, Helvetica, sans-serif">&nbsp;Disponible 
                   </font></td>
-                <td width="34%" align="right"><b><?php echo ($_SESSION['SEC_USER_TOTAL_ANCHOBANDA']-$total_anchobanda_global); ?> MB</b></td>
+                <td width="34%" align="right"><b><?php echo number_format(($_SESSION['SEC_USER_TOTAL_ANCHOBANDA']-$total_anchobanda_global), 2, ',', '.');; ?> MB</b></td>
               </tr>
             </table>
           </td>
