@@ -173,7 +173,6 @@ function vpopmail_cuentaadd($usuario,$dominio,$password,$quota){
 	return $result;
 }
 
-
 function vpopmail_domainadd($dominio,$password){
 	$exec_cmd = _CFG_VPOPMAIL_ADDDOMAIN;
 	$result = execute_cmd("$exec_cmd $dominio $password");
@@ -256,10 +255,93 @@ function vpopmail_homedir($dominio){
 function vpopmail_autoresponddel($usuario,$dominio){
 	list($cuenta,$cadena)=split("@",$usuario,2);
 	$directorio=vpopmail_homedir($dominio)."/".strtoupper($cuenta);
-	$exec_cmd = "rm";
-	$result = execute_cmd("$exec_cmd -R $directorio");
+	$result = execute_cmd("rm -R $directorio");
 	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
 	$result = execute_cmd("$exec_cmd -d $usuario");
+	return $result;
+}
+
+function vpopmail_cuenta_autorespondread($usuario,$dominio,$flag){
+	list($cuenta,$cadena)=split("@",$usuario,2);
+	$directorio=vpopmail_homedir($dominio)."/$cuenta/vacation";
+	$result = execute_cmd(_CFG_CMD_CAT." $directorio/message");
+
+	switch($flag){
+        case "asunto":
+		list($cadena, $asunto) =split("Subject: ", $result[1], 2);
+		return $asunto;
+	break;
+        case "mensaje":
+		unset($result[0]);
+		unset($result[1]);
+		unset($result[2]);
+		$cuerpo=implode("\n", $result);
+		return $cuerpo;
+	break;
+	case "estado":
+		$directorio=vpopmail_homedir($dominio)."/$usuario/vacation/";
+		if(file_exists($directorio)){
+			return true;
+		}else{
+			return false;
+		}
+	break;
+	}
+}
+
+function vpopmail_cuenta_autorespondadd($cuenta,$asunto,$mensaje,$dominio){
+	$directorio=vpopmail_homedir($dominio)."/$cuenta/vacation";
+	$directorio_usuario=vpopmail_homedir($dominio)."/$cuenta";
+	if(!file_exists($directorio)){
+		$result = execute_cmd("mkdir $directorio");
+	}
+	//Crea el mensaje de autorespuesta
+	$cuerpo="From: $cuenta@$dominio";
+	$result = execute_cmd("echo $cuerpo>/tmp/message");
+	$cuerpo="Subject: $asunto";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$cuerpo="";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$cuerpo="$mensaje";
+	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$result = execute_cmd("mv -f /tmp/message $directorio/message");
+	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
+	$result = execute_cmd("chmod 700 $directorio");
+	$result = execute_cmd("chmod 600 $directorio/message");
+	//Crear la autorespuesta
+	$result = execute_cmd("rm -f /tmp/tmpqmail");
+	$result = execute_cmd("touch /tmp/tmpqmail");
+	$result = execute_cmd("chmod 777 /tmp/tmpqmail");
+	$result = execute_cmd(_CFG_CMD_CAT." $directorio_usuario/.qmail");
+	for($i=0;$i<count($result);$i++)
+	{
+		execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
+	}
+	$result = execute_cmd("echo \"|"._CFG_VPOPMAIL_AUTORESPOND." 86400 3 $directorio/message $directorio \">> /tmp/tmpqmail");
+	$result = execute_cmd("mv -f /tmp/tmpqmail $directorio_usuario/.qmail");
+	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio_usuario/.qmail");
+	$result = execute_cmd("chmod 600 $directorio_usuario/.qmail");
+
+	return $result;
+}
+
+function vpopmail_cuenta_autoresponddel($cuenta,$dominio){
+	$directorio=vpopmail_homedir($dominio)."/$cuenta";
+	$result = execute_cmd("rm -R $directorio/vacation");
+	$result = execute_cmd("rm -f /tmp/tmpqmail");
+	$result = execute_cmd("touch /tmp/tmpqmail");
+	$result = execute_cmd("chmod 777 /tmp/tmpqmail");
+	$result = execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
+	for($i=0;$i<count($result);$i++)
+	{
+		if(strpos($result[$i],_CFG_VPOPMAIL_AUTORESPOND)===false){
+			execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
+		}
+	}
+	$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
+	$result = execute_cmd("chmod 600 $directorio/.qmail");
+
 	return $result;
 }
 
@@ -295,10 +377,41 @@ function vpopmail_domaindirectory($dominio){
 
 function vpopmail_cuentaantispam($cuenta,$dominio,$flag){
 
+	$directorio=vpopmail_homedir($dominio)."/".$cuenta;
 	switch($flag){
-         case "estado":
+	case "add":
+		$result = execute_cmd("rm -f /tmp/tmpqmail");
+		$result = execute_cmd("touch /tmp/tmpqmail");
+		$result = execute_cmd("chmod 777 /tmp/tmpqmail");	
+		$result = execute_cmd("echo \"".addslashes_cmd(_CFG_VPOPMAIL_CFG_ANTISPAM)."\" >> /tmp/tmpqmail");
+		$result = execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
+		for($i=0;$i<count($result);$i++)
+		{
+			$error = execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");
+		}
+		$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+		$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
+		$result = execute_cmd("chmod 600 $directorio/.qmail");
+		$result = execute_cmd("rm -f /tmp/tmpqmail"); 
+	break;
+	case "delete":
+		$result = execute_cmd("rm -f /tmp/tmpqmail");
+		$result = execute_cmd("touch /tmp/tmpqmail");
+		$result = execute_cmd("chmod 777 /tmp/tmpqmail");
+		$result = execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
+		for($i=0;$i<count($result);$i++)
+		{
+			if(strpos($result[$i],_CFG_VPOPMAIL_CFG_ANTISPAM)===false){
+				execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
+			}
+		}
+		$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+		$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
+		$result = execute_cmd("chmod 600 $directorio/.qmail");
+		$result = execute_cmd("rm -f /tmp/tmpqmail"); 
+	break;
+        case "estado":
 		$resultado=false;
-		$directorio=vpopmail_homedir($dominio)."/".$cuenta;
 		$result=execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
 		for($i=0;$i<count($result);$i++)
 		{

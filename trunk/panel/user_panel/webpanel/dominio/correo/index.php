@@ -65,12 +65,12 @@ function correo_autoconfig(usuario,dominio) {
                 <td width="9%" align="center"><a href="Javascript:correo_autoconfig('<?php echo $rs["cuenta"]; ?>','<?php echo $_GET['dominio']; ?>')"><img src="images/icn_outlookmail.gif" width="30" height="30" border="0"></a></td>
                 <td width="5%" align="center">
 		<?php if(vpopmail_cuentaantispam($rs["cuenta"],$_GET['dominio'],"estado")){ ?>
-		<img src="images/icn_spam.gif" width="30" height="30">
+		<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/spam.php?usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&accion=delete"><img src="images/icn_spam.gif" width="30" height="30" border="0"></a>
 		<?php }else{ ?>
-		<img src="images/icn_spam_off.gif" width="30" height="30">
+		<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/spam.php?usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&accion=add"><img src="images/icn_spam_off.gif" width="30" height="30" border="0"><a>
 		<?php } ?>
 		</td>
-                <td width="5%" align="center"><img src="images/icn_autorcuenta.gif" width="30" height="30"></td>
+                <td width="5%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit_autorespuesta&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_autorcuenta.gif" width="30" height="30" border="0"></a></td>
                 <td width="20%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onClick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta"]."@".$_GET['dominio']; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr align="center"> 
@@ -133,7 +133,7 @@ function correo_autoconfig(usuario,dominio) {
                         </td>
                       </tr>
                       <tr align="center"> 
-                        <td bgcolor="#d6d6d6" colspan="2"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onClick="document.formulario.submit()"><br>
+                        <td bgcolor="#d6d6d6" colspan="2"><a href="javascript:document.formulario.submit();"><img src="images/icn_grabar.gif" width="25" height="25" border="0"><br>
                           [ A&ntilde;adir ] </a></td>
                       </tr>
                     </table>

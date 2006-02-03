@@ -37,6 +37,11 @@ $FechaLarga= "$nameDia $mDia de $mMes de $mAnio";
 Return "$FechaLarga";
 }
 
+function addslashes_cmd($cadena){
+	$cadena=str_replace("`","\`",$cadena);
+	return $cadena;
+}
+
 function GeneraAlea()
 {
 	srand ((double) microtime() * 1000000);

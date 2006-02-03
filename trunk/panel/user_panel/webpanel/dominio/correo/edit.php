@@ -25,30 +25,30 @@
                         <td width="9%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;nombre</td>
                         <td width="18%" align="left" bgcolor="#d6d6d6"> 
                           <?php echo $_GET["usuario"]."@".$_GET["dominio"]; ?>
-                          <input type="hidden" name="frmCuenta2" class="boxBlur" value="<?php echo $_GET["cuenta"]; ?>" size="20">
+                          <input type="hidden" name="frmCuenta" class="boxBlur" value="<?php echo $_GET["usuario"]; ?>">
                         </td>
                       </tr>
                       <tr align="center"> 
                         <td width="11%" bgcolor="#d6d6d6" align="right">contrase&ntilde;a</td>
                         <td width="17%" bgcolor="#d6d6d6" align="left"> 
-                          <input type="text" name="frmPassword2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                          <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
                         </td>
                       </tr>
                       <tr align="center"> 
                         <td width="11%" bgcolor="#d6d6d6" align="right">confirmar 
                           contrase&ntilde;a</td>
                         <td width="17%" bgcolor="#d6d6d6" align="left"> 
-                          <input type="text" name="frmRePassword2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                          <input type="text" name="frmRePassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
                         </td>
                       </tr>
                       <tr align="center"> 
                         <td bgcolor="#d6d6d6" align="right" width="6%">espacio</td>
                         <td bgcolor="#d6d6d6" align="left" width="3%"> 
-                          <input type="text" name="frmQuota2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5">
+                          <input type="text" name="frmQuota" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5">
                         </td>
                       </tr>
                       <tr align="center"> 
-                        <td bgcolor="#d6d6d6" colspan="2"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onClick="document.formulario.submit()"><br>
+                        <td bgcolor="#d6d6d6" colspan="2"><a href="javascript:document.formulario.submit();"><img src="images/icn_grabar.gif" width="25" height="25" border="0"><br>
                           [ Modificar ] </a></td>
                       </tr>
                     </table>
