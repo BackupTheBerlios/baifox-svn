@@ -262,8 +262,7 @@ function vpopmail_autoresponddel($usuario,$dominio){
 }
 
 function vpopmail_cuenta_autorespondread($usuario,$dominio,$flag){
-	list($cuenta,$cadena)=split("@",$usuario,2);
-	$directorio=vpopmail_homedir($dominio)."/$cuenta/vacation";
+	$directorio=vpopmail_homedir($dominio)."/$usuario/vacation";
 	$result = execute_cmd(_CFG_CMD_CAT." $directorio/message");
 
 	switch($flag){
@@ -279,8 +278,7 @@ function vpopmail_cuenta_autorespondread($usuario,$dominio,$flag){
 		return $cuerpo;
 	break;
 	case "estado":
-		$directorio=vpopmail_homedir($dominio)."/$usuario/vacation/";
-		if(file_exists($directorio)){
+		if($result[0]<>""){
 			return true;
 		}else{
 			return false;
