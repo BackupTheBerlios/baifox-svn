@@ -7,18 +7,14 @@ include "../include_permiso.php";
 require_once _CFG_INTERFACE_DIRMODULES."mod_vpopmail/include_funciones.php";
 ?>
 <?php
-$mUsuario=trim($_POST['frmCuenta']);
+$mCuentaOrigen=trim($_POST['frmCuentaOrigen']);
+$mCuentaDestino=trim($_POST['frmCuentaDestino']);
 $mDominio=trim($_GET['dominio']);
-$mPassword=trim($_POST['frmPassword']);
-$mQuota=trim($_POST['frmQuota']);
 
-	if ($_GET['id']!=0){
-		vpopmail_userpasswd($mUsuario,$mDominio,$mPassword);
-		vpopmail_cuentaquota($mUsuario,$mDominio,$mQuota);
-	}else{
-		vpopmail_cuentaadd($mUsuario,$mDominio,$mPassword,$mQuota);
+	if ($_GET['id']==0){
+		vpopmail_aliasadd($mCuentaOrigen,$mDominio,$mCuentaDestino);
 	}
 		
-	header ("Location: ../../../index.php?grupo=dominio&seccion=correo&pag=index&dominio=".$_GET['dominio']."\n\n");
+	header ("Location: ../../../index.php?grupo=dominio&seccion=redirecciones&pag=index&dominio=".$_GET['dominio']."\n\n");
 	exit();
  ?>

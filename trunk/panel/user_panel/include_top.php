@@ -38,7 +38,7 @@
     <td colspan="3">&nbsp;<img src="images/flechita.gif" width="6" height="10"> 
       <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: 
       </b><font color="#CD3500">
-      <?php echo $_GET['dominio']; ?>
+      <a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>"><?php echo $_GET['dominio']; ?></a>
       </font></font></td>
   </tr>
 </table>
