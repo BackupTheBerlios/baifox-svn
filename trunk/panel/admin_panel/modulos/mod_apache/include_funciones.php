@@ -69,7 +69,7 @@ $array_modules= array();
 return $array_modules;
 }
 
-function apache_generartemplate($domain,$variables){
+function apache_generartemplate($dominio,$variables){
 	//Generar conf apache
 	require_once _CFG_INTERFACE_FASTTEMPLATE;
 	$tpl = new FastTemplate(_CFG_INTERFACE_PLANTILLAS);
@@ -78,7 +78,7 @@ function apache_generartemplate($domain,$variables){
 	}else{
 		$tpl->define(array(main=> "apache.tpl"));
 	}
-	$tpl->assign(DOMINIO, $domain);
+	$tpl->assign(DOMINIO, $dominio);
 	$tpl->assign(CFG_ESTADO, $variables["CFG_ESTADO"]);
 	$tpl->assign(CFG_DOCUMENTROOT, $variables["CFG_DOCUMENTROOT"]);
 	$tpl->assign(APACHE_ALIAS, $variables["APACHE_ALIAS"]);
@@ -95,7 +95,7 @@ function apache_generartemplate($domain,$variables){
 	$tpl->parse(CONTENT, "main");
 	$contenido=$tpl->fetch(CONTENT);
 	//Escribiendo fichero de configuración de apache
-	$filename=_CFG_APACHE_CONF.$domain."_conf";
+	$filename=_CFG_APACHE_CONF.$dominio."_conf";
    	if (!$handle = fopen($filename, 'w')) {
          	echo "No se ha podido abrir el fichero ($filename)";
 		return false;
@@ -111,18 +111,18 @@ function apache_generartemplate($domain,$variables){
 	//Fin configuración apache
 }
 
-function apache_domaindel($domain){
-$filename=_CFG_APACHE_CONF.$domain."_conf";
+function apache_domaindel($dominio){
+$filename=_CFG_APACHE_CONF.$dominio."_conf";
 	if(file_exists($filename)){
 		@unlink ($filename);
 	}
 }
 
-function apache_domainread($domain){
+function apache_domainread($dominio){
 $variables=array();
 
-	if(file_exists(_CFG_APACHE_CONF.$domain."_conf")) {
-		$lineas=file(_CFG_APACHE_CONF.$domain."_conf");
+	if(file_exists(_CFG_APACHE_CONF.$dominio."_conf")) {
+		$lineas=file(_CFG_APACHE_CONF.$dominio."_conf");
 		foreach ($lineas as $value) {
    			if(stristr ($value,"CFG_ESTADO")!=false)
 				$variables["CFG_ESTADO"]=trim(substr($value,-2));
@@ -143,14 +143,14 @@ $variables=array();
    			if(stristr ($value,"DocumentRoot")!=false)
 				$variables["APACHE_DOCUMENTROOT"]=trim(substr($value,strlen("DocumentRoot")+1));;
    			if(stristr ($value,"ServerAlias")!=false)
-				$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias *.$domain $domain")+1));;
+				$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias *.$dominio $dominio")+1));;
 		}
 	}
 return $variables;
 }
 
-function apache_domainonoff($domain,$estado){
-	$variables=apache_domainread($domain);
+function apache_domainonoff($dominio,$estado){
+	$variables=apache_domainread($dominio);
 	if($estado==1){
 		$variables["APACHE_DOCUMENTROOT"]=$variables["CFG_DOCUMENTROOT"];
 		$variables["CFG_ESTADO"]=1;
@@ -158,7 +158,7 @@ function apache_domainonoff($domain,$estado){
 		$variables["APACHE_DOCUMENTROOT"]=_CFG_APACHE_DESACTIVADO;
 		$variables["CFG_ESTADO"]=0;
 	}
-	apache_generartemplate($domain,$variables);
+	apache_generartemplate($dominio,$variables);
 }
 
 function apache_control($accion){
@@ -166,4 +166,40 @@ function apache_control($accion){
 	$result = execute_cmd("$exec_cmd $accion");
 	return $result;
 }
+
+function apache_descargarlog($dominio,$flag){
+	switch($flag){
+	case "hoy":
+		$fecha=date("d").date("m").date("Y");
+		$file_nombre=$dominio._CFG_LOGROTATE_CFG_AWSTATSTRING;
+	break;
+	case "ayer":
+		$dia_anterior=DateAdd("d", -1, mktime(0,0,0,date("m"),date("d"),date("Y")));
+		$fecha=date("d",$dia_anterior).date("m",$dia_anterior).date("Y",$dia_anterior);
+		$file_nombre=$dominio._CFG_LOGROTATE_CFG_AWSTATSTRING.".1";
+	break;
+	}
+
+	if(file_exists(_CFG_APACHE_LOGS.$file_nombre)){
+		$exec_cmd = "gzip";
+		$result = execute_cmd("$exec_cmd -9 -c "._CFG_APACHE_LOGS."$file_nombre >/tmp/$file_nombre.gz");
+		$datos = fopen("/tmp/$file_nombre.gz", "r" ) ;
+		if ($datos)
+  		{
+			$download_name=$dominio."-".$fecha.".gz";
+ 			header("Content-Type: application/force-download");
+ 			header("Content-Type: application/octet-stream");
+ 			header("Content-Type: application/download");
+ 			header("Content-Disposition: attachment; filename=$download_name");
+			header("Content-Transfer-Encoding: binary");
+   			while (!feof($datos))
+   			{
+	       			$buffer = fgets($datos, 4096);
+       				echo $buffer;
+   			}			
+		}
+		$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
+	}
+}
+
 ?>
