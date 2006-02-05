@@ -177,7 +177,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center" valign="top"> 
                 <td width="23%" class="Estilo2"><img src="images/icn_basedatos.gif" width="50" height="50"><br>
-                  Crear Base datos</td>
+                  Bases de datos</td>
                 <td width="23%" class="Estilo2"><a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>');"><img src="images/icn_phpmyadmin.gif" width="50" height="50" border="0"><br>
                   phpMyAdmin</a></td>
                 <td width="17%"><br>
@@ -203,8 +203,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               <tr align="center" valign="top"> 
                 <td width="23%" class="Estilo2"><a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_AWSTATS.$_GET['dominio']; ?>');"><img src="images/icn_awstats.gif" width="50" height="50" border="0"><br>
                   AwStats</a></td>
-                <td width="23%" class="Estilo2"><img src="images/icn_logs.gif" width="50" height="50"><br>
-                  Logs apache</td>
+                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=logsapache&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_logs.gif" width="50" height="50" border="0"><br>
+                  Logs apache</a></td>
                 <td width="17%"><br>
                 </td>
                 <td width="17%"><br>
