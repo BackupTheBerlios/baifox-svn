@@ -36,10 +36,8 @@
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr valign="middle"> 
     <td colspan="3">&nbsp;<img src="images/flechita.gif" width="6" height="10"> 
-      <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: 
-      </b><font color="#CD3500">
-      <a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>"><?php echo $_GET['dominio']; ?></a>
-      </font></font></td>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: </b><a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="naranjas"><?php echo $_GET['dominio']; ?></a>
+      </font></td>
   </tr>
 </table>
 <?php } ?>

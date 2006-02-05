@@ -22,6 +22,11 @@ A.naranja:Visited  { text-decoration : none; color : #D65300; }
 A.naranja:Active  { text-decoration : none; color : #D65300; }
 A.naranja:Hover  { text-decoration : underline; color : #D65300; }
 
+A.naranjas  { text-decoration : none; color : #CD3500; }
+A.naranjas:Visited  { text-decoration : none; color : #CD3500; }
+A.naranjas:Active  { text-decoration : none; color : #CD3500; }
+A.naranjas:Hover  { text-decoration : underline; color : #CD3500; }
+
 td {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
