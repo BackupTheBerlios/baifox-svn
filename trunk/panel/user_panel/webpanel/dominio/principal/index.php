@@ -128,8 +128,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Redirecciones Alias</a></td>
               </tr>
               <tr align="center" valign="top"> 
-                <td width="23%" class="Estilo2"><img src="images/icn_autor.gif" width="50" height="50"><br>
-                  Respuestas autom&aacute;ticas</td>
+                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=autorespuesta&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_autor.gif" width="50" height="50" border="0"><br>
+                  Respuestas autom&aacute;ticas</a></td>
                 <td width="23%" class="Estilo2">&nbsp;</td>
                 <td width="17%">&nbsp;</td>
                 <td width="17%">&nbsp;</td>
