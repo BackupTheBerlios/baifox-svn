@@ -48,7 +48,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 </td>
               </tr>
               <tr align="center"> 
-                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;ÁDirectorio 
+                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Directorio 
                   Home </span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%">
                   <?php echo _CFG_APACHE_DOCUMENTROOT.$_GET['dominio']; ?>
