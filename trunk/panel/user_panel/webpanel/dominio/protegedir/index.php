@@ -42,7 +42,13 @@ include "include_top_numpage.php";
                 <td align="left"> 
                   <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><?php echo $rs; ?></a>
                 </td>
-                <td width="15%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_protegeroff.gif" width="30" height="30" border="0"></a></td>
+                <td width="15%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>">
+		<?php if(filesystem_htaccessread($_GET['dominio'],$rs,"estado")){ ?>
+		<img src="images/icn_protegeron.gif" width="30" height="30" border="0">
+		<?php }else{ ?>
+		<img src="images/icn_protegeroff.gif" width="30" height="30" border="0">
+		<?php } ?>
+		</a></td>
               </tr>
               <tr align="center"> 
                 <td colspan="2" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
