@@ -154,8 +154,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Filemanager</a></td>
                 <td width="23%" class="Estilo2"><img src="images/icn_cseguridad.gif" width="50" height="50"><br>
                   Copia Seguridad</td>
-                <td width="17%"><img src="images/icn_perror.gif" width="50" height="50"><br>
-                  P&aacute;ginas Error</td>
+                <td width="17%"><a href="index.php?grupo=dominio&seccion=paginaserror&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_perror.gif" width="50" height="50" border="0"><br>
+                  P&aacute;ginas Error</a></td>
                 <td width="17%"><a href="index.php?grupo=dominio&seccion=protegedir&pag=index&dominio=<?php echo $_GET["dominio"]; ?>">
 		<img src="images/icn_dprotegidos.gif" width="50" height="50" border="0"><br>Directorios protegidos</a></td>
               </tr>
