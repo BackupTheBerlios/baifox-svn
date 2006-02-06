@@ -48,7 +48,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 </td>
               </tr>
               <tr align="center"> 
-                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Directorio 
+                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;ÁDirectorio 
                   Home </span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%">
                   <?php echo _CFG_APACHE_DOCUMENTROOT.$_GET['dominio']; ?>
@@ -156,8 +156,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Copia Seguridad</td>
                 <td width="17%"><img src="images/icn_perror.gif" width="50" height="50"><br>
                   P&aacute;ginas Error</td>
-                <td width="17%"><img src="images/icn_dprotegidos.gif" width="50" height="50"><br>
-                  Directorios protegidos</td>
+                <td width="17%"><a href="index.php?grupo=dominio&seccion=protegedir&pag=index&dominio=<?php echo $_GET["dominio"]; ?>">
+		<img src="images/icn_dprotegidos.gif" width="50" height="50" border="0"><br>Directorios protegidos</a></td>
               </tr>
             </table>
           </td>
