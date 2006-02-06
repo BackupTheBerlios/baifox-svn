@@ -37,6 +37,15 @@ $FechaLarga= "$nameDia $mDia de $mMes de $mAnio";
 Return "$FechaLarga";
 }
 
+function encriptar( $pass )
+{
+  $cset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./";
+  $cadena = "";
+  for ($i=0; $i<CRYPT_SALT_LENGTH; $i++)
+    $cadena .= substr($cset, rand() & 63, 1);
+  return crypt($pass, $cadena);
+}
+
 function addslashes_cmd($cadena){
 	$cadena=str_replace("`","\`",$cadena);
 	return $cadena;
