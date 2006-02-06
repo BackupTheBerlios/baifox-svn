@@ -74,6 +74,17 @@ function filesystem_htpasswddelete($usuario,$dominio,$directorio){
 	$result = execute_cmd("chmod 644 "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd");
 }
 
+function filesystem_paginaserrorsave($dominio,$tipo){
+	$directorio_error=_CFG_APACHE_DOCUMENTROOT.$dominio."/errorpages/";
+	$result = execute_cmd("mkdir -f $directorio_error");
+	$file_error=$directorio_error.$tipo.".html";
+	$result = execute_cmd("touch $file_error");
+	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_error");
+	$result = execute_cmd("chmod 777 $file_error");
+
+
+}
+
 function filesystem_htaccesssave($dominio,$directorio,$cadena){
 	$fichero_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htaccess";
 	$result = execute_cmd("touch $fichero_htaccess");
