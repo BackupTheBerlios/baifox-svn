@@ -64,15 +64,6 @@ $array_modules= array();
 return $array_modules;
 }
 
-function encriptar( $pass )
-{
-  $cset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./";
-  $cadena = "";
-  for ($i=0; $i<CRYPT_SALT_LENGTH; $i++)
-    $cadena .= substr($cset, rand() & 63, 1);
-  return crypt($pass, $cadena);
-}
-
 function awstats_htpasswdsave($dominio,$usuario_actual,$usuario_nuevo,$password){
 	$b_nuevo=false;
 	$lines=file(_CFG_AWSTATS_PASSWD_FILE); 
