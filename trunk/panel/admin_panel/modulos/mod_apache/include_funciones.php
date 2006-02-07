@@ -182,8 +182,9 @@ function apache_descargarlog($dominio,$flag){
 
 	if(file_exists(_CFG_APACHE_LOGS.$file_nombre)){
 		$exec_cmd = "gzip";
-		$result = execute_cmd("$exec_cmd -9 -c "._CFG_APACHE_LOGS."$file_nombre >/tmp/$file_nombre.gz");
-		$datos = fopen("/tmp/$file_nombre.gz", "r" ) ;
+		$path="/tmp/$file_nombre.gz";
+		$result = execute_cmd("$exec_cmd -9 -c "._CFG_APACHE_LOGS."$file_nombre >$path");
+		$datos = fopen($path, "r" ) ;
 		if ($datos)
   		{
 			$download_name=$dominio."-".$fecha.".gz";
@@ -192,6 +193,9 @@ function apache_descargarlog($dominio,$flag){
  			header("Content-Type: application/download");
  			header("Content-Disposition: attachment; filename=$download_name");
 			header("Content-Transfer-Encoding: binary");
+			header("Content-Length: ".filesize($path));
+			$tamano=filesize($path)-1;
+			header("Content-range: bytes 0-".filesize($path)."/".$tamano);
    			while (!feof($datos))
    			{
 	       			$buffer = fgets($datos, 4096);

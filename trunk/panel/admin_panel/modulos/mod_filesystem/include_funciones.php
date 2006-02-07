@@ -87,20 +87,26 @@ function filesystem_paginaserrorsave($dominio,$contenido,$tipo){
 		fwrite($fichero_nuevo,$contenido);
 		fclose($fichero_nuevo);
 		$result = execute_cmd("chmod 644 $file_error");
-		filesystem_paginaserrorhtaccess($dominio,$tipo);
+		filesystem_paginaserrorhtaccess($dominio,$tipo,true);
 	}else{
 		if(file_exists($directorio_error.$tipo.".html"))
 			$result = execute_cmd("rm ".$directorio_error.$tipo.".html");
+		if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio."/.htaccess"))
+			filesystem_paginaserrorhtaccess($dominio,$tipo,false);
 	}
 }
 
 function filesystem_paginaserrorread($dominio,$tipo){
 	$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/errorpages/$tipo.html";
-	$contenido_array=file($file_htaccess);
-	return implode("\n",$contenido_array);
+	if(file_exists($file_htaccess)){
+		$contenido_array=file($file_htaccess);
+		return implode("\n",$contenido_array);
+	}else{
+		return "";
+	}
 }
 
-function filesystem_paginaserrorhtaccess($dominio,$tipo){
+function filesystem_paginaserrorhtaccess($dominio,$tipo,$flag){
 	$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/.htaccess";
 	$result = execute_cmd("touch $file_htaccess");
 	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_htaccess");
@@ -114,7 +120,8 @@ function filesystem_paginaserrorhtaccess($dominio,$tipo){
 			fputs($fichero_nuevo,$line);
       		}
  	}
-	fwrite($fichero_nuevo,$contenido);
+	if($flag)
+		fwrite($fichero_nuevo,$contenido);
 	fclose($fichero_nuevo);
 	$result = execute_cmd("chmod 644 $file_htaccessr");
 }
