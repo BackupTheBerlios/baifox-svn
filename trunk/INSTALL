@@ -20,9 +20,13 @@ useradd -g baifox -s /bin/false -c "Panel control baifox" baifox
 passwd baifox [PASSWORD]
 chown -R baifox.baifox /usr/local/baifox
 
-Instalar el sudo:
+Instalar el sudo
+===========================
 apt-get install sudo
 /etc/sudoers
+cat [CONTRASEÑA TEXTO PLANO] > /usr/local/baifox/panel/admin_panel/config/.htpasswd
+chown root.root /usr/local/baifox/panel/admin_panel/config/.htpasswd
+chmod 600 /usr/local/baifox/panel/admin_panel/config/.htpasswd
 
 modificar el fichero sudoers e incluir la siguiente linea
 baifox  ALL=PASSWD:ALL

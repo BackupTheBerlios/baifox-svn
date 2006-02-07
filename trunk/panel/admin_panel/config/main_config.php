@@ -40,7 +40,7 @@ define("_CFG_XML_DOMINIOS","dominios.xml");
 
 define("_CFG_SUDO","/usr/bin/sudo");
 define("_CFG_SUDO_USERNAME","baifox");
-define("_CFG_SUDO_PASSWORD",""); //contraseña del usuario SUDO baifox
+define("_CFG_SUDO_PASSWORD",_CFG_INTERFACE_DIR."admin_panel/config/.htpasswd"); //contraseña del usuario SUDO baifox
 define("_CFG_CMD_CAT","cat");
 define("_CFG_CMD_CUT","cut");
 define("_CFG_CMD_GREP","grep");

@@ -382,7 +382,7 @@ function execute_cmd($cmd)
 //    exec(_CFG_SUDO." -v -p "._CFG_SUDO_PASSWORD." 1>/dev/null 2>&1\n\n");
 //    exec(_CFG_SUDO." -u root $cmd 1>/dev/null 2>&1\n\n", $result_cmd);
 //    exec(_CFG_SUDO." -k\n\n", $result_cmd);
-     exec("echo "._CFG_SUDO_PASSWORD."|"._CFG_SUDO." -S -u root $cmd\n\n", $result_cmd);
+     exec("cat "._CFG_SUDO_PASSWORD."|"._CFG_SUDO." -S -u root $cmd\n\n", $result_cmd);
     return $result_cmd;
 }
 

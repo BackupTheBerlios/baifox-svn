@@ -167,4 +167,50 @@ function filesystem_htaccessread($dominio,$directorio,$flag){
 	}
 }
 
+function filesystem_comprimir($dominio,$flag){
+	$fecha=date("d").date("m").date("Y");
+	switch($flag){
+	case "web":
+		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$path="/tmp/".$dominio."_web.zip";
+	break;
+	case "mysql":
+		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$path="/tmp/".$dominio."_mysql.zip";
+	break;
+	}
+
+	if(file_exists($file_nombre)){
+		$exec_cmd = "zip";
+		$result = execute_cmd("$exec_cmd -9 -r $path $file_nombre");
+		echo "$exec_cmd -9 -r $path $file_nombre";
+		foreach($result as $line)
+ 		{
+			echo $line;
+			flush();
+ 		}
+		/*$datos = fopen($path, "r" ) ;
+		if ($datos)
+  		{
+			$download_name=$dominio."-".$fecha.".gz";
+ 			header("Content-Type: application/force-download");
+ 			header("Content-Type: application/octet-stream");
+ 			header("Content-Type: application/download");
+ 			header("Content-Disposition: attachment; filename=$download_name");
+			header("Content-Transfer-Encoding: binary");
+			header("Content-Length: ".filesize($path));
+			$tamano=filesize($path)-1;
+			header("Content-range: bytes 0-".filesize($path)."/".$tamano);
+   			while (!feof($datos))
+   			{
+	       			$buffer = fgets($datos, 4096);
+       				echo $buffer;
+   			}			
+		}
+		$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
+		*/
+	}
+}
+
+
 ?>
