@@ -74,15 +74,49 @@ function filesystem_htpasswddelete($usuario,$dominio,$directorio){
 	$result = execute_cmd("chmod 644 "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd");
 }
 
-function filesystem_paginaserrorsave($dominio,$tipo){
+function filesystem_paginaserrorsave($dominio,$contenido,$tipo){
 	$directorio_error=_CFG_APACHE_DOCUMENTROOT.$dominio."/errorpages/";
-	$result = execute_cmd("mkdir -f $directorio_error");
-	$file_error=$directorio_error.$tipo.".html";
-	$result = execute_cmd("touch $file_error");
-	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_error");
-	$result = execute_cmd("chmod 777 $file_error");
 
+	if($contenido!=""){
+		$result = execute_cmd("mkdir $directorio_error");
+		$file_error=$directorio_error.$tipo.".html";
+		$result = execute_cmd("touch $file_error");
+		$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_error");
+		$result = execute_cmd("chmod 777 $file_error");
+	 	$fichero_nuevo=fopen($file_error,"w");
+		fwrite($fichero_nuevo,$contenido);
+		fclose($fichero_nuevo);
+		$result = execute_cmd("chmod 644 $file_error");
+		filesystem_paginaserrorhtaccess($dominio,$tipo);
+	}else{
+		if(file_exists($directorio_error.$tipo.".html"))
+			$result = execute_cmd("rm ".$directorio_error.$tipo.".html");
+	}
+}
 
+function filesystem_paginaserrorread($dominio,$tipo){
+	$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/errorpages/$tipo.html";
+	$contenido_array=file($file_htaccess);
+	return implode("\n",$contenido_array);
+}
+
+function filesystem_paginaserrorhtaccess($dominio,$tipo){
+	$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/.htaccess";
+	$result = execute_cmd("touch $file_htaccess");
+	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_htaccess");
+	$result = execute_cmd("chmod 777 $file_htaccess");
+	$contenido="ErrorDocument $tipo /errorpages/$tipo.html\n";
+ 	$lines=file($file_htaccess);
+ 	$fichero_nuevo=fopen($file_htaccess,"w");
+ 	foreach($lines as $line)
+ 	{
+	      	if (stristr($line,$contenido)==false){
+			fputs($fichero_nuevo,$line);
+      		}
+ 	}
+	fwrite($fichero_nuevo,$contenido);
+	fclose($fichero_nuevo);
+	$result = execute_cmd("chmod 644 $file_htaccessr");
 }
 
 function filesystem_htaccesssave($dominio,$directorio,$cadena){

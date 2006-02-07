@@ -27,7 +27,7 @@ include "include_top_numpage.php";
           <td colspan="3"> 
             <table width="100%" border="0" cellspacing="2" cellpadding="0">
               <tr align="center"> 
-                <td align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;directorio</span></td>
+                <td align="left" bgcolor="#d6d6d6" colspan="2"><span class="Estilo5">&nbsp;&nbsp;directorio</span></td>
                 <td bgcolor="#d6d6d6" align="right" width="15%">&nbsp; </td>
               </tr>
               <?php
@@ -39,19 +39,21 @@ include "include_top_numpage.php";
 	if($rs!=""){
 ?>
               <tr align="center"> 
-                <td align="left"> 
-                  <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><?php echo $rs; ?></a>
-                </td>
-                <td width="15%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>">
-		<?php if(filesystem_htaccessread($_GET['dominio'],$rs,"estado")){ ?>
-		<img src="images/icn_protegeron.gif" width="30" height="30" border="0">
-		<?php }else{ ?>
-		<img src="images/icn_protegeroff.gif" width="30" height="30" border="0">
-		<?php } ?>
-		</a></td>
+                <td align="center" valign="middle" width="4%"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_carpetita.gif" border="0" width="25" height="25"> 
+                  </a> </td>
+                <td align="left" valign="middle" width="81%"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"> 
+                  <?php echo $rs; ?>
+                  </a></td>
+                <td width="15%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=directorio&directorio=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"> 
+                  <?php if(filesystem_htaccessread($_GET['dominio'],$rs,"estado")){ ?>
+                  <img src="images/icn_protegeron.gif" width="30" height="30" border="0"> 
+                  <?php }else{ ?>
+                  <img src="images/icn_protegeroff.gif" width="30" height="30" border="0"> 
+                  <?php } ?>
+                  </a></td>
               </tr>
               <tr align="center"> 
-                <td colspan="2" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
+                <td colspan="3" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
                 </td>
               </tr>
               <?php 	$x++;

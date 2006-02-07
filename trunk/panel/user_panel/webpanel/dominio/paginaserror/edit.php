@@ -3,6 +3,7 @@
   <tr valign="top"> 
     <td>
       <form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=0&dominio=<?php echo $_GET['dominio']; ?>">
+ 	<input type="hidden" name="frmTipo" value="<?php echo $_GET["tipo"]; ?>">
         <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
           <tr> 
             <td valign="top">
@@ -25,7 +26,7 @@
                         <td width="17%" align="left" bgcolor="#d6d6d6" valign="top">&nbsp;&nbsp;p&aacute;gina 
                           html </td>
                         <td colspan="3" align="left" bgcolor="#d6d6d6"> 
-                          <textarea name="frmMensaje" cols="60" rows="15" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'"><?php echo vpopmail_autorespondread($_GET['usuario'],$_GET['dominio'],"mensaje"); ?></textarea>
+                          <textarea name="frmContenido" cols="60" rows="15" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'"><?php echo filesystem_paginaserrorread($_GET['dominio'],$_GET['tipo']); ?></textarea>
                         </td>
                       </tr>
                       <tr align="center"> 
