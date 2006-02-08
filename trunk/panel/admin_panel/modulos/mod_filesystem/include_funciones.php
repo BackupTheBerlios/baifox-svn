@@ -293,18 +293,18 @@ function filesystem_backupcomprimir($dominio,$flag){
 			// Es importante cerrar todas las tuberías del array $pipes
 			// antes de ejecutar proc_close de modo de evitar un deadlock
 			$return_value = proc_close($process);
+			switch($flag){
+				case "web":
+			break;
+			case "basedatos":
+				$result = execute_cmd("rm -f ".$directorio_nombre.$file_nombre);
+			break;
+			}
 			if($return_value==0)
 				return true;
 			else
 				return false;
 		}
-	}
-	switch($flag){
-	case "web":
-	break;
-	case "basedatos":
-		$result = execute_cmd("rm -f ".$directorio_nombre.$file_nombre);
-	break;
 	}
 }
 
