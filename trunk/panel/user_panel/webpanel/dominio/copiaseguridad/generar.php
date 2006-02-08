@@ -1,14 +1,6 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
 ?> 
-<script language="JavaScript">
-<!-- 
-setTimeout("actualizar_log()",2000);
-function actualizar_log() {
-   document.getElementById('news').scrollTop=document.getElementById('news').scrollHeight-document.getElementById('news').clientHeight;
-}
-// -->
-</script>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
     <td> <br>
@@ -33,7 +25,7 @@ function actualizar_log() {
               </tr>
               <tr> 
                 <td align="left" width="78%">
-		<div style="overflow:auto;width:550px;height:100px;border:1px solid black;font-size:10px;font-family:arial" id="news"><?php filesystem_backupcomprimir($_GET['dominio'],$_GET['tipo']); ?></div>
+		<IFRAME name="scr1" id="scr1" src="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/generar_frame.php?dominio=<?php echo $_GET['dominio']; ?>&tipo=<?php echo $_GET['tipo']; ?>" target="_top" width="90%" height="100" frameborder="no" border="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="yes" allowtransparency="true"></IFRAME>
                 </td>
                 <td width="22%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/descargar.php?tipo=<?php echo $_GET['tipo']; ?>&dominio=<?php echo $_GET['dominio']; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
               </tr>
@@ -49,3 +41,21 @@ function actualizar_log() {
     </td>
   </tr>
 </table>
+<script type="text/javascript">
+/*************************************************************************
+  This code is from Dynamic Web Coding at http://www.dyn-web.com/
+  See Terms of Use at http://www.dyn-web.com/bus/terms.html
+  regarding conditions under which you may use this code.
+  This notice must be retained in the code as is!
+*************************************************************************/
+var timer_id;
+function scroll_iframe(frm,inc,dir) {
+  if (window.frames[frm]) {
+    if (dir == "v") window.frames[frm].scrollBy(0, inc);
+    else window.frames[frm].scrollBy(inc, 0);
+    timer_id = setTimeout("scroll_iframe('" + frm + "'," + inc + ",'" + dir + "')", 20);
+  }
+}
+scroll_iframe('scr1', 10, 'v');
+</script>
+<?php flush(); ?>

@@ -247,8 +247,10 @@ function filesystem_backupcomprimir($dominio,$flag){
 			// Es importante cerrar todas las tuberías del array $pipes
 			// antes de ejecutar proc_close de modo de evitar un deadlock
 			$return_value = proc_close($process);
-
-			echo "El comando ejecutado devolvió: $return_value\n";
+			if($return_value==0)
+				echo "El proceso ha finalizado correctamente\n";
+			else
+				echo "Ha ocurrido un error al ejecutar el proceso\n";
 		} 
 	
 	}
