@@ -78,7 +78,7 @@
       <table width="266" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
           <td colspan="3" valign="top"> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_disco.gif">
+            <table width="100%" height="39" border="0" cellspacing="0" cellpadding="0" background="images/fnd_disco.gif">
               <tr> 
                 <td width="15%" align="center">&nbsp;</td>
                 <td width="85%"><font face="Arial, Helvetica, sans-serif" size="3" color="#FFFFFF"><b>Espacio 
@@ -102,7 +102,7 @@
                 <td width="34%" align="right"><b><?php echo number_format(bitconversor($total_espacio_global,"byte","mbyte"), 2, ',', '.'); ?> MB</b></td>
               </tr>
               <tr align="center"> 
-                <td width="46%" align="left"><b>&nbsp;</b>Disponible</td>
+                <td width="46%" align="left" class="Estilo2"><b>&nbsp;</b>Disponible</td>
                 <td width="34%" align="right"><b><?php echo number_format(($_SESSION['SEC_USER_TOTAL_ESPACIO']-bitconversor($total_espacio_global,"byte","mbyte")), 2, ',', '.'); ?> MB</b></td>
               </tr>
             </table>
@@ -113,7 +113,7 @@
       <table width="266" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
           <td colspan="3" valign="top"> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_trafico.gif">
+            <table width="100%" height="39" border="0" cellspacing="0" cellpadding="0" background="images/fnd_trafico.gif">
               <tr> 
                 <td width="15%" align="center">&nbsp;</td>
                 <td width="85%"><b><font color="#FFFFFF" size="3" face="Verdana, Arial, Helvetica, sans-serif">Transferencia</font></b>
@@ -123,25 +123,23 @@
 	<?php $ancho_banda=round(($total_anchobanda_global*100)/$_SESSION['SEC_USER_TOTAL_ANCHOBANDA']); ?>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center"> 
-                <td width="46%" align="left">&nbsp;Transferencia</td>
+                <td width="46%" align="left" class="Estilo2">&nbsp;Transferencia</td>
                 <td width="34%"><img src="images/barra_azul.gif" width="<?php echo $ancho_banda; ?>" height="11"><img src="images/barra_gris.gif" width="<?php echo abs(100-$ancho_banda); ?>" height="11"></td>
               </tr>
               <tr align="center"> 
-                <td width="46%" align="left">&nbsp;L&iacute;mite Mensual </td>
+                <td width="46%" align="left" class="Estilo2">&nbsp;L&iacute;mite Mensual</td>
                 <td width="34%" align="right"><b><?php echo number_format($_SESSION['SEC_USER_TOTAL_ANCHOBANDA'], 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
-                <td width="46%" align="left">&nbsp;&Uacute;ltimo Mes </td>
+                <td width="46%" align="left" class="Estilo2">&nbsp;&Uacute;ltimo Mes</td>
                 <td width="34%" align="right"><b><?php echo number_format($total_anchobanda_globalant, 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
-                <td width="46%" align="left"><font face="Verdana, Arial, Helvetica, sans-serif">&nbsp;Mes 
-                  actual</font></td>
+                <td width="46%" align="left" class="Estilo2">&nbsp;Mes actual</td>
                 <td width="34%" align="right"><b><?php echo number_format($total_anchobanda_global, 2, ',', '.');; ?> MB</b></td>
               </tr>
               <tr align="center"> 
-                <td width="46%" align="left"><font face="Verdana, Arial, Helvetica, sans-serif">&nbsp;Disponible 
-                  </font></td>
+                <td width="46%" align="left" class="Estilo2">&nbsp;Disponible</td>
                 <td width="34%" align="right"><b><?php echo number_format(($_SESSION['SEC_USER_TOTAL_ANCHOBANDA']-$total_anchobanda_global), 2, ',', '.');; ?> MB</b></td>
               </tr>
             </table>
