@@ -15,10 +15,7 @@
 <link href="main.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" src="javascript/funciones.js"></script>
 </head>
-<?php if($pag=="generar") {
-  $load="onLoad=\"document.getElementById('news').scrollTop=document.getElementById('news').scrollHeight-document.getElementById('news').clientHeight\"";
-} ?>
-<body bgcolor="#FFFFFF" text="#000000" <?php echo $load; ?>>
+<body bgcolor="#FFFFFF" text="#000000">
 <?php include "include_top.php"; ?>
 <br>
 <?php include "include_redir.php"; ?>

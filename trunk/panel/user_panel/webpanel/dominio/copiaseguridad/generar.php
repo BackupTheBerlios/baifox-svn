@@ -1,6 +1,14 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
 ?> 
+<script language="JavaScript">
+<!-- 
+setTimeout("actualizar_log()",2000);
+function actualizar_log() {
+   document.getElementById('news').scrollTop=document.getElementById('news').scrollHeight-document.getElementById('news').clientHeight;
+}
+// -->
+</script>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
     <td> <br>
@@ -25,7 +33,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               </tr>
               <tr> 
                 <td align="left" width="78%">
-		<div style="overflow:auto;width:400px;height:100px;border:1px solid black;font-size:10px;font-family:arial" id="news"><?php filesystem_backupcomprimir($_GET['dominio'],$_GET['tipo']); ?></div>
+		<div style="overflow:auto;width:550px;height:100px;border:1px solid black;font-size:10px;font-family:arial" id="news"><?php filesystem_backupcomprimir($_GET['dominio'],$_GET['tipo']); ?></div>
                 </td>
                 <td width="22%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/descargar.php?tipo=<?php echo $_GET['tipo']; ?>&dominio=<?php echo $_GET['dominio']; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
               </tr>
