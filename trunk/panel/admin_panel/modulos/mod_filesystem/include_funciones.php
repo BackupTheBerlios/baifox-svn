@@ -15,6 +15,30 @@ function filesystem_test(){
 
 	$test[1]= "mod_filesystem test...<br>";
 	$test[1].= "==================<br>";
+	if (!file_exists(_CFG_SUDO)){
+		$test[1].= "[ERROR] No existe el fichero "._CFG_SUDO."<br>";
+		$test[0]=false;
+	}
+   	if (!($link=@mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD)))
+   	{
+		$test[1].= "[ERROR] Conectando al mysql <br>";
+		$test[0]=false;
+   	}
+   	if (!@mysql_select_db(_CFG_MYSQL_DB,$link))
+   	{
+		$test[1].= "[ERROR] Conectando a la base de datos "._CFG_MYSQL_DB."<br>";
+		$test[0]=false;
+	}
+	if (!file_exists(_CFG_FILESYSTEM_BACKUPDIR)){
+		$test[1].= "[ERROR] No se ha creado el directorio "._CFG_FILESYSTEM_BACKUPDIR."<br>";
+		$test[0]=false;
+	}
+	if (!is_writable(_CFG_FILESYSTEM_BACKUPDIR)){
+		$test[1].="[ERROR] No se puede escribir en el directorio "._CFG_FILESYSTEM_BACKUPDIR."<br>";
+		$test[0]=false;
+	}
+
+	@mysql_close($link);
 	if($test[0])
 		$test[1].= "El módulo esta correctamente instalado<br>";
 	return $test;
@@ -212,31 +236,43 @@ function filesystem_backupexiste($dominio,$flag){
 }
 
 function filesystem_backupcomprimir($dominio,$flag){
+	$descriptorspec = array(
+	0 => array("pipe", "r"), // stdin es en este caso la tubería que el programa invocado usará como entrada estándar
+	1 => array("pipe", "w"), // stdout es la que usará como salida estándar
+	2 => array("file","/dev/null", "w") // stderr es un archivo y en él que se grabarán los errores
+	);
+
 	$fecha=date("d").date("m").date("Y");
 	switch($flag){
 	case "web":
-		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$file_nombre=$dominio;
+		$directorio_nombre=_CFG_APACHE_DOCUMENTROOT;
 		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_web.zip";
 	break;
 	case "basedatos":
-		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$file_nombre=$dominio.".sql";
+		$directorio_nombre=_CFG_FILESYSTEM_BACKUPDIR;
+		$MYSQL_DATABASE=buscardbase_dominio($dominio);
+		$cmd=_CFG_MYSQL_DUMP." -uroot -p $MYSQL_DATABASE >".$directorio_nombre.$file_nombre;
+		$process = proc_open($cmd, $descriptorspec, $pipes); //en este ejemplo el programa invocado es el mismo php
+		if (is_resource($process)) {
+			fwrite($pipes[0], _CFG_MYSQL_PASSWORD); //código php que le enviamos al intérprete ejecutado
+			fclose($pipes[0]); // cerramos la conexion para que el código enviado se ejecute
+			fclose($pipes[1]);
+			proc_close($process);
+		}
 		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_basedatos.zip";
 	break;
 	}
 	//Borramos antes por si hay una version anterior
 	$result = execute_cmd("rm -f $path");
 
-	if(file_exists($file_nombre)){
+	if(file_exists($directorio_nombre.$file_nombre)){
 		$result = execute_cmd(_CFG_CMD_CAT." "._CFG_SUDO_PASSWORD);
 		$SUDO_PASSWORD=$result[0];
 		$exec_cmd = "zip -9 -r $path $file_nombre";
-		$cmd=_CFG_SUDO." -S -u root $exec_cmd\n\n";
+		$cmd="cd $directorio_nombre;"._CFG_SUDO." -S -u root $exec_cmd\n\n";
 
-		$descriptorspec = array(
-		0 => array("pipe", "r"), // stdin es en este caso la tubería que el programa invocado usará como entrada estándar
-		1 => array("pipe", "w"), // stdout es la que usará como salida estándar
-		2 => array("file","/dev/null", "w") // stderr es un archivo y en él que se grabarán los errores
-		);
 		$process = proc_open($cmd, $descriptorspec, $pipes); //en este ejemplo el programa invocado es el mismo php
 		if (is_resource($process)) {
 			// ahora $pipes contiene lo siguiente:
@@ -247,6 +283,7 @@ function filesystem_backupcomprimir($dominio,$flag){
 			fwrite($pipes[0], $SUDO_PASSWORD); //código php que le enviamos al intérprete ejecutado
 			fclose($pipes[0]); // cerramos la conexion para que el código enviado se ejecute
 
+			echo "<br>\n";
 			while(!feof($pipes[1])) {
 				echo fgets($pipes[1], 1024); // leemos lo que nos devuelve en tandas de 1K, hasta que llegue el EOF
 				echo "<br>\n";
@@ -261,6 +298,13 @@ function filesystem_backupcomprimir($dominio,$flag){
 			else
 				return false;
 		}
+	}
+	switch($flag){
+	case "web":
+	break;
+	case "basedatos":
+		$result = execute_cmd("rm -f ".$directorio_nombre.$file_nombre);
+	break;
 	}
 }
 

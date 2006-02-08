@@ -6,7 +6,7 @@
 	include "../include_permiso.php"; 
 	require_once _CFG_INTERFACE_DIRMODULES."mod_filesystem/include_funciones.php";
 ?> 
-<style type="text/css" id="vbulletin_css">
+<style type="text/css">
 <!--
 .Estilo5 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -23,13 +23,14 @@ input {
 
 -->
 </style>
+<body bgcolor="#FFFFFF" text="#000000">
 <?php if(!$_GET['estado'] || $_GET['estado']=="completado"){ ?>
 <form name="formulario" method="post" action="generar_frame.php?dominio=<?php echo $_GET['dominio']; ?>&tipo=<?php echo $_GET['tipo']; ?>&estado=generar">
   <div align="center"><span class="Estilo5">
 	<?php if($_GET['estado']=="completado"){ ?>
 	La copia de seguridad se ha generado correctamente,<br>
         pulse sobre el boton DESCARGAR para bajarse el fichero comprimido en formato ZIP, <br>
-	una vez descargado la copia se borrará dejara de estar disponible para descarga;<br>
+	una vez descargada la copia dejara de estar disponible para descarga;<br>
 	puede generar la copia de seguridad tantas veces como desee.<br>
 	<?php }else{ ?>
 	Este proceso se puede demorar varios minutos,<br>
@@ -83,3 +84,4 @@ if($_GET['estado']=="generar"){
 }
 ?>
 </span>
+</body>

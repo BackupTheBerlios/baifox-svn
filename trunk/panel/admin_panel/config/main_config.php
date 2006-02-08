@@ -99,6 +99,7 @@ define("_CFG_MYSQL_SERVER","localhost"); //servidor MYSQL
 define("_CFG_MYSQL_USER",""); //usuario del servidor MYSQL
 define("_CFG_MYSQL_PASSWORD",""); //contraseña del servidor MYSQL
 define("_CFG_MYSQL_DB","mysql");
+define("_CFG_MYSQL_DUMP","/usr/bin/mysqldump");
 
 define("_CFG_PUREFTPD_VIRTUALUSER","virtual");
 define("_CFG_PUREFTPD_VIRTUALGROUP","virtual");
