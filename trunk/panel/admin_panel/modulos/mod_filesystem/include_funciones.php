@@ -167,7 +167,42 @@ function filesystem_htaccessread($dominio,$directorio,$flag){
 	}
 }
 
-function filesystem_comprimir($dominio,$flag){
+function filesystem_backupdescargar($dominio,$flag){
+	$fecha=date("d").date("m").date("Y");
+	switch($flag){
+	case "web":
+		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$path="/tmp/".$dominio."_web.zip";
+		$download_name=$dominio."-".$fecha."_web.zip";
+	break;
+	case "mysql":
+		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
+		$path="/tmp/".$dominio."_basedatos.zip";
+		$download_name=$dominio."-".$fecha."_basedatos.zip";
+	break;
+	}
+
+	$datos = fopen($path, "r" ) ;
+	if ($datos)
+	{
+		header("Content-Type: application/force-download");
+ 		header("Content-Type: application/octet-stream");
+ 		header("Content-Type: application/download");
+ 		header("Content-Disposition: attachment; filename=$download_name");
+		header("Content-Transfer-Encoding: binary");
+		header("Content-Length: ".filesize($path));
+		$tamano=filesize($path)-1;
+		header("Content-range: bytes 0-".filesize($path)."/".$tamano);
+		while (!feof($datos))
+		{
+       			$buffer = fgets($datos, 4096);
+			echo $buffer;
+		}			
+	}
+	$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
+}
+
+function filesystem_backupcomprimir($dominio,$flag){
 	$fecha=date("d").date("m").date("Y");
 	switch($flag){
 	case "web":
@@ -176,39 +211,46 @@ function filesystem_comprimir($dominio,$flag){
 	break;
 	case "mysql":
 		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
-		$path="/tmp/".$dominio."_mysql.zip";
+		$path="/tmp/".$dominio."_basedatos.zip";
 	break;
 	}
 
 	if(file_exists($file_nombre)){
-		$exec_cmd = "zip";
-		$result = execute_cmd("$exec_cmd -9 -r $path $file_nombre");
-		echo "$exec_cmd -9 -r $path $file_nombre";
-		foreach($result as $line)
- 		{
-			echo $line;
-			flush();
- 		}
-		/*$datos = fopen($path, "r" ) ;
-		if ($datos)
-  		{
-			$download_name=$dominio."-".$fecha.".gz";
- 			header("Content-Type: application/force-download");
- 			header("Content-Type: application/octet-stream");
- 			header("Content-Type: application/download");
- 			header("Content-Disposition: attachment; filename=$download_name");
-			header("Content-Transfer-Encoding: binary");
-			header("Content-Length: ".filesize($path));
-			$tamano=filesize($path)-1;
-			header("Content-range: bytes 0-".filesize($path)."/".$tamano);
-   			while (!feof($datos))
-   			{
-	       			$buffer = fgets($datos, 4096);
-       				echo $buffer;
-   			}			
-		}
-		$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
-		*/
+		$result = execute_cmd(_CFG_CMD_CAT." "._CFG_SUDO_PASSWORD);
+		$SUDO_PASSWORD=$result[0];
+		$exec_cmd = "zip -9 -r $path $file_nombre";
+		$cmd=_CFG_SUDO." -S -u root $exec_cmd\n\n";
+
+		$descriptorspec = array(
+		0 => array("pipe", "r"), // stdin es en este caso la tubería que el programa invocado usará como entrada estándar
+		1 => array("pipe", "w"), // stdout es la que usará como salida estándar
+		2 => array("file","/dev/null", "w") // stderr es un archivo y en él que se grabarán los errores
+		);
+		$process = proc_open($cmd, $descriptorspec, $pipes); //en este ejemplo el programa invocado es el mismo php
+		if (is_resource($process)) {
+			// ahora $pipes contiene lo siguiente:
+			// 0 => manejador (sólo escritura) conectado al stdin del programa invocado
+			// 1 => manejador (sólo lectura) conectado al stdout del programa invocado
+			// Se indicó que cualquier error sea guardado en /tmp/error-output.txt
+
+			fwrite($pipes[0], $SUDO_PASSWORD); //código php que le enviamos al intérprete ejecutado
+			fclose($pipes[0]); // cerramos la conexion para que el código enviado se ejecute
+
+			while(!feof($pipes[1])) {
+				echo "<font size=1>";
+				echo fgets($pipes[1], 1024); // leemos lo que nos devuelve en tandas de 1K, hasta que llegue el EOF
+				echo "</font>";
+				echo "<br>\n";
+				flush();
+			}
+			fclose($pipes[1]);
+			// Es importante cerrar todas las tuberías del array $pipes
+			// antes de ejecutar proc_close de modo de evitar un deadlock
+			$return_value = proc_close($process);
+
+			echo "El comando ejecutado devolvió: $return_value\n";
+		} 
+	
 	}
 }
 

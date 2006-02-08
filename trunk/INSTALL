@@ -25,7 +25,7 @@ Instalar el sudo
 apt-get install sudo
 /etc/sudoers
 cat [CONTRASEÑA TEXTO PLANO] > /usr/local/baifox/panel/admin_panel/config/.htpasswd
-chown root.root /usr/local/baifox/panel/admin_panel/config/.htpasswd
+chown baifox.baifox /usr/local/baifox/panel/admin_panel/config/.htpasswd
 chmod 600 /usr/local/baifox/panel/admin_panel/config/.htpasswd
 
 modificar el fichero sudoers e incluir la siguiente linea
