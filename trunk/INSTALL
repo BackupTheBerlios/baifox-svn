@@ -72,10 +72,17 @@ chmod 664 /etc/bind/named.conf
 chgrp baifox /var/named
 chmod 775 /var/named
 
+mod_filesystem
+===========================
+mkdir /home/backup
+chgrp baifox /home/backup
+chmod 775 /home/backup
+
 mod_pureftpd
 ===========================
 ./configure --with-mysql --with-cookie --with-throttling --with-ratios --with-language=spanish --with-diraliases 
 --with-peruserlimits --with-welcomemsg --with-quotas --with-cookie --sysconfdir=/etc
+
 
 groupadd virtual
 useradd -g virtual -s /bin/false -c "Usuario PureFTPD" virtual

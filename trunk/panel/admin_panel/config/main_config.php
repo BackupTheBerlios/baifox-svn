@@ -93,6 +93,8 @@ define("_CFG_AWSTATS_CRON","/usr/bin/actualizar_estadisticas");
 define("_CFG_AWSTATS_BIN","/usr/local/apache/cgi-bin/awstats/awstats.pl");
 define("_CFG_AWSTATS_PASSWD_FILE","/usr/local/apache/cgi-bin/awstats/.htpasswd");
 
+define("_CFG_FILESYSTEM_BACKUPDIR","/home/backup/");
+
 define("_CFG_MYSQL_SERVER","localhost"); //servidor MYSQL
 define("_CFG_MYSQL_USER",""); //usuario del servidor MYSQL
 define("_CFG_MYSQL_PASSWORD",""); //contraseña del servidor MYSQL

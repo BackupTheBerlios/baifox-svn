@@ -11,7 +11,16 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               <tr> 
                 <td width="12%" align="center" height="33"><img src="images/icn_correo.gif" width="47" height="34"></td>
                 <td width="88%" height="33"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Copia 
-                  de seguridad</font></b></font></td>
+                  de seguridad
+<?php switch ($_GET['tipo']){
+case "web":
+	echo "Página web [".$_GET['dominio']."]";
+break;
+case "basedatos":
+	echo "Base de datos [".$_GET['dominio']."]";
+break;
+} ?>
+</font></b></font></td>
               </tr>
             </table>
           </td>
@@ -20,17 +29,14 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           <td colspan="3"> 
             <table width="100%" border="0" cellspacing="2" cellpadding="0">
               <tr> 
-                <td align="left" bgcolor="#d6d6d6" width="78%"><span class="Estilo5">&nbsp;&nbsp;log</span></td>
-                <td align="center" bgcolor="#d6d6d6" width="22%"><span class="Estilo5">&nbsp;&nbsp;descargar</span></td>
+                <td align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;</span></td>
               </tr>
               <tr> 
-                <td align="left" width="78%">
-		<IFRAME name="scr1" id="scr1" src="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/generar_frame.php?dominio=<?php echo $_GET['dominio']; ?>&tipo=<?php echo $_GET['tipo']; ?>" target="_top" width="90%" height="100" frameborder="no" border="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="yes" allowtransparency="true"></IFRAME>
+                <td align="left"> <IFRAME name="scr1" id="scr1" src="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/generar_frame.php?dominio=<?php echo $_GET['dominio']; ?>&tipo=<?php echo $_GET['tipo']; ?>" target="_top" width="100%" height="150" frameborder="no" border="0" MARGINWIDTH="0" MARGINHEIGHT="0" allowtransparency="true"></IFRAME> 
                 </td>
-                <td width="22%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/descargar.php?tipo=<?php echo $_GET['tipo']; ?>&dominio=<?php echo $_GET['dominio']; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr> 
-                <td align="left" bgcolor="#d6d6d6" colspan="2"><img src="#" width="1" height="1"> 
+                <td align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
                 </td>
               </tr>
             </table>
@@ -42,6 +48,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
   </tr>
 </table>
 <script type="text/javascript">
+<!--
 /*************************************************************************
   This code is from Dynamic Web Coding at http://www.dyn-web.com/
   See Terms of Use at http://www.dyn-web.com/bus/terms.html
@@ -56,6 +63,7 @@ function scroll_iframe(frm,inc,dir) {
     timer_id = setTimeout("scroll_iframe('" + frm + "'," + inc + ",'" + dir + "')", 20);
   }
 }
-scroll_iframe('scr1', 10, 'v');
+scroll_iframe('scr1', 20, 'v');
+-->
 </script>
 <?php flush(); ?>

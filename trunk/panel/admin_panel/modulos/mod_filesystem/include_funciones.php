@@ -172,12 +172,12 @@ function filesystem_backupdescargar($dominio,$flag){
 	switch($flag){
 	case "web":
 		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
-		$path="/tmp/".$dominio."_web.zip";
+		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_web.zip";
 		$download_name=$dominio."-".$fecha."_web.zip";
 	break;
-	case "mysql":
+	case "basedatos":
 		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
-		$path="/tmp/".$dominio."_basedatos.zip";
+		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_basedatos.zip";
 		$download_name=$dominio."-".$fecha."_basedatos.zip";
 	break;
 	}
@@ -199,7 +199,16 @@ function filesystem_backupdescargar($dominio,$flag){
 			echo $buffer;
 		}			
 	}
-	$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
+	$result = execute_cmd("rm -f $path");
+}
+
+function filesystem_backupexiste($dominio,$flag){
+	$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_$flag.zip";
+	if(file_exists($path)){
+		return true;	
+	}else{
+		return false;
+	}
 }
 
 function filesystem_backupcomprimir($dominio,$flag){
@@ -207,13 +216,15 @@ function filesystem_backupcomprimir($dominio,$flag){
 	switch($flag){
 	case "web":
 		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
-		$path="/tmp/".$dominio."_web.zip";
+		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_web.zip";
 	break;
-	case "mysql":
+	case "basedatos":
 		$file_nombre=_CFG_APACHE_DOCUMENTROOT.$dominio;
-		$path="/tmp/".$dominio."_basedatos.zip";
+		$path=_CFG_FILESYSTEM_BACKUPDIR.$dominio."_basedatos.zip";
 	break;
 	}
+	//Borramos antes por si hay una version anterior
+	$result = execute_cmd("rm -f $path");
 
 	if(file_exists($file_nombre)){
 		$result = execute_cmd(_CFG_CMD_CAT." "._CFG_SUDO_PASSWORD);
@@ -231,15 +242,13 @@ function filesystem_backupcomprimir($dominio,$flag){
 			// ahora $pipes contiene lo siguiente:
 			// 0 => manejador (sólo escritura) conectado al stdin del programa invocado
 			// 1 => manejador (sólo lectura) conectado al stdout del programa invocado
-			// Se indicó que cualquier error sea guardado en /tmp/error-output.txt
+			// Se indicó que cualquier error sea deriva a null
 
 			fwrite($pipes[0], $SUDO_PASSWORD); //código php que le enviamos al intérprete ejecutado
 			fclose($pipes[0]); // cerramos la conexion para que el código enviado se ejecute
 
 			while(!feof($pipes[1])) {
-				echo "<font size=1>";
 				echo fgets($pipes[1], 1024); // leemos lo que nos devuelve en tandas de 1K, hasta que llegue el EOF
-				echo "</font>";
 				echo "<br>\n";
 				flush();
 			}
@@ -248,13 +257,11 @@ function filesystem_backupcomprimir($dominio,$flag){
 			// antes de ejecutar proc_close de modo de evitar un deadlock
 			$return_value = proc_close($process);
 			if($return_value==0)
-				echo "El proceso ha finalizado correctamente\n";
+				return true;
 			else
-				echo "Ha ocurrido un error al ejecutar el proceso\n";
-		} 
-	
+				return false;
+		}
 	}
 }
-
 
 ?>
