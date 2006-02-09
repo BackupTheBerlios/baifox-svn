@@ -30,8 +30,7 @@ $rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_CLIENTES));
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
-            <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Forma 
-              de Pago</font></td>
+            <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Permisos</font></td>
             <td> 
               <select name="frmPermiso">
                 <option value="100" <?php if($rs["PERMISO"]==100){ echo "selected"; } ?>>PERMISO 

@@ -10,6 +10,9 @@ if (strlen(session_id())>0){
    session_register("SEC_USER_NOMBRE");
    session_register("SEC_USER_EMAIL");
    session_register("SEC_USER_DOMINIOS");
+   session_register("SEC_USER_TOTAL_DOMINIOS");
+   session_register("SEC_USER_TOTAL_ESPACIO");
+   session_register("SEC_USER_TOTAL_ANCHOBANDA");
    session_register("SEC_PERM");
    session_register("SEC_EMAIL_ASUNTO");
    session_register("SEC_EMAIL_MENSAJE");
@@ -269,7 +272,7 @@ function busca_xml_id($id,$XML_RUTA){
 	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile($XML_RUTA);
-
+	$x=0;
   	for($i=1;$x<count($conf->getConfigValue());$i++){
    		$rs = $conf->getConfigValue($i);
 		if($rs){
@@ -299,6 +302,7 @@ function buscar_xml($mfichero,$mdirectorio,$mcampo1,$mcadena1,$mcampo2,$mcadena2
    $conf->setConfigDir($mdirectorio);
    $conf->parseConfigFile($mfichero);
    $total_registros=count($conf->getConfigValue());
+   $x=0;
    for($i=1;$x<$total_registros;$i++){
 	   $rs = $conf->getConfigValue($i);
 	   if($rs){
@@ -342,15 +346,14 @@ function rellenaarray_dominios($IDCLIENTE){
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
 	$total_registros=count($conf->getConfigValue());
 	$dominios_usuario=Array();
-	
 	$x=0;
-   	for($i=1;$i<=$total_registros;$i++){
+   	for($i=1;$x<$total_registros;$i++){
    		$rs = $conf->getConfigValue($i);
 		if($rs){
 			if($rs["IDCLIENTE"]==$IDCLIENTE){ 
 				$dominios_usuario[$rs["DOMINIO"]]=$rs["IDFTP"];
-		 		$x++;
 			}
+			$x++;
 		}	
    	}
 	return $dominios_usuario;
@@ -364,13 +367,14 @@ function buscardbase_dominio($dominio){
 	$dominios_usuario=Array();
 	
 	$x=0;
-   	for($i=1;$i<=$total_registros;$i++){
+   	for($i=1;$x<$total_registros;$i++){
    		$rs = $conf->getConfigValue($i);
 		if($rs){
 			if($rs["DOMINIO"]==$dominio){ 
 				return $rs["BASE"];
 		 		exit();
 			}
+			$x++;
 		}	
    	}
 	

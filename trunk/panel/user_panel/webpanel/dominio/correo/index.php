@@ -67,7 +67,7 @@ function correo_autoconfig(usuario,dominio) {
 		<?php if(vpopmail_cuentaantispam($rs["cuenta"],$_GET['dominio'],"estado")){ ?>
 		<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/spam.php?usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&accion=delete"><img src="images/icn_spam.gif" width="30" height="30" border="0"></a>
 		<?php }else{ ?>
-		<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/spam.php?usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&accion=add"><img src="images/icn_spam_off.gif" width="30" height="30" border="0"><a>
+		<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/spam.php?usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&accion=add"><img src="images/icn_spam_off.gif" width="30" height="30" border="0"></a>
 		<?php } ?>
 		</td>
 		<?php if(vpopmail_cuenta_autorespondread($rs["cuenta"],$_GET['dominio'],"estado")){ ?>

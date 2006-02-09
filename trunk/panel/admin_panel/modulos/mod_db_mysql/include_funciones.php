@@ -119,46 +119,46 @@ function db_mysql_dbasedel($dbase){
 
 function db_mysql_quotastatus($dbase){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
-	mysql_select_db($dbase,$link);
-	$result = mysql_query("SHOW TABLE STATUS"); 
-	$database_tam = 0; 
-	while ($rs = mysql_fetch_array($result)) { 
-		$database_tam += $rs['Data_length'] + $rs['Index_length']; 
+	if(mysql_select_db($dbase,$link)){
+		$result = mysql_query("SHOW TABLE STATUS"); 
+		$database_tam = 0; 
+		while ($rs = mysql_fetch_array($result)) { 
+			$database_tam += $rs['Data_length'] + $rs['Index_length']; 
+		}
 	}
 	mysql_close($link);
-	//return number_format(bitconversor($database_tam,"byte","mbyte"), 2, ',', '.');
 	return $database_tam;
 }
 
 function db_mysql_showstatus($dbase){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
-	mysql_select_db($dbase,$link);
-
-	$result = mysql_query("SHOW TABLE STATUS"); 
-	$database_tam = 0; 
-	$database_registros=0;
-	$contenido= "<table width=\"75%\" border=\"0\" class=\"box\">\n";
-	$contenido.= "  <tr class=\"boxheader\"> \n";
-	$contenido.= "    <td class=\"boxheader\"><b>Tabla</b></td>\n";
-	$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Registros</b></td>\n";
-	$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Espacio</b></td>\n";
-	$contenido.= "  </tr>\n";
-	while ($rs = mysql_fetch_array($result)) { 
-		$database_tam += $rs['Data_length'] + $rs['Index_length']; 
-		$database_registros+=$rs["Rows"];
-		$contenido.="  <tr class=\"boxbody\"> \n";
-		$contenido.="    <td><div class=\"fuentecelda\">".$rs["Name"]."</div></td>\n";
-		$contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".$rs["Rows"]."</div></td>\n";
-		$contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".number_format(bitconversor($rs['Data_length'] + $rs['Index_length'],"byte","kbyte"), 2, ',', '.')."</div></td>\n";
-		$contenido.="  </tr>\n";
-	} 
-	$contenido.= "  <tr class=\"boxheader\"> \n";
-	$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>Total</b></td>\n";
-	$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>$database_registros</b></td>\n";
-	$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>".number_format(bitconversor($database_tam,"byte","mbyte"), 2, ',', '.')." MB</b></td>\n";
-	$contenido.= "  </tr>\n";
-	$contenido.= "</table>\n";
-	mysql_close($link);
+	if(mysql_select_db($dbase,$link)){
+		$result = mysql_query("SHOW TABLE STATUS"); 
+		$database_tam = 0; 
+		$database_registros=0;
+		$contenido= "<table width=\"80%\" border=\"0\" class=\"box\">\n";
+		$contenido.= "  <tr class=\"boxheader\"> \n";
+		$contenido.= "    <td class=\"boxheader\"><b>Tabla</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Registros</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Espacio</b></td>\n";
+		$contenido.= "  </tr>\n";
+		while ($rs = mysql_fetch_array($result)) { 
+			$database_tam += $rs['Data_length'] + $rs['Index_length']; 
+			$database_registros+=$rs["Rows"];
+			$contenido.="  <tr class=\"boxbody\"> \n";
+			$contenido.="    <td><div class=\"fuentecelda\">".$rs["Name"]."</div></td>\n";
+			$contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".$rs["Rows"]."</div></td>\n";
+			$contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".number_format(bitconversor($rs['Data_length'] + $rs['Index_length'],"byte","kbyte"), 2, ',', '.')." Kb</div></td>\n";
+			$contenido.="  </tr>\n";
+		} 
+		$contenido.= "  <tr class=\"boxheader\"> \n";
+		$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>Total</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>$database_registros</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"right\"><b>".number_format(bitconversor($database_tam,"byte","mbyte"), 2, ',', '.')." MB</b></td>\n";
+		$contenido.= "  </tr>\n";
+		$contenido.= "</table>\n";
+		mysql_close($link);
+	}
 
 	return $contenido;
 }

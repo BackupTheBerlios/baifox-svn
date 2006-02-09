@@ -3,7 +3,6 @@
         require _CFG_INTERFACE_LIBRERIA; 
 ?>
 <?php
-if(!$_SESSION['SEC_ID']) {
 	if ($_POST['frmUsuario']=="" || $_POST['frmPassword']=="" ) {
 			$_SESSION['strTemp'] = "No ha introducido la contraseña o el Email.<br>";
 			header ("Location: index.php?resulid=99\n\n");
@@ -38,13 +37,4 @@ if(!$_SESSION['SEC_ID']) {
 			}
 		}
 	} 
-}else{
-	if($_SESSION['SEC_PERM']>=500){
-		header ("Location: admin_panel/index.php\n\n");
-		exit();
-	}elseif($_SESSION['SEC_PERM']>=100){
-		header ("Location: user_panel/index.php\n\n");
-		exit();
-	}
-}
 ?>

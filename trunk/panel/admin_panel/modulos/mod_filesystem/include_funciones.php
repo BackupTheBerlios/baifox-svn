@@ -45,28 +45,32 @@ function filesystem_test(){
 }
 
 function filesystem_listdirectories($dominio){
-	$handle=GetDirArray(_CFG_APACHE_DOCUMENTROOT.$dominio);
-	$array_modules= array();
+	if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio)){
+		$handle=GetDirArray(_CFG_APACHE_DOCUMENTROOT.$dominio);
+		$array_modules= array();
 
- 	while (list ($key, $file) = each ($handle)) { 
-    		if ($file != "." && $file != "..") { 
-			if(is_dir(_CFG_APACHE_DOCUMENTROOT.$dominio."/".$file)){
-				$array_modules[]=$file;
-			}
-     		}
- 	}
+	 	while (list ($key, $file) = each ($handle)) { 
+    			if ($file != "." && $file != "..") { 
+				if(is_dir(_CFG_APACHE_DOCUMENTROOT.$dominio."/".$file)){
+					$array_modules[]=$file;
+				}
+     			}
+ 		}
+	}
 	return $array_modules;
 }
 
 function filesystem_htpasswdsave($dominio,$directorio,$usuario,$password){
-	$exec_cmd = _CFG_APACHE_HTPASSWD;
-	if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"))
-		$result = execute_cmd("$exec_cmd -b "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"." $usuario $password");
-	else{
-		$result = execute_cmd("$exec_cmd -b -c "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"." $usuario $password");
-		$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd");
+	if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio)){
+		$exec_cmd = _CFG_APACHE_HTPASSWD;
+		if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"))
+			$result = execute_cmd("$exec_cmd -b "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"." $usuario $password");
+		else{
+			$result = execute_cmd("$exec_cmd -b -c "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd"." $usuario $password");
+			$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd");
+		}
+		return $result;
 	}
-	return $result;
 }
 
 function filesystem_htpasswdlist($dominio,$directorio){
@@ -131,23 +135,25 @@ function filesystem_paginaserrorread($dominio,$tipo){
 }
 
 function filesystem_paginaserrorhtaccess($dominio,$tipo,$flag){
-	$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/.htaccess";
-	$result = execute_cmd("touch $file_htaccess");
-	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_htaccess");
-	$result = execute_cmd("chmod 777 $file_htaccess");
-	$contenido="ErrorDocument $tipo /errorpages/$tipo.html\n";
- 	$lines=file($file_htaccess);
- 	$fichero_nuevo=fopen($file_htaccess,"w");
- 	foreach($lines as $line)
- 	{
-	      	if (stristr($line,$contenido)==false){
-			fputs($fichero_nuevo,$line);
-      		}
- 	}
-	if($flag)
-		fwrite($fichero_nuevo,$contenido);
-	fclose($fichero_nuevo);
-	$result = execute_cmd("chmod 644 $file_htaccessr");
+	if(file_exists(_CFG_APACHE_DOCUMENTROOT.$dominio)){
+		$file_htaccess=_CFG_APACHE_DOCUMENTROOT.$dominio."/.htaccess";
+		$result = execute_cmd("touch $file_htaccess");
+		$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $file_htaccess");
+		$result = execute_cmd("chmod 777 $file_htaccess");
+		$contenido="ErrorDocument $tipo /errorpages/$tipo.html\n";
+ 		$lines=file($file_htaccess);
+ 		$fichero_nuevo=fopen($file_htaccess,"w");
+ 		foreach($lines as $line)
+ 		{
+		      	if (stristr($line,$contenido)==false){
+				fputs($fichero_nuevo,$line);
+      			}
+ 		}
+		if($flag)
+			fwrite($fichero_nuevo,$contenido);
+		fclose($fichero_nuevo);
+		$result = execute_cmd("chmod 644 $file_htaccessr");
+	}
 }
 
 function filesystem_htaccesssave($dominio,$directorio,$cadena){
