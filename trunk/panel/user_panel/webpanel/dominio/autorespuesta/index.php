@@ -16,7 +16,7 @@ include "include_top_numpage.php";
           <td colspan="3" bgcolor="#E27400"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
-                <td width="12%" align="center"><img src="images/icn_correo.gif" width="47" height="34"></td>
+                <td width="12%" align="center"><img src="images/icn_autor_sub.gif" width="47" height="34"></td>
                 <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Gesti&oacute;n 
                   de autorespuestas correo</font></b></font></td>
               </tr>
@@ -104,7 +104,7 @@ include "include_top_numpage.php";
                 <tr align="center">
                   <td width="17%" align="left" bgcolor="#d6d6d6" valign="top">&nbsp;&nbsp;mensaje</td>
                   <td colspan="3" align="left" bgcolor="#d6d6d6">
-                    <textarea name="frmMensaje" cols="50" rows="15" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'"></textarea>
+                    <textarea name="frmMensaje" cols="100" rows="15" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'"></textarea>
                   </td>
                   <td bgcolor="#d6d6d6" align="center" width="12%">&nbsp;</td>
                 </tr>

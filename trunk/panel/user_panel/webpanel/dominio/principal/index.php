@@ -170,14 +170,15 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           <td colspan="3" valign="top"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" background="images/fnd_basesd.gif" height="34">
               <tr> 
-                <td align="center"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Bases 
-                  de datos</font></b></font></td>
+                <td align="center" class="Estilo2"><font face="Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif">Base de datos 
+                  </font></b></font>
+		</td>
               </tr>
             </table>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center" valign="top"> 
-                <td width="23%" class="Estilo2"><img src="images/icn_basedatos.gif" width="50" height="50"><br>
-                  Bases de datos</td>
+                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=mysql&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_basedatos.gif" width="50" height="50" border="0"><br>
+                  Bases de datos</a></td>
                 <td width="23%" class="Estilo2"><a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>');"><img src="images/icn_phpmyadmin.gif" width="50" height="50" border="0"><br>
                   phpMyAdmin</a></td>
                 <td width="17%"><br>
