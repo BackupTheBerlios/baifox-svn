@@ -37,7 +37,7 @@ include "include_top_numpage.php";
 ?>
   <tr align="left" <?php if($bool_celdcolor){ echo "class=fondocelda1"; }else{ echo "class=fondocelda2"; } ?>> 
     <td height="2" align="left"><font face="Arial, Helvetica, sans-serif" size="2"> 
-      <?php echo $rs["dominio"]; ?>
+      <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs["dominio"]; ?>&id=<?php echo $rs["id"]; ?>"><?php echo $rs["dominio"]; ?></a>
       </font></td>
     <td width="6%" align="center" height="2"> 
       <?php if($rs["estado"]==1){ ?>

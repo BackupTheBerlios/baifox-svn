@@ -48,3 +48,22 @@ td {
 	font-family:verdana, trebuchet MS, trebuchet, arial, sans-serif;
 	font-size: 0.8em; 
 }
+
+table.box {
+  color: #000000;
+  background-color: #d6d6d6;
+  border: none;
+  padding: 1px;
+}
+tr.boxheader {
+  background-color: #d6d6d6;
+}
+td.boxheader {
+  font-family: Verdana,Helvetica,sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+}
+tr.boxbody {
+  color: #000000;
+  background-color: #FFFFFF;
+}
