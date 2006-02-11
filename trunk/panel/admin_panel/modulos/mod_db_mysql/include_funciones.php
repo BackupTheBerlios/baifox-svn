@@ -130,6 +130,56 @@ function db_mysql_quotastatus($dbase){
 	return $database_tam;
 }
 
+function db_mysql_checkdatabase($dbase){
+	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
+	if(mysql_select_db($dbase,$link)){
+		$contenido= "<table width=\"80%\" border=\"0\" class=\"box\">\n";
+		$contenido.= "  <tr class=\"boxheader\"> \n";
+		$contenido.= "    <td class=\"boxheader\"><b>Tabla</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Estado</b></td>\n";
+		$contenido.= "  </tr>\n";
+		$result = mysql_query("SHOW TABLE STATUS"); 
+		while ($rs = mysql_fetch_array($result)) { 
+			$result1 = mysql_query("CHECK TABLE ".$rs["Name"]); 
+			$rs1 = mysql_fetch_array($result1);
+			$contenido.="  <tr class=\"boxbody\"> \n";
+			$contenido.="    <td><div class=\"fuentecelda\">".$rs1["Table"]."</div></td>\n";
+			$contenido.="    <td align=\"center\"><div class=\"fuentecelda\">".$rs1["Msg_text"]."</div></td>\n";
+			$contenido.="  </tr>\n";
+			mysql_free_result($result1);
+		}
+		$contenido.= "</table>\n";
+		mysql_close($link);
+	}
+
+	return $contenido;
+}
+
+function db_mysql_repairdatabase($dbase){
+	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
+	if(mysql_select_db($dbase,$link)){
+		$contenido= "<table width=\"80%\" border=\"0\" class=\"box\">\n";
+		$contenido.= "  <tr class=\"boxheader\"> \n";
+		$contenido.= "    <td class=\"boxheader\"><b>Tabla</b></td>\n";
+		$contenido.= "    <td class=\"boxheader\" align=\"center\"><b>Estado</b></td>\n";
+		$contenido.= "  </tr>\n";
+		$result = mysql_query("SHOW TABLE STATUS"); 
+		while ($rs = mysql_fetch_array($result)) { 
+			$result1 = mysql_query("REPAIR TABLE ".$rs["Name"]); 
+			$rs1 = mysql_fetch_array($result1);
+			$contenido.="  <tr class=\"boxbody\"> \n";
+			$contenido.="    <td><div class=\"fuentecelda\">".$rs1["Table"]."</div></td>\n";
+			$contenido.="    <td align=\"center\"><div class=\"fuentecelda\">".$rs1["Msg_text"]."</div></td>\n";
+			$contenido.="  </tr>\n";
+			mysql_free_result($result1);
+		}
+		$contenido.= "</table>\n";
+		mysql_close($link);
+	}
+
+	return $contenido;
+}
+
 function db_mysql_showstatus($dbase){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 	if(mysql_select_db($dbase,$link)){

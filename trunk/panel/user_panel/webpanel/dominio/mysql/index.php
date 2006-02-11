@@ -56,34 +56,36 @@ $basedatos=buscardbase_dominio($_GET['dominio']);
           <td colspan="3">
 	<form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=1&dominio=<?php echo $_GET['dominio']; ?>">
 	<input type="hidden" name="frmBase" value="<?php echo $basedatos; ?>">
-	   <table width="100%" border="0" cellspacing="2" cellpadding="0">
-              <tr> 
-                <td align="left" bgcolor="#d6d6d6" width="25%"><span class="Estilo5">&nbsp;&nbsp;Nombre 
-                  base datos</span></td>
-                <td align="left" bgcolor="#d6d6d6" width="23%"><span class="Estilo5">&nbsp;&nbsp;Usuario 
-                  base datos</span></td>
-                <td align="left" bgcolor="#d6d6d6" width="30%"><span class="Estilo5">&nbsp;&nbsp;</span>Contrase&ntilde;a</td>
-                <td align="left" bgcolor="#d6d6d6" width="22%"><span class="Estilo5">&nbsp;&nbsp;</span></td>
-              </tr>
-              <tr> 
-                <td align="left" width="25%">
-                  <?php echo $basedatos; ?>
-                 </td>
-                <td align="left" width="23%"> 
-                  <?php echo $basedatos; ?>
-                </td>
-                <td align="left" width="30%"> 
-                  <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="20" maxlength="14">
-                  Max 14 car.</td>
-                <td width="22%" align="center">
-		<a href="javascript:document.formulario.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a>
-		&nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
-              </tr>
-              <tr> 
-                <td align="left" bgcolor="#d6d6d6" colspan="4"><img src="#" width="1" height="1"> 
-                </td>
-              </tr>
-            </table>
+	          <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                <tr> 
+                  <td align="left" bgcolor="#d6d6d6" width="25%"><span class="Estilo5">&nbsp;&nbsp;Nombre 
+                    base datos</span></td>
+                  <td align="left" bgcolor="#d6d6d6" width="23%"><span class="Estilo5">&nbsp;&nbsp;Usuario 
+                    base datos</span></td>
+                  <td align="left" bgcolor="#d6d6d6" width="30%"><span class="Estilo5">&nbsp;&nbsp;</span>Contrase&ntilde;a</td>
+                  <td align="left" bgcolor="#d6d6d6" width="11%"><span class="Estilo5">&nbsp;&nbsp;</span></td>
+                  <td align="left" bgcolor="#d6d6d6" width="11%">chequear/reparar</td>
+                </tr>
+                <tr> 
+                  <td align="left" width="25%"> 
+                    <?php echo $basedatos; ?>
+                  </td>
+                  <td align="left" width="23%"> 
+                    <?php echo $basedatos; ?>
+                  </td>
+                  <td align="left" width="30%"> 
+                    <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="20" maxlength="14">
+                    Max 14 car.</td>
+                  <td width="11%" align="center"> <a href="javascript:document.formulario.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
+                  <td width="11%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=check&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $basedatos; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=repair&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $basedatos; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                </tr>
+                <tr> 
+                  <td align="left" bgcolor="#d6d6d6" colspan="5"><img src="#" width="1" height="1"> 
+                  </td>
+                </tr>
+              </table>
 	</form>
             <br>
             <table border="0" cellspacing="0" cellpadding="0" width="550">
