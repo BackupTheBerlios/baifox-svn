@@ -26,19 +26,22 @@ function ezmlm_test(){
 }
 
 function ezmlm_list($dominio){
-	$array_listado=Array();
+	$array_listas=Array();
 
-	$directorio=ezmlm_homedir($dominio);
-	$result = execute_cmd("ls -all $dominio|"._CFG_CMD_GREP." .qmail");
-	echo "ls -all $dominio|"._CFG_CMD_GREP." .qmail";
-/*	for($i=0;$i<count($result);$i+=2)
+	$exec_cmd = _CFG_VPOPMAIL_ALIAS;
+	$result = execute_cmd("$exec_cmd $dominio");
+	$x=0;
+	for($i=0;$i<count($result);$i++)
 	{
-		$array_listado[$i]["dominio"]=trim($result[$i]);
-		$array_listado[$i]["cuentas"]=trim($result[$i+1]);
+		if(strpos($result[$i],"ezmlm-reject")!==false){
+			list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
+			$array_listas[$x]=trim($cuenta_origen);
+			$x++;
+		}
 	}
-	array_multisort($array_listado);*/
-	print_r($result);
-	return $array_listado;
+	array_multisort($array_listas);
+
+	return $array_listas;
 }
 
 function ezmlm_homedir($dominio){

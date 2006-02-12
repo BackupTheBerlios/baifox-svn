@@ -18,7 +18,7 @@ include "include_top_numpage.php";
               <tr> 
                 <td width="12%" align="center"><img src="images/icn_correo.gif" width="47" height="34"></td>
                 <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Gesti&oacute;n 
-                  de redirecciones de correo</font></b></font></td>
+                  de listas de correo</font></b></font></td>
               </tr>
             </table>
           </td>
@@ -27,9 +27,7 @@ include "include_top_numpage.php";
           <td colspan="3"> 
             <table width="100%" border="0" cellspacing="2" cellpadding="0">
               <tr align="center"> 
-                <td width="49%" align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;cuenta 
-                  local </span></td>
-                <td width="36%" align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;</span>redirecci&oacute;n</td>
+                <td align="left" bgcolor="#d6d6d6"><span class="Estilo5">&nbsp;&nbsp;lista</span><span class="Estilo5">&nbsp;&nbsp;</span></td>
                 <td bgcolor="#d6d6d6" align="right" width="15%">&nbsp; </td>
               </tr>
               <?php
@@ -38,19 +36,16 @@ include "include_top_numpage.php";
    $x=1;
    for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
-	if($rs["cuenta_origen"]!=""){
+	if($rs!=""){
 ?>
               <tr align="center"> 
-                <td width="49%" align="left"> 
-                  <?php echo $rs["cuenta_origen"]; ?>
-                </td>
-                <td width="36%" align="left">
-                  <?php echo $rs["cuenta_destino"]; ?>
+                <td align="left"> 
+                  <?php echo $rs; ?>
                 </td>
                 <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta_origen"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta_origen"]; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr align="center"> 
-                <td colspan="3" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
+                <td colspan="2" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
                 </td>
               </tr>
               <?php 	$x++;
@@ -72,7 +67,7 @@ include "include_top_numpage.php";
               <tr> 
                 <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
                   <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Crear 
-                    nueva redirecci&oacute;n</font></b></font></td>
+                    nueva lista</font></b></font></td>
               </tr>
             </table>
           </td>
