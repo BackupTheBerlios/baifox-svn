@@ -109,7 +109,7 @@ function vpopmail_listalias($dominio){
 	$z=0;
 	for($i=0;$i<count($result);$i++)
 	{
-		if(strpos($result[$i],"autorespond")===false){
+		if(strpos($result[$i],"autorespond")===false AND strpos($result[$i],"ezmlm")===false  AND strpos($result[$i],"-owner")===false AND strpos($result[$i],"/allow")===false){
 			list($cuenta_origen, $cuenta_destino) =split(_CFG_VPOPMAIL_CFG_CUENTAALIAS, $result[$i], 2);
 			if(!array_search_match($cuenta_origen,$array_autorespond)){
 				$array_listado[$x]["cuenta_origen"]=trim($cuenta_origen);
