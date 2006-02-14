@@ -44,6 +44,84 @@ function ezmlm_list($dominio){
 	return $array_listas;
 }
 
+function ezmlm_crearlista($dominio,$lista){
+	$exec_cmd = _CFG_EZMLM_MAKE;
+	$directorio=ezmlm_homedir($dominio);
+	$result = execute_cmd("$exec_cmd $directorio/$lista $directorio/.qmail-$lista $lista $dominio");
+	$result = execute_cmd("echo '$dominio-$lista' >/tmp/inlocal");
+	$result = execute_cmd("mv /tmp/inlocal $directorio/$lista");
+	$result = execute_cmd("echo '$dominio' >/tmp/inhost");
+	$result = execute_cmd("mv /tmp/inhost $directorio/$lista");
+	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/$lista");
+	return true;
+}
+
+function ezmlm_listasucritos($dominio,$lista,$flag){
+	$array_listas=Array();
+
+	list($lista_correo, $dominio_lista) =split("@", $lista, 2);
+	$directorio=ezmlm_homedir($dominio);
+	$exec_cmd = _CFG_EZMLM_LIST;
+	switch($flag){
+	case "mod":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/mod");
+	break;
+	case "digest":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/digest");
+	break;
+	default:
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo");
+	break;
+	}
+	$x=0;
+	for($i=0;$i<count($result);$i++)
+	{
+		$array_listas[$x]=trim($result[$i]);
+		$x++;
+	}
+	array_multisort($array_listas);
+
+	return $array_listas;
+}
+
+function ezmlm_addsucritos($dominio,$lista,$email,$flag){
+	list($lista_correo, $dominio_lista) =split("@", $lista, 2);
+	$directorio=ezmlm_homedir($dominio);
+	$exec_cmd = _CFG_EZMLM_SUB;
+	switch($flag){
+	case "mod":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/mod $email");
+	break;
+	case "digest":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/digest $email");
+	break;
+	default:
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo $email");
+	break;
+	}
+
+	return true;
+}
+
+function ezmlm_delsucritos($dominio,$lista,$email,$flag){
+	list($lista_correo, $dominio_lista) =split("@", $lista, 2);
+	$directorio=ezmlm_homedir($dominio);
+	$exec_cmd = _CFG_EZMLM_UNSUB;
+	switch($flag){
+	case "mod":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/mod $email");
+	break;
+	case "digest":
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo/digest $email");
+	break;
+	default:
+		$result = execute_cmd("$exec_cmd -N $directorio/$lista_correo $email");
+	break;
+	}
+
+	return true;
+}
+
 function ezmlm_homedir($dominio){
 	$array_listado=Array();
 

@@ -34,13 +34,13 @@ include "include_top_numpage.php";
    $bool_celdcolor=false;
 
    $x=1;
-   for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
+   for($i=$from;$x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
 	if($rs!=""){
 ?>
               <tr align="center"> 
                 <td align="left"> 
-                  <?php echo $rs; ?>
+                  <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=listar&lista=<?php echo $rs; ?>&dominio=<?php echo $_GET["dominio"]; ?>"><?php echo $rs; ?></a>
                 </td>
                 <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta_origen"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta_origen"]; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
               </tr>

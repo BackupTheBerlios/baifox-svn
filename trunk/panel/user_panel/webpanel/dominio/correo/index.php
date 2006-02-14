@@ -49,7 +49,7 @@ function correo_autoconfig(usuario,dominio) {
    $bool_celdcolor=false;
 
    $x=1;
-   for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
+   for($i=$from;$x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
 	if($rs["cuenta"]!=""){
 		$estado=vpopmail_cuentalimits($rs["cuenta"],$_GET['dominio'],"estado");

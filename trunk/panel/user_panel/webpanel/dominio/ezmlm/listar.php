@@ -2,7 +2,7 @@
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
 ?>
 <?php
-$array_listado=ezmlm_list($_GET['dominio']);
+$array_listado=ezmlm_listasucritos($_GET['dominio'],$_GET['lista'],"all");
 $total_registros=count($array_listado);
 $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag']."&dominio=".$_GET['dominio'];
@@ -17,8 +17,7 @@ include "include_top_numpage.php";
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
                 <td width="12%" align="center"><img src="images/icn_correo.gif" width="47" height="34"></td>
-                <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Gesti&oacute;n 
-                  de listas de correo</font></b></font></td>
+                <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Suscritos lista de correo [ <?php echo $_GET['lista']; ?> ]</font></b></font></td>
               </tr>
             </table>
           </td>
@@ -34,7 +33,7 @@ include "include_top_numpage.php";
    $bool_celdcolor=false;
 
    $x=1;
-   for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
+   for($i=$from;$x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
 	if($rs!=""){
 ?>
