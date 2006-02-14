@@ -42,7 +42,7 @@ include "include_top_numpage.php";
                 <td align="left"> 
                   <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=listar&lista=<?php echo $rs; ?>&dominio=<?php echo $_GET["dominio"]; ?>"><?php echo $rs; ?></a>
                 </td>
-                <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta_origen"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta_origen"]; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
+                <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&lista=<?php echo $rs; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr align="center"> 
                 <td colspan="2" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
@@ -62,35 +62,93 @@ include "include_top_numpage.php";
 <form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=0&dominio=<?php echo $_GET['dominio']; ?>">
         <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
           <tr> 
-          <td colspan="3" bgcolor="#F2A500">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr> 
-                <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+            <td colspan="3" bgcolor="#F2A500" valign="top"> 
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr> 
+                  <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
                   <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Crear 
-                    nueva lista</font></b></font></td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr align="center"> 
-          <td colspan="3"> 
-              <table width="100%" border="0" cellspacing="2" cellpadding="0">
-                <tr align="center"> 
-                  <td width="17%" align="left" bgcolor="#d6d6d6">&nbsp;&nbsp;cuenta 
-                    local </td>
-                  <td width="31%" align="left" bgcolor="#d6d6d6"> 
-                    <input type="text" name="frmCuentaOrigen" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="15">@<?php echo $_GET['dominio']; ?> </td>
-                  <td width="15%" align="center" bgcolor="#d6d6d6">redirecci&oacute;n</td>
-                  <td width="25%" align="left" bgcolor="#d6d6d6"> 
-                    <input type="text" name="frmCuentaDestino" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="25">
-                  </td>
-                  <td bgcolor="#d6d6d6" align="center" width="12%"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onclick="document.formulario.submit()"></a></td>
+                    nueva lista de correo</font></b></font></td>
                 </tr>
               </table>
-          </td>
-        </tr>
-      </table>
-</form>
+            </td>
+          </tr>
+          <tr align="center"> 
+            <td colspan="3"> 
+              <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                <tr align="center"> 
+                  <td width="50%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;Nombre 
+                    Lista </td>
+                  <td width="50%" align="left" bgcolor="#d6d6d6"><input type="text" name="frmLista" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">@<?php echo $_GET['dominio']; ?>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td width="50%" bgcolor="#d6d6d6" align="right">Email propietario 
+                    lista </td>
+                  <td width="50%" bgcolor="#d6d6d6" align="left"> 
+                    <input type="text" name="frmOwner" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="40">
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td width="50%" bgcolor="#d6d6d6" align="right">Envios mensajes</td>
+                  <td width="50%" bgcolor="#d6d6d6" align="left"> 
+                    <select name="frmSendOp">
+                      <option value="MU" selected>Lista abierta</option>
+                      <option value="Mu">Suscriptores - Resto rechazados</option>
+                      <option value="mu">Suscriptores - Resto moderados</option>
+                      <option value="mUo">Moderadores- Resto rechazados</option>
+                      <option value="mUO">Moderadores - Resto Moderados</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" align="right" width="50%">Respuesta mensajes</td>
+                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
+                    <select name="select2">
+                      <option selected>Lista de correo</option>
+                      <option>Remitente original</option>
+                      <option>Rediriguen al email</option>
+                    </select>
+                    email remitente 
+                    <input type="text" name="frmCuenta2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="35">
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" colspan="2"><b>Peticiones de suscripci&oacute;n 
+                    </b> </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere enviar 
+                    un email de confirmaci&oacute;n a la direcci&oacute;n de suscripci&oacute;n</td>
+                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
+                    <input type="checkbox" name="checkbox" value="H" checked>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere aprobaci&oacute;n 
+                    del moderador</td>
+                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
+                    <input type="checkbox" name="checkbox" value="s">
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" colspan="2"><b>Peticiones de baja</b></td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere enviar 
+                    un email de confirmaci&oacute;n a la direcci&oacute;n de baja</td>
+                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
+                    <input type="checkbox" name="checkbox" value="J" checked>
+                  </td>
+                </tr>
+                <tr align="center"> 
+                  <td bgcolor="#d6d6d6" colspan="2"><a href="javascript:document.formulario.submit();"><img src="images/icn_grabar.gif" width="25" height="25" border="0"><br>
+                    [ A&ntilde;adir ] </a></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </form>
     </td>
   </tr>
 </table>

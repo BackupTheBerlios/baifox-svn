@@ -44,15 +44,27 @@ function ezmlm_list($dominio){
 	return $array_listas;
 }
 
-function ezmlm_crearlista($dominio,$lista){
+function ezmlm_crearlista($dominio,$lista,$opciones){
 	$exec_cmd = _CFG_EZMLM_MAKE;
 	$directorio=ezmlm_homedir($dominio);
-	$result = execute_cmd("$exec_cmd $directorio/$lista $directorio/.qmail-$lista $lista $dominio");
+	$result = execute_cmd("$exec_cmd -$opciones $directorio/$lista $directorio/.qmail-$lista $lista $dominio");
 	$result = execute_cmd("echo '$dominio-$lista' >/tmp/inlocal");
 	$result = execute_cmd("mv /tmp/inlocal $directorio/$lista");
 	$result = execute_cmd("echo '$dominio' >/tmp/inhost");
 	$result = execute_cmd("mv /tmp/inhost $directorio/$lista");
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/$lista");
+	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail-".$lista);
+	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail-".$lista."*");
+	return true;
+}
+
+function ezmlm_deletelista($dominio,$lista){
+	$directorio=ezmlm_homedir($dominio);
+	list($lista_correo, $dominio_lista) =split("@", $lista, 2);
+	$result = execute_cmd("rm -R $directorio/$lista_correo");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo);
+	$result = execute_cmd("chown 777 $directorio/.qmail-".$lista_correo."*");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."*");
 	return true;
 }
 
