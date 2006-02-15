@@ -4,6 +4,7 @@ function awstats_info(){
 	$info["nombre"]="Awstats";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }

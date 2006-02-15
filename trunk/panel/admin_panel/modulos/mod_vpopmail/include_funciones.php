@@ -4,6 +4,7 @@ function vpopmail_info(){
 	$info["nombre"]="Vpopmail";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }

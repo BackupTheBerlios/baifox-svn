@@ -4,6 +4,7 @@ function logrotate_info(){
 	$info["nombre"]="Logrotate";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }

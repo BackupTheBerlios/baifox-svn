@@ -4,6 +4,7 @@ function filesystem_info(){
 	$info["nombre"]="Sistema ficheros";
 	$info["version"]="1.0";
 	$info["grupo"]="sistema";
+	$info["visible"]="false";
 
 	return $info;
 }
@@ -258,7 +259,7 @@ function filesystem_backupcomprimir($dominio,$flag){
 	case "basedatos":
 		$file_nombre=$dominio.".sql";
 		$directorio_nombre=_CFG_FILESYSTEM_BACKUPDIR;
-		$MYSQL_DATABASE=buscardbase_dominio($dominio);
+		$MYSQL_DATABASE=xmlconfig_buscadbase($dominio,"database");
 		$cmd=_CFG_MYSQL_DUMP." -uroot -p $MYSQL_DATABASE >".$directorio_nombre.$file_nombre;
 		$process = proc_open($cmd, $descriptorspec, $pipes); //en este ejemplo el programa invocado es el mismo php
 		if (is_resource($process)) {

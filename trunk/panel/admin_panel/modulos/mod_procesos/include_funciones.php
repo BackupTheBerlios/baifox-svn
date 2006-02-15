@@ -4,6 +4,7 @@ function procesos_info(){
 	$info["nombre"]="Procesos";
 	$info["version"]="1.0";
 	$info["grupo"]="sistema";
+	$info["visible"]="true";
 
 	return $info;
 }

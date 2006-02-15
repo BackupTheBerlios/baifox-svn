@@ -4,6 +4,7 @@ function bind_info(){
 	$info["nombre"]="Bind";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }

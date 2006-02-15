@@ -4,6 +4,7 @@ function ezmlm_info(){
 	$info["nombre"]="Ezmlm";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="false";
 
 	return $info;
 }

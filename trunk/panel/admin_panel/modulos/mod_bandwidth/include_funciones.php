@@ -4,6 +4,7 @@ function bandwidth_info(){
 	$info["nombre"]="Bandwidth";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }

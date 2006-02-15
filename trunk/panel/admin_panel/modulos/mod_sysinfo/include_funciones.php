@@ -4,6 +4,7 @@ function sysinfo_info(){
 	$info["nombre"]="SysInfo";
 	$info["version"]="1.0";
 	$info["grupo"]="sistema";
+	$info["visible"]="true";
 
 	return $info;
 }

@@ -4,6 +4,7 @@ function db_mysql_info(){
 	$info["nombre"]="MySQL";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }
@@ -58,8 +59,6 @@ function db_mysql_version($tipo){
 	mysql_close($link);
 }
 
-
-
 function db_mysql_listdbase(){
    $array_modules=array();
    $link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
@@ -72,16 +71,32 @@ function db_mysql_listdbase(){
    return $array_modules;
 }
 
-function db_mysql_password($dbase,$password){
+function db_mysql_password($dominio,$dbase,$password){
 	if($password!=""){
 		$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 		mysql_select_db(_CFG_MYSQL_DB,$link);
 		mysql_query("UPDATE user SET Password=PASSWORD('$password') WHERE User='$dbase';",$link);
  		@mysql_query("FLUSH PRIVILEGES;",$link);
 		mysql_close($link);
+
+		//Crea la configuracion en el XML
+   		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+		$EDIT_ID=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion"); 
+		$conf->setConfigValue($EDIT_ID, array(
+		 	"ID" 	  => $EDIT_ID,
+		 	"DOMINIO" => $dominio,
+		 	"DATABASE"=> $dbase,
+		 	"USERNAME" => $dbase, 
+		 	"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
+		 	"ESTADO" => 1)
+		, "array");
+		$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+		//Fin fichero configuracion XML
 	}
 }
-function db_mysql_dbasecrear($dbase,$password){
+function db_mysql_dbasecrear($dominio,$dbase,$password){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 	mysql_select_db(_CFG_MYSQL_DB,$link);
         @mysql_query("CREATE DATABASE `$dbase`;",$link);
@@ -105,9 +120,38 @@ function db_mysql_dbasecrear($dbase,$password){
 	}
         @mysql_query("FLUSH PRIVILEGES;",$link);
 	mysql_close($link);
+
+	//Crea la configuracion en el XML
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+
+	$NEW_ID=xmlconfig_generaid(_CFG_XML_BASEDATOS);
+	$conf->setConfigValue($NEW_ID, array(
+		 "ID" 	  => $NEW_ID,
+		 "DOMINIO" => $dominio,
+		 "DATABASE"=> $dbase,
+		 "USERNAME" => $dbase, 
+		 "PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
+		 "ESTADO" => 1)
+	, "array");
+	$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+	//Fin fichero configuracion XML
 }
 
-function db_mysql_dbasedel($dbase){
+function db_mysql_dbasedelall($dominio){
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_BASEDATOS);
+	$total_registros=count($conf->getConfigValue());
+	for($i=0;$i<$total_registros;$i++){
+		$rs=$conf->getConfigValue($i);
+		if($rs["DOMINIO"]==$dominio)
+			db_mysql_dbasedel($dominio,$rs["DATABASE"]);
+	}
+}
+
+function db_mysql_dbasedel($dominio,$dbase){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 	mysql_select_db(_CFG_MYSQL_DB,$link);
         @mysql_query("DROP DATABASE `$dbase`;",$link);
@@ -115,6 +159,14 @@ function db_mysql_dbasedel($dbase){
         @mysql_query("delete from db where Db='$dbase' and User='$dbase';",$link);
         @mysql_query("FLUSH PRIVILEGES;",$link);
 	mysql_close($link);
+
+	//Crea la configuracion en el XML
+   	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion")); 
+	$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+	//Fin fichero configuracion XML
 }
 
 function db_mysql_quotastatus($dbase){

@@ -4,6 +4,7 @@ function apache_info(){
 	$info["nombre"]="Apache";
 	$info["version"]="1.0";
 	$info["grupo"]="servicios";
+	$info["visible"]="true";
 
 	return $info;
 }
