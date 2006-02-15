@@ -4,30 +4,20 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-function obtiene_password($id){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_CLIENTES);
-	$rs=$conf->getConfigValue($id);
+  require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 
-	return $rs["PASSWORD"];
-}
-
-$conf = new patConfiguration;
-$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-$conf->parseConfigFile(_CFG_XML_CLIENTES,a);
-?>
-<?php
+  $conf = new patConfiguration;
+  $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+  $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
 
   $mNombre=addslashes(trim($_POST['frmNombre']));
   $mEmail=addslashes(trim($_POST['frmEmail']));
   $mUsuario=addslashes(trim($_POST['frmUsuario']));
-  if (trim($_POST['frmPassword'])!=""){
-	$mPassword=md5(trim($_POST['frmPassword']));
-  }elseif($_GET['id']!=0){
-	$mPassword=obtiene_password($_GET['id']);
+  if($_POST['frmPassword']==""){
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
+  	$mPassword=$datos['PASSWORD'];
   }else{
-	$mPassword="";
+	$mPassword=md5_encrypt(trim($_POST['frmPassword']),_CFG_INTERFACE_BLOWFISH);
   }
   $mEstado=$_POST['frmEstado'];
   $mPermiso=$_POST['frmPermiso'];
@@ -50,7 +40,7 @@ $conf->parseConfigFile(_CFG_XML_CLIENTES,a);
 					)
 			 	, "array");
 	}else{
-		$NEW_ID=obtiene_xml_id(_CFG_XML_CLIENTES);
+		$NEW_ID=xmlconfig_generaid(_CFG_XML_CLIENTES);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,

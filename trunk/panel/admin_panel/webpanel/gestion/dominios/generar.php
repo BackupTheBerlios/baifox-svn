@@ -1,16 +1,18 @@
 <?php include "webpanel/".$_GET['grupo']."/include_permiso.php"; ?>
 <font face="Arial, Helvetica, sans-serif" size="2">
 <?php 
+	require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
+
     	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
-	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
 
 	$mDominio=$datos['DOMINIO'];
   	$mBase=$datos['BASE'];
   	$mUsuario=$datos['USUARIO'];
-  	$mPassword=$datos['PASSWORD'];
+  	$mPassword=md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH);
   	$mCuentas=$datos['CUENTAS'];
   	$mRedirecciones=$datos['REDIRECCIONES'];
   	$mAlias=$datos['ALIAS'];
@@ -49,9 +51,9 @@
             bind_filesave_hosts($mDominio,"");
         }
 	flush();
-        if (function_exists("mysql_info")){
+        if (function_exists("mysql_info") AND function_exists("xmlconfig_info")){
 	    echo "Modulo mod_mysql...<br>";
-            db_mysql_dbasecrear($mBase,$mPassword);
+            db_mysql_dbasecrear($mDominio,$mBase,$mPassword);
         }
 	flush();
         if (function_exists("logrotate_info")){
@@ -59,9 +61,9 @@
             logrotate_domainsave($mDominio);
         }
 	flush();
-        if (function_exists("pureftpd_info")){
+        if (function_exists("pureftpd_info") AND function_exists("xmlconfig_info")){
 	    echo "Modulo mod_pureftpd...<br>";
-            $datos["IDFTP"]=pureftpd_crear($mDominio,$mUsuario,$mPassword,_CFG_APACHE_DOCUMENTROOT.$mDominio,$mQuotaFTP,1,0);
+            $datos["IDFTP"]=pureftpd_crear($mDominio,$mUsuario,$mPassword,_CFG_APACHE_DOCUMENTROOT.$mDominio,$mQuotaFTP,1,0,1);
         }
 	flush();
         if (function_exists("vpopmail_info")){
@@ -76,7 +78,7 @@
             vpopmail_domainconf($mDominio,"quota",$mQuotaCORREO);
         } 
 	flush();
-	$conf->setConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
+	$conf->setConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	echo "Proceso finalizado.<br>";

@@ -4,16 +4,19 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
-$conf = new patConfiguration;
-$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-$conf->parseConfigFile(_CFG_XML_USUARIOS,a);
-?>
-<?php
+  require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
+
+  $conf = new patConfiguration;
+  $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+  $conf->parseConfigFile(_CFG_XML_USUARIOS,a);
 
   $mNombre=addslashes(trim($_POST['frmNombre']));
   $mEmail=addslashes(trim($_POST['frmEmail']));
   $mUsuario=addslashes(trim($_POST['frmUsuario']));
-  if (trim($_POST['frmPassword'])!=""){
+  if($_POST['frmPassword']==""){
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_USUARIOS));
+  	$mPassword=$datos['PASSWORD'];
+  }else{
 	$mPassword=md5(trim($_POST['frmPassword']));
   }
   $mEstado=$_POST['frmEstado'];
@@ -30,7 +33,7 @@ $conf->parseConfigFile(_CFG_XML_USUARIOS,a);
 					 "PERMISO" => $mPermiso)
 			 	, "array");
 	}else{
-		$NEW_ID=obtiene_xml_id(_CFG_XML_USUARIOS);
+		$NEW_ID=xmlconfig_generaid(_CFG_XML_USUARIOS);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,

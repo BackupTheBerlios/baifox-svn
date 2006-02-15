@@ -15,7 +15,7 @@
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Cliente</font></td>
             <td> 
               <select name="frmIDCliente">
-                <?php rellenacombo_xml(_CFG_XML_CLIENTES,_CFG_XML_CONFIG_DIR,"ID","NOMBRE",0); ?>
+                <?php xmlconfig_rellenacombo(_CFG_XML_CLIENTES,"ID","NOMBRE",0); ?>
               </select>
             </td>
           </tr>

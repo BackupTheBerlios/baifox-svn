@@ -25,7 +25,7 @@
 foreach ($modulos_instalados as $modulo) { 
 	if (function_exists($modulo."_info"))
 		$mod_info=call_user_func($modulo."_info");
-	if($mod_info["grupo"]=="sistema"){
+	if($mod_info["grupo"]=="sistema" AND $mod_info["visible"]=="true"){
 		$mod_estado[0]=true;
 		if (function_exists($modulo."_test"))
 			$mod_estado=call_user_func($modulo."_test");
@@ -51,7 +51,7 @@ if($mod_estado[0]){
 foreach ($modulos_instalados as $modulo) { 
 	if (function_exists($modulo."_info"))
 		$mod_info=call_user_func($modulo."_info");
-	if($mod_info["grupo"]=="servicios"){
+	if($mod_info["grupo"]=="servicios" AND $mod_info["visible"]=="true"){
 		$mod_estado[0]=true;
 		if (function_exists($modulo."_test"))
 			$mod_estado=call_user_func($modulo."_test");

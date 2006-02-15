@@ -1,6 +1,6 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
-$basedatos=buscardbase_dominio($_GET['dominio']);
+$basedatos=xmlconfig_buscadbase($_GET['dominio'],"database");
 ?> 
 <script  language="JavaScript" type="text/javascript">
 <!-- 

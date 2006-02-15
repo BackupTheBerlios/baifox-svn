@@ -3,9 +3,9 @@
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_DOMINIOS);
-$rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
+$rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
 ?> 
-<form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS); ?>">
+<form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS); ?>">
 <input type="hidden" name="frmIDFTP" value="<?php echo $rs["IDFTP"]; ?>">
 <input type="hidden" name="frmEstado" value="<?php echo $rs["ESTADO"]; ?>">
   <font size="2" face="Arial, Helvetica, sans-serif">Modificar Dominio</font><br>
@@ -22,7 +22,7 @@ $rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Clientes</font></td>
             <td> 
               <select name="frmIDCliente">
-                <?php rellenacombo_xml(_CFG_XML_CLIENTES,_CFG_XML_CONFIG_DIR,"ID","NOMBRE",$rs["IDCLIENTE"]); ?>
+                <?php xmlconfig_rellenacombo(_CFG_XML_CLIENTES,"ID","NOMBRE",$rs["IDCLIENTE"]); ?>
               </select>
             </td>
           </tr>

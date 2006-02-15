@@ -20,7 +20,12 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
   $mDominio=trim($_POST['frmDominio']);
   $mBase=trim($_POST['frmBase']);
   $mUsuario=trim($_POST['frmUsuario']);
-  $mPassword=trim($_POST['frmPassword']);
+  if($_POST['frmPassword']==""){
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
+  	$mPassword=$datos['PASSWORD'];
+  }else{
+	$mPassword=md5_encrypt(trim($_POST['frmPassword']),_CFG_INTERFACE_BLOWFISH);
+  }
   $mCuentas=trim($_POST['frmCuentas']);
   $mRedirecciones=trim($_POST['frmRedirecciones']);
   $mAlias=trim($_POST['frmAlias']);
@@ -55,14 +60,7 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 			awstats_htpasswdsave($mDominio,$mUsuario_Antiguo,$mUsuario,$mPassword);
 			awstats_filesave_conf($mDominio,$mUsuario,$mContenido);
         	}
-        	if (function_exists("mysql_info")){
-			db_mysql_password($mBase,$mPassword);
-	        }
-	        if (function_exists("pureftpd_info")){
-			pureftpd_crear($mDominio,$mUsuario,$mPassword,_CFG_APACHE_DOCUMENTROOT.$mDominio,$mQuotaFTP,$mEstado,$mIDFTP);
-        	}
         	if (function_exists("vpopmail_info")){
-			vpopmail_userpasswd("postmaster",$mDominio,$mPassword);
 			vpopmail_domainquota($mDominio,$mQuota);
 			vpopmail_domainconf($mDominio,"cuentas",$mCuentas);
 			vpopmail_domainconf($mDominio,"alias",$mAlias);
@@ -72,7 +70,7 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 			vpopmail_domainconf($mDominio,"quota",$mQuotaCORREO);
         	} 
 	}else{
-		$NEW_ID=obtiene_xml_id(_CFG_XML_DOMINIOS);
+		$NEW_ID=xmlconfig_generaid(_CFG_XML_DOMINIOS);
 		$conf->setConfigValue($NEW_ID, array(
 					 "ID" 	  => $NEW_ID,
 					 "IDCLIENTE" => $mIDCliente,

@@ -14,7 +14,7 @@
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_CLIENTES);
-$rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_CLIENTES));
+$rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
 echo $rs["NOMBRE"];
 ?>
         </font></b></td>

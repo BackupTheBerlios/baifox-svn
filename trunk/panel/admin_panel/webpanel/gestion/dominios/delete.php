@@ -14,7 +14,7 @@
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
-	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
 	if($_POST['borrar']=="true"){
 		if (function_exists("apache_info")){
 			if($datos['DOMINIO']!=""){
@@ -32,8 +32,8 @@
 			}
 		}
 		if (function_exists("mysql_info")){
-			if($datos['BASE']!=""){
-				db_mysql_dbasedel($datos['BASE']);
+			if($datos['DOMINIO']!=""){
+				db_mysql_dbasedelall($datos['DOMINIO']);
 			}
 		}
 		if (function_exists("logrotate_info")){
@@ -42,8 +42,8 @@
 			}
 		}
 		if (function_exists("pureftpd_info")){
-			if($datos['IDFTP']!=""){
-				pureftpd_domaindel($datos['IDFTP'],true);
+			if($datos['DOMINIO']!=""){
+				pureftpd_domaindelall($datos['DOMINIO'],true);
 			}
 		}
 		if (function_exists("vpopmail_info")){
@@ -53,7 +53,7 @@
 		}
 	}
 
-	$conf->clearConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS)); 
+	$conf->clearConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS)); 
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	header ("Location: ../../../index.php?grupo=gestion&seccion=dominios&pag=index\n\n");

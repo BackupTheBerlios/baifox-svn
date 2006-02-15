@@ -15,20 +15,20 @@
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 
 	
-	$datos=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS));
+	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
 	
 	if ($_GET['estado']==1){
 		apache_domainonoff($datos['DOMINIO'],0);
-		pureftpd_domainonoff($datos['IDFTP'],0);
+		pureftpd_domainonoffall($datos['DOMINIO'],0);
 		vpopmail_domainonoff($datos['DOMINIO'],0);
 		$datos["ESTADO"]=0;
   	}else{
 		apache_domainonoff($datos['DOMINIO'],1);
-		pureftpd_domainonoff($datos['IDFTP'],1);
+		pureftpd_domainonoffall($datos['DOMINIO'],1);
 		vpopmail_domainonoff($datos['DOMINIO'],1);
 		$datos["ESTADO"]=1;
   	}
-	$conf->setConfigValue(busca_xml_id($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
+	$conf->setConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	header ("Location: ../../../index.php?grupo=gestion&seccion=dominios&pag=index\n\n");

@@ -30,7 +30,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Espacio 
                   usado por SQL</span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%"> 
-                  <?php echo $basedatos=buscardbase_dominio($_GET['dominio']); echo " - "; echo number_format(bitconversor(db_mysql_quotastatus($basedatos),"byte","mbyte"), 2, ',', '.'); ?>
+                  <?php echo $basedatos=xmlconfig_buscadbase($_GET['dominio'],"database"); echo " - "; echo number_format(bitconversor(db_mysql_quotastatus($basedatos),"byte","mbyte"), 2, ',', '.'); ?>
                   MB</td>
               </tr>
               <tr align="center"> 

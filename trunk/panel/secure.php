@@ -1,6 +1,7 @@
 <?php
 	include "admin_panel/config/main_config.php"; 
         require _CFG_INTERFACE_LIBRERIA; 
+	require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 ?>
 <?php
 	if ($_POST['frmUsuario']=="" || $_POST['frmPassword']=="" ) {
@@ -8,8 +9,8 @@
 			header ("Location: index.php?resulid=99\n\n");
 			exit();
 	} else { 
-		$sPass=md5(trim($_POST['frmPassword']));
-		$rs=buscar_xml(_CFG_XML_USUARIOS,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
+		$mPassword=md5(trim($_POST['frmPassword']));
+		$rs=xmlconfig_buscar(_CFG_XML_USUARIOS,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
 		if ($rs!=0){ 
 			$_SESSION['SEC_ID']=$rs["ID"];
 	 		$_SESSION['SEC_PERM']=$rs["PERMISO"];
@@ -18,7 +19,7 @@
 			header ("Location: admin_panel/index.php\n\n");
 			exit();
 		}else{
-			$rs=buscar_xml(_CFG_XML_CLIENTES,_CFG_XML_CONFIG_DIR,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$sPass);
+			$rs=xmlconfig_buscar(_CFG_XML_CLIENTES,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
 			if ($rs!=0){ 
 				$_SESSION['SEC_ID']=$rs["ID"];
 	 			$_SESSION['SEC_PERM']=$rs["PERMISO"];
@@ -27,7 +28,7 @@
 				$_SESSION['SEC_USER_TOTAL_DOMINIOS']=$rs["DOMINIOS"];
 				$_SESSION['SEC_USER_TOTAL_ESPACIO']=$rs["ESPACIO"];
 				$_SESSION['SEC_USER_TOTAL_ANCHOBANDA']=$rs["ANCHOBANDA"];
-				$_SESSION['SEC_USER_DOMINIOS']=rellenaarray_dominios($rs["ID"]);
+				$_SESSION['SEC_USER_DOMINIOS']=xmlconfig_arraydominios($rs["ID"]);
 				header ("Location: user_panel/index.php\n\n");
 				exit();
 			}else{

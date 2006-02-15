@@ -11,6 +11,7 @@ define("_CFG_INTERFACE_DIRMODULES",_CFG_INTERFACE_DIR."admin_panel/modulos/");
 define("_CFG_INTERFACE_LIBRERIA",_CFG_INTERFACE_DIR."libreria.php");
 define("_CFG_INTERFACE_FASTTEMPLATE",_CFG_INTERFACE_DIR."admin_panel/interface/class.FastTemplate.php");
 define("_CFG_INTERFACE_PLANTILLAS",_CFG_INTERFACE_DIR."admin_panel/plantillas/");
+define("_CFG_INTERFACE_BLOWFISH",""); //palabra de paso para encriptar las contraseñas
 
 define("_CFG_USERINTERFACE_PHPMYADMIN","http://mysql.dominio.com");
 define("_CFG_USERINTERFACE_WEBMAIL","http://webmail.dominio.com");
@@ -37,6 +38,9 @@ define("_CFG_XML_PATERROR",_CFG_INTERFACE_DIR."admin_panel/interface/patErrorMan
 define("_CFG_XML_USUARIOS","usuarios.xml");
 define("_CFG_XML_CLIENTES","clientes.xml");
 define("_CFG_XML_DOMINIOS","dominios.xml");
+define("_CFG_XML_BASEDATOS","database.xml");
+define("_CFG_XML_FTP","ftp.xml");
+
 
 define("_CFG_SUDO","/usr/bin/sudo");
 define("_CFG_SUDO_USERNAME","baifox");

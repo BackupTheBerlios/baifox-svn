@@ -4,10 +4,12 @@
 ?>
 <?php include "../include_permiso.php"; ?>
 <?php 
+ require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
+
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_USUARIOS,a);
-$rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_USUARIOS));
+$rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_USUARIOS));
 
 $asunto=$_POST['frmAsunto'];
 $cuerpo ="";

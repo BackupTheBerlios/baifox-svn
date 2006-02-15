@@ -1,7 +1,4 @@
 <?php
-require_once _CFG_XML_PATERROR;
-patErrorManager::setErrorHandling(E_ALL, 'verbose');
-require_once _CFG_XML_PATCONFIG;
 
 session_start();
 if (strlen(session_id())>0){
@@ -164,19 +161,6 @@ function PasswordGen()
 	return $const[1] . $vow[0] .$const[0] . $vow[1] . $const[2] . $const[3] . $vow[3] . $const[4];
 }
 
-function FechaEnomVis($fechaactual){
-	list($mes,$dia,$anio)=split('[/.-]',$fechaactual, 3);
-
-	return $dia."/".$mes."/".$anio;
-}
-
-function FechaEnomMySQL($fechaactual){
-	list($mes,$dia,$anio)=split('[/.-]',$fechaactual, 3);
-
-	return $anio."-".$mes."-".$dia;
-}
-
-
 function FechaMySQLSoloFecha($fechaactual){
 	return substr($fechaactual,0,4)."-".substr($fechaactual,5,2)."-".substr($fechaactual,8,2);
 }
@@ -308,118 +292,6 @@ function calcDateDiff( $date1, $date2 )
    }else
        $days = $diff / 86400;
    return $days;
-}
-
-function busca_xml_id($id,$XML_RUTA){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile($XML_RUTA);
-	$x=0;
-  	for($i=1;$x<count($conf->getConfigValue());$i++){
-   		$rs = $conf->getConfigValue($i);
-		if($rs){
-   		    if($rs["ID"]==$id)
-			return $i;
-		    $x++;
-		}
-	}
-}
-
-function obtiene_xml_id($XML_RUTA){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile($XML_RUTA);
-	
-	if(count($conf->getConfigValue())<=0){
-		return 1;
-	}else{
-		$array_xml=$conf->getConfigValue();
-		$rs=end($array_xml);
-		return $rs["ID"]+1;	
-	}
-}
-
-function buscar_xml($mfichero,$mdirectorio,$mcampo1,$mcadena1,$mcampo2,$mcadena2){
-   $conf = new patConfiguration;
-   $conf->setConfigDir($mdirectorio);
-   $conf->parseConfigFile($mfichero);
-   $total_registros=count($conf->getConfigValue());
-   $x=0;
-   for($i=1;$x<$total_registros;$i++){
-	   $rs = $conf->getConfigValue($i);
-	   if($rs){
-	   	if($mcampo2!=""){
-	   		if($rs[$mcampo1]==$mcadena1 && $rs[$mcampo2]==$mcadena2){
-				return $rs;
-				break;
-			}
-		}else{
-	   		if($rs[$mcampo1]==$mcadena1){
-				return $rs;
-				break;
-			}		
-		}
-		$x++;
-	   }
-   }
-   return 0;
-}
-
-function rellenacombo_xml($mfichero,$mdirectorio,$mid,$mdescripcion,$mselected){
-   $conf = new patConfiguration;
-   $conf->setConfigDir($mdirectorio);
-   $conf->parseConfigFile($mfichero);
-   $strselected="";
-   $x=0;
-   $total_registros=count($conf->getConfigValue());
-   for($i=1;$x<$total_registros;$i++){
-	   $rs = $conf->getConfigValue($i);
-	   if($rs){
-		if($mselected==$rs[$mid]){ $strselected="selected"; }else{ $strselected=""; }
-		echo " <option value=\"".$rs[$mid]."\" $strselected>".$rs[$mdescripcion]."</option>";
-		$x++;
-	   }
-   }
-}
-
-function rellenaarray_dominios($IDCLIENTE){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
-	$total_registros=count($conf->getConfigValue());
-	$dominios_usuario=Array();
-	$x=0;
-   	for($i=1;$x<$total_registros;$i++){
-   		$rs = $conf->getConfigValue($i);
-		if($rs){
-			if($rs["IDCLIENTE"]==$IDCLIENTE){ 
-				$dominios_usuario[$rs["DOMINIO"]]=$rs["IDFTP"];
-			}
-			$x++;
-		}	
-   	}
-	return $dominios_usuario;
-}
-
-function buscardbase_dominio($dominio){
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_DOMINIOS);
-	$total_registros=count($conf->getConfigValue());
-	$dominios_usuario=Array();
-	
-	$x=0;
-   	for($i=1;$x<$total_registros;$i++){
-   		$rs = $conf->getConfigValue($i);
-		if($rs){
-			if($rs["DOMINIO"]==$dominio){ 
-				return $rs["BASE"];
-		 		exit();
-			}
-			$x++;
-		}	
-   	}
-	
 }
 
 function execute_cmd($cmd)

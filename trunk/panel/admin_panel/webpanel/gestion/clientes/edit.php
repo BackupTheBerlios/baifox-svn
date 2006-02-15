@@ -3,9 +3,9 @@
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_CLIENTES);
-$rs=$conf->getConfigValue(busca_xml_id($_GET['id'],_CFG_XML_CLIENTES));
+$rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
 ?> 
-<form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo busca_xml_id($_GET['id'],_CFG_XML_CLIENTES); ?>">
+<form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES); ?>">
 <input type="hidden" name="frmEstado" value="<?php echo $rs["ESTADO"]; ?>">
   <font size="2" face="Arial, Helvetica, sans-serif">Modificar Cliente</font><br>
 <br>
