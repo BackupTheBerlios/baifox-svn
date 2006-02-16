@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="2">
   <tr> 
     <td valign="middle" width="19%" align="left" height="26"> 
-      <div align="center"><img src="images/gestion_webmasters.gif" width="20" height="20"></div>
+      <div align="center"><img src="images/icn_baifox.gif" width="20" height="20"></div>
     </td>
     <td valign="middle" width="81%" height="26"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Gestión:</b></font></td>
   </tr>
@@ -17,7 +17,7 @@
   </tr>
    <tr> 
     <td valign="middle" width="19%" align="left" height="26"> 
-      <div align="center"><img src="images/gestion_webmasters.gif" width="20" height="20"></div>
+      <div align="center"><img src="images/icn_baifox.gif" width="20" height="20"></div>
     </td>
     <td valign="middle" width="81%" height="26"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Sistema:</b></font></td>
   </tr>
@@ -43,7 +43,7 @@ if($mod_estado[0]){
 
   <tr> 
     <td valign="middle" width="19%" align="left" height="26"> 
-      <div align="center"><img src="images/gestion_webmasters.gif" width="20" height="20"></div>
+      <div align="center"><img src="images/icn_baifox.gif" width="20" height="20"></div>
     </td>
     <td valign="middle" width="81%" height="26"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Servicios:</b></font></td>
   </tr>
@@ -68,7 +68,7 @@ if($mod_estado[0]){
 } ?>
   <tr> 
     <td valign="middle" width="19%" align="left" height="26"> 
-      <div align="center"><img src="images/gestion_webmasters.gif" width="20" height="20"></div>
+      <div align="center"><img src="images/icn_baifox.gif" width="20" height="20"></div>
     </td>
     <td valign="middle" width="81%" height="26"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Configuración:</b></font></td>
   </tr>

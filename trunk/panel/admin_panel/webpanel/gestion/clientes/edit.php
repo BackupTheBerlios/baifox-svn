@@ -42,9 +42,9 @@ $rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Estado</font></td>
             <td> 
               <?php if($rs["ESTADO"]==1){ ?>
-              <img src="images/activo.gif" width="20" height="20"> 
+              <img src="images/icn_activo.gif" width="20" height="20"> 
               <?php }else{ ?>
-              <img src="images/suspendido.gif" width="20" height="20"> 
+              <img src="images/icn_suspendido.gif" width="20" height="20"> 
               <?php } ?>
             </td>
           </tr>

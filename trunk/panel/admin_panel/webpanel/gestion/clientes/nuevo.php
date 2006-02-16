@@ -33,7 +33,7 @@
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Estado</font></td>
-            <td> <img src="images/activo.gif" width="20" height="20"></td>
+            <td> <img src="images/icn_activo.gif" width="20" height="20"></td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td height="35" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Usuario</font></td>

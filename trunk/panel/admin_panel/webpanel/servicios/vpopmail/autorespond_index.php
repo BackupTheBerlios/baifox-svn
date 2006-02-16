@@ -38,8 +38,8 @@ include "include_top_numpage.php";
     <td height="2" align="left" width="34%"><font face="Arial, Helvetica, sans-serif" size="2">
       <?php if ($rs["cuenta_copia"]!=""){ echo $rs["cuenta_copia"]; }else{ echo "n/a"; } ?>
       </font></td>
-    <td width="14%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=autorespond_edit&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/autorespond_delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta"]; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a></td>
+    <td width="14%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=autorespond_edit&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/autorespond_delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta"]; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a></td>
   </tr>
   <?php 	$x++;
         	if($bool_celdcolor){ $bool_celdcolor=false; }else{ $bool_celdcolor=true; }
@@ -60,7 +60,7 @@ include "include_top_numpage.php";
             Nuevo Autorespuesta [ 
             <?php echo $_GET['dominio']; ?>
             ]</font></a></td>
-          <td width="7%" height="9"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=autorespond_nuevo&dominio=<?php echo $_GET['dominio']; ?>"><img src="images/users_navbar_icon.gif" width="20" height="20" border="0"></a></td>
+          <td width="7%" height="9"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=autorespond_nuevo&dominio=<?php echo $_GET['dominio']; ?>"><img src="images/icn_nuevo.gif" width="20" height="20" border="0"></a></td>
         </tr>
       </table>
     </td>

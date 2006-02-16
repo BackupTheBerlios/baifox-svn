@@ -36,9 +36,9 @@ include "include_top_numpage.php";
       </a> </font></td>
     <td width="6%" align="center" height="2"> 
       <?php if($estado){ ?>
-      <img src="images/activo.gif" width="20" height="20"> 
+      <img src="images/icn_activo.gif" width="20" height="20"> 
       <?php }else{ ?>
-      <img src="images/suspendido.gif" width="20" height="20"> 
+      <img src="images/icn_suspendido.gif" width="20" height="20"> 
       <?php } ?>
     </td>
     <td width="28%" align="center" height="2"> 
