@@ -48,7 +48,7 @@ function pureftpd_listftp(){
  		$array_modules[]=$rs;
      }
    return $array_modules;
-   mysql_close($link);
+   @mysql_close($link);
 }
 
 function pureftpd_cron(){
@@ -67,7 +67,7 @@ function pureftpd_cron(){
 		}
      }
    return $resultado;
-   mysql_close($link);
+   @mysql_close($link);
 }
 
 function pureftpd_domainread($id){
@@ -76,7 +76,7 @@ function pureftpd_domainread($id){
 
    $result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE id=$id",$link);
    return mysql_fetch_array($result);
-   mysql_close($link);
+   @mysql_close($link);
 }
 
 function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,$id,$tipo){
@@ -142,7 +142,7 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 			return 0;
 		}
 	}
-	mysql_close($link);
+	@mysql_close($link);
 }
 
 function pureftpd_domaindelall($dominio,$borrar_contenido){
@@ -152,8 +152,22 @@ function pureftpd_domaindelall($dominio,$borrar_contenido){
 	while($rs=mysql_fetch_array($result)){
 		pureftpd_domaindel($rs["id"],$borrar_contenido);
 	}
-	if($link)
-		mysql_close($link);
+	@mysql_close($link);
+
+	//Borramos por si quedan restos
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_FTP);
+	$total_registros=count($conf->getConfigValue());
+	for($i=1;$x<$total_registros;$i++){
+		$rs=$conf->getConfigValue($i);
+		if($rs["DOMINIO"]==$dominio){
+			$conf->clearConfigValue($i); 
+		}
+		if($rs)
+			$x++;
+	}
+	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 }
 
 function pureftpd_domaindel($id,$borrar_contenido){
@@ -170,8 +184,7 @@ function pureftpd_domaindel($id,$borrar_contenido){
 		}
 	}
 	mysql_query("delete from "._CFG_PUREFTPD_TABLE." where id=$id",$link);
-	if($link)
-		mysql_close($link);
+	@mysql_close($link);
 
 	//Crea la configuracion en el XML
    	$conf = new patConfiguration;
@@ -186,14 +199,14 @@ function pureftpd_domainonoffall($dominio,$estado){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
 	mysql_query("update "._CFG_PUREFTPD_TABLE." SET estado=$estado where dominio='$dominio'",$link);
-	mysql_close($link);
+	@mysql_close($link);
 }
 
 function pureftpd_domainonoff($id,$estado){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
 	mysql_query("update "._CFG_PUREFTPD_TABLE." SET estado=$estado where id=$id",$link);
-	mysql_close($link);
+	@mysql_close($link);
 }
 
 function pureftpd_quotastatus($id){
@@ -204,7 +217,7 @@ function pureftpd_quotastatus($id){
    $exec_cmd = _CFG_CMD_CAT;	
    $contenido=execute_cmd("$exec_cmd ".$rs["homedir"]."/.ftpquota");
    list($ficheros, $tamanio)=split(" ", $contenido[0], 2);
-   mysql_close($link);
+   @mysql_close($link);
    return $tamanio;
 }
 
@@ -226,7 +239,7 @@ function pureftpd_showstatus($id){
    $contenido.="    <td align=\"right\"><div class=\"fuentecelda\">".number_format(bitconversor($tamanio,"byte","mbyte"), 2, ',', '.')." MB</div></td>\n";
    $contenido.="  </tr>\n";
    $contenido.= "</table>\n";
-   mysql_close($link);
+   @mysql_close($link);
 
    return $contenido;
 }

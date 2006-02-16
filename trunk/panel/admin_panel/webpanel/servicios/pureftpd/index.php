@@ -24,6 +24,7 @@ include "include_top_numpage.php";
 <table width="80%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#000000">
   <tr align="center"> 
     <td bgcolor="#CC3300"><font face="Verdana, Arial, Helvetica, sans-serif"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Dominio</font></b></font></td>
+    <td bgcolor="#CC3300"><font face="Verdana, Arial, Helvetica, sans-serif"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Usuario</font></b></font></td>
     <td bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Estado</font></b></td>
     <td width="28%" bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Acciones</font></b></td>
   </tr>
@@ -37,8 +38,12 @@ include "include_top_numpage.php";
 ?>
   <tr align="left" <?php if($bool_celdcolor){ echo "class=fondocelda1"; }else{ echo "class=fondocelda2"; } ?>> 
     <td height="2" align="left"><font face="Arial, Helvetica, sans-serif" size="2"> 
-      <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs["dominio"]; ?>&id=<?php echo $rs["id"]; ?>"><?php echo $rs["dominio"]; ?></a>
-      </font></td>
+      <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs["dominio"]; ?>&id=<?php echo $rs["id"]; ?>"> 
+      <?php echo $rs["dominio"]; ?>
+      </a> </font></td>
+    <td height="2" align="left"><font face="Arial, Helvetica, sans-serif" size="2"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs["dominio"]; ?>&id=<?php echo $rs["id"]; ?>">
+      <?php echo $rs["usuario"]; ?>
+      </a></font></td>
     <td width="6%" align="center" height="2"> 
       <?php if($rs["estado"]==1){ ?>
       <img src="images/activo.gif" width="20" height="20"> 
@@ -58,15 +63,16 @@ include "include_top_numpage.php";
 
 ?>
   <tr align="left"> 
-    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td bgcolor="#FFFFFF" colspan="2">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
     <td width="28%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr align="left" bgcolor="#FFFFFF"> 
-    <td colspan="3"> 
+    <td colspan="4"> 
       <table width="40%" border="0" align="right">
         <tr> 
-          <td width="93%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir Ftp</font></a></td>
+          <td width="93%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir 
+            Ftp</font></a></td>
           <td width="7%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><img src="images/users_navbar_icon.gif" width="20" height="20" border="0"></a></td>
         </tr>
       </table>

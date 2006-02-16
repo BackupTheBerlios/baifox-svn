@@ -80,22 +80,28 @@ function db_mysql_password($dominio,$dbase,$password){
 		mysql_close($link);
 
 		//Crea la configuracion en el XML
-   		$conf = new patConfiguration;
-		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
 		$EDIT_ID=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion"); 
-		$conf->setConfigValue($EDIT_ID, array(
-		 	"ID" 	  => $EDIT_ID,
-		 	"DOMINIO" => $dominio,
-		 	"DATABASE"=> $dbase,
-		 	"USERNAME" => $dbase, 
-		 	"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
-		 	"ESTADO" => 1)
-		, "array");
-		$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+		if($EDIT_ID!=0){
+			$mPassword=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
+
+			$conf = new patConfiguration;
+			$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+			$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+	
+			$conf->setConfigValue($EDIT_ID, array(
+	 			"ID" 	  => $EDIT_ID,
+	 			"DOMINIO" => $dominio,
+	 			"DATABASE"=> $dbase,
+	 			"USERNAME" => $dbase, 
+	 			"PASSWORD" => $mPassword,
+	 			"ESTADO" => 1)
+				, "array");
+			$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+		}
 		//Fin fichero configuracion XML
 	}
 }
+
 function db_mysql_dbasecrear($dominio,$dbase,$password){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 	mysql_select_db(_CFG_MYSQL_DB,$link);
@@ -144,10 +150,12 @@ function db_mysql_dbasedelall($dominio){
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_BASEDATOS);
 	$total_registros=count($conf->getConfigValue());
-	for($i=0;$i<$total_registros;$i++){
+	for($i=1;$x<$total_registros;$i++){
 		$rs=$conf->getConfigValue($i);
 		if($rs["DOMINIO"]==$dominio)
 			db_mysql_dbasedel($dominio,$rs["DATABASE"]);
+		if($rs)
+			$x++;
 	}
 }
 

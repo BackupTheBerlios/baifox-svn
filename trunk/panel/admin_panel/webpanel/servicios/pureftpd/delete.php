@@ -5,6 +5,7 @@
 <?php include "../include_permiso.php"; ?>
 <?php 
 	require_once _CFG_INTERFACE_DIRMODULES."mod_pureftpd/include_funciones.php";
+	require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 	
 	if($_POST['borrar']=="true"){
 		pureftpd_domaindel($_GET['id'],true);

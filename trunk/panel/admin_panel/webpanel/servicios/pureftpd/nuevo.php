@@ -21,14 +21,14 @@
             <td bgcolor="#FFFFFF" width="16%"><font face="Arial, Helvetica, sans-serif" size="2">Usuario</font></td>
             <td width="84%"> 
               <input type="text" name="frmUsuario" size="15" maxlength="14">
- 	      <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font>
+              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font> 
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF" width="16%"><font face="Arial, Helvetica, sans-serif" size="2">Password</font></td>
             <td width="84%"> 
               <input type="text" name="frmPassword" size="15" maxlength="14">
- 	      <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font>
+              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font> 
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
@@ -42,6 +42,15 @@
             <td width="84%"> 
               <input type="text" name="frmQuota" size="20" >
               Mb </td>
+          </tr>
+          <tr align="left" bgcolor="#FFFFFF"> 
+            <td bgcolor="#FFFFFF" width="16%"><font face="Arial, Helvetica, sans-serif" size="2">Tipo</font></td>
+            <td width="84%"> 
+              <select name="frmTipo">
+                <option value="1" selected>PRINCIPAL</option>
+                <option value="2">SECUNDARIA</option>
+              </select>
+            </td>
           </tr>
           <tr align="center" bgcolor="#FFFFFF"> 
             <td colspan="2">&nbsp; </td>

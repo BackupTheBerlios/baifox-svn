@@ -5,6 +5,7 @@
 <?php
 include "../include_permiso.php"; 
 require_once _CFG_INTERFACE_DIRMODULES."mod_pureftpd/include_funciones.php";
+require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 ?>
 <?php
 $mDominio=trim($_POST['frmDominio']);

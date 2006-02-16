@@ -13,18 +13,24 @@
             <td width="84%"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Datos</font></b></td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
+            <td height="25" align="left" bgcolor="#FFFFFF" width="16%"><font face="Arial, Helvetica, sans-serif" size="2">Dominio</font></td>
+            <td height="25" align="left" width="84%"> 
+              <input type="text" name="frmDominio" size="35">
+              <font face="Arial, Helvetica, sans-serif" size="2"> </font></td>
+          </tr>
+          <tr align="left" bgcolor="#FFFFFF"> 
             <td height="25" align="left" bgcolor="#FFFFFF" width="16%"><font face="Arial, Helvetica, sans-serif" size="2">Base 
               datos </font></td>
             <td height="25" align="left" width="84%"> 
               <input type="text" name="frmBase" size="15" maxlength="14">
-		<font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font>
-	    </td>
+              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font> 
+            </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF" width="16%" valign="top"><font face="Arial, Helvetica, sans-serif" size="2">Password</font></td>
-            <td width="84%">
+            <td width="84%"> 
               <input type="text" name="frmPassword" size="15" maxlength="14">
-		<font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font>
+              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font> 
             </td>
           </tr>
           <tr align="center" bgcolor="#FFFFFF"> 

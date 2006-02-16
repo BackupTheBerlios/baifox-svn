@@ -32,7 +32,7 @@ include "include_top_numpage.php";
       <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&base=<?php echo $rs; ?>&id=<?php echo $x; ?>"> 
       <?php echo $rs; ?>
       </a> </font></td>
-    <td height="2" align="left" width="34%"><?php echo xmlconfig_buscadbase($rs,"dominio"); ?></td>
+    <td height="2" align="left" width="34%"><font face="Arial, Helvetica, sans-serif" size="2"><?php echo xmlconfig_buscadbase($rs,"dominio"); ?></font></td>
     <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&base=<?php echo $rs; ?>&id=<?php echo $x; ?>"><img src="images/escribir.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&base=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/borrar.gif" width="20" height="20" border="0"></a> 
     </td>
