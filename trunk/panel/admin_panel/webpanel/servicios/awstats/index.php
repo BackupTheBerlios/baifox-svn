@@ -23,12 +23,15 @@ include "include_top_numpage.php";
    for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
 	if($rs!=""){
+	$datos=xmlconfig_buscar(_CFG_XML_DOMINIOS,"DOMINIO",$rs,"","","datos");
 ?>
   <tr align="left" <?php if($bool_celdcolor){ echo "class=fondocelda1"; }else{ echo "class=fondocelda2"; } ?>> 
     <td height="2" align="left"><font face="Arial, Helvetica, sans-serif" size="2"> 
       <?php echo $rs; ?>
       </font></td>
-    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
+    <td width="28%" valign="top" align="center" height="2">
+      <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&dominio=<?php echo $rs; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="http://<?php echo $datos["USUARIO"]; ?>:<?php echo md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>@<?php echo str_replace("http://","",_CFG_USERINTERFACE_AWSTATS); ?><?php echo $rs; ?>" target="_blank"><img src="images/icn_awstats.gif" width="20" height="20" border="0"></a> 
       &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a> 
     </td>
   </tr>

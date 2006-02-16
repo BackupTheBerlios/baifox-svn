@@ -26,15 +26,18 @@ include "include_top_numpage.php";
    for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
    $rs =$array_listado[$i];
 	if($rs){
+		$datos=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DATABASE",$rs,"","","datos");
 ?>
   <tr align="left" <?php if($bool_celdcolor){ echo "class=fondocelda1"; }else{ echo "class=fondocelda2"; } ?>> 
     <td height="2" align="left" width="38%"><font face="Arial, Helvetica, sans-serif" size="2"> 
       <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&base=<?php echo $rs; ?>&id=<?php echo $x; ?>"> 
       <?php echo $rs; ?>
       </a> </font></td>
-    <td height="2" align="left" width="34%"><font face="Arial, Helvetica, sans-serif" size="2"><?php echo xmlconfig_buscadbase($rs,"dominio"); ?></font></td>
-    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&base=<?php echo $rs; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&base=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a> 
+    <td height="2" align="left" width="34%"><font face="Arial, Helvetica, sans-serif" size="2"><?php echo $datos["DOMINIO"]; ?></font></td>
+    <td width="28%" valign="top" align="center" height="2"> 
+     <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&base=<?php echo $rs; ?>&id=<?php echo $x; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
+     &nbsp;&nbsp;&nbsp;<a href="<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>?pma_username=<?php echo $rs; ?>&pma_password=<?php echo md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>" target="_blank"><img src="images/icn_mysql.gif" width="20" height="20" border="0"></a>
+     &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&base=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a> 
     </td>
   </tr>
   <?php 	$x++;

@@ -92,7 +92,7 @@ function db_mysql_password($dominio,$dbase,$password){
 	 			"ID" 	  => $EDIT_ID,
 	 			"DOMINIO" => $dominio,
 	 			"DATABASE"=> $dbase,
-	 			"USERNAME" => $dbase, 
+	 			"USUARIO" => $dbase, 
 	 			"PASSWORD" => $mPassword,
 	 			"ESTADO" => 1)
 				, "array");
@@ -138,7 +138,7 @@ function db_mysql_dbasecrear($dominio,$dbase,$password){
 		 "ID" 	  => $NEW_ID,
 		 "DOMINIO" => $dominio,
 		 "DATABASE"=> $dbase,
-		 "USERNAME" => $dbase, 
+		 "USUARIO" => $dbase, 
 		 "PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
 		 "ESTADO" => 1)
 	, "array");

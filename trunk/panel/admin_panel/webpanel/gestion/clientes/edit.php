@@ -51,7 +51,7 @@ $rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
           <tr align="left" bgcolor="#FFFFFF"> 
             <td height="35" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Usuario</font></td>
             <td height="35"> 
-              <input type="text" name="frmUsuario" size="20" value="<?php echo $rs["USERNAME"]; ?>">
+              <input type="text" name="frmUsuario" size="20" value="<?php echo $rs["USUARIO"]; ?>">
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 

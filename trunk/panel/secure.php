@@ -10,7 +10,7 @@
 			exit();
 	} else { 
 		$mPassword=md5(trim($_POST['frmPassword']));
-		$rs=xmlconfig_buscar(_CFG_XML_USUARIOS,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
+		$rs=xmlconfig_buscar(_CFG_XML_USUARIOS,"USUARIO",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
 		if ($rs!=0){ 
 			$_SESSION['SEC_ID']=$rs["ID"];
 	 		$_SESSION['SEC_PERM']=$rs["PERMISO"];
@@ -19,7 +19,7 @@
 			header ("Location: admin_panel/index.php\n\n");
 			exit();
 		}else{
-			$rs=xmlconfig_buscar(_CFG_XML_CLIENTES,"USERNAME",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
+			$rs=xmlconfig_buscar(_CFG_XML_CLIENTES,"USUARIO",$_POST['frmUsuario'],"PASSWORD",$mPassword,"datos");
 			if ($rs!=0){ 
 				$_SESSION['SEC_ID']=$rs["ID"];
 	 			$_SESSION['SEC_PERM']=$rs["PERMISO"];

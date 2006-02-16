@@ -91,18 +91,18 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
    		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_FTP,a);
-		$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USERNAME",$usuario,"posicion"); 
+		$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
 		if($password!=""){
 			$set_password=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
 		}else{
-			$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USERNAME",$usuario,"datos");
+			$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"datos");
 			$set_password=$datos["PASSWORD"];
 		}
 		$conf->setConfigValue($EDIT_ID, array(
 		 	"ID" 	  => $EDIT_ID,
 		 	"DOMINIO" => $dominio,
 		 	"HOMEDIR"=> $homedir,
-		 	"USERNAME" => $usuario, 
+		 	"USUARIO" => $usuario, 
 		 	"PASSWORD" => $set_password,
 		 	"TIPO" => $tipo)
 		, "array");
@@ -128,7 +128,7 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 		 	"ID" 	  => $NEW_ID,
 		 	"DOMINIO" => $dominio,
 		 	"HOMEDIR"=> $homedir,
-		 	"USERNAME" => $usuario, 
+		 	"USUARIO" => $usuario, 
 		 	"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
 			"TIPO" => $tipo)
 		, "array");
@@ -190,7 +190,7 @@ function pureftpd_domaindel($id,$borrar_contenido){
    	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_FTP,a);
-	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USERNAME",$usuario,"posicion")); 
+	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
 	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 	//Fin fichero configuracion XML
 }

@@ -27,7 +27,7 @@
 					 "ID" 	  => $_GET['id'],
 					 "NOMBRE" => $mNombre,
 					 "EMAIL"  => $mEmail, 
-					 "USERNAME" => $mUsuario, 
+					 "USUARIO" => $mUsuario, 
 					 "PASSWORD" => $mPassword,
 					 "ESTADO" => $mEstado, 
 					 "PERMISO" => $mPermiso)
@@ -38,7 +38,7 @@
 					 "ID" 	  => $NEW_ID,
 					 "NOMBRE" => $mNombre,
 					 "EMAIL"  => $mEmail, 
-					 "USERNAME" => $mUsuario, 
+					 "USUARIO" => $mUsuario, 
 					 "PASSWORD" => $mPassword,
 					 "ESTADO" => $mEstado, 
 					 "PERMISO" => $mPermiso)
