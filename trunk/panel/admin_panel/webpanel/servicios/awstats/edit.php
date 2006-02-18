@@ -36,8 +36,7 @@ $directory=vpopmail_domaindirectory($_GET['dominio']);
 	   </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
-            <td bgcolor="#FFFFFF" width="16%" valign="top"><font face="Arial, Helvetica, sans-serif" size="2">Datos 
-              DNS </font></td>
+            <td bgcolor="#FFFFFF" width="16%" valign="top"><font face="Arial, Helvetica, sans-serif" size="2">Fichero AWSTATS</font></td>
             <td width="84%"> 
               <textarea name="frmContenido" cols="100" rows="15"><?php echo awstats_fileopen_conf($_GET['dominio']); ?></textarea>
             </td>

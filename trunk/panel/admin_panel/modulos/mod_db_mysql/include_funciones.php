@@ -178,11 +178,29 @@ function db_mysql_dbasedel($dominio,$dbase){
 	//Fin fichero configuracion XML
 }
 
+function db_mysql_quotaall($dominio){
+	$total=0;
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_BASEDATOS);
+	$total_registros=count($conf->getConfigValue());
+	for($i=1;$x<$total_registros;$i++){
+		$rs=$conf->getConfigValue($i);
+		if($rs["DOMINIO"]==$dominio){
+			$totalbase=db_mysql_quotastatus($rs["DATABASE"]);
+			$total=$total+$totalbase;
+		}
+		if($rs)
+			$x++;
+	}
+	return $total;
+}
+
 function db_mysql_quotastatus($dbase){
 	$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
+	$database_tam = 0;
 	if(mysql_select_db($dbase,$link)){
 		$result = mysql_query("SHOW TABLE STATUS"); 
-		$database_tam = 0; 
 		while ($rs = mysql_fetch_array($result)) { 
 			$database_tam += $rs['Data_length'] + $rs['Index_length']; 
 		}
@@ -272,5 +290,19 @@ function db_mysql_showstatus($dbase){
 	}
 
 	return $contenido;
+}
+
+function db_mysql_showquotas($dominio){
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_BASEDATOS);
+		$total_registros=count($conf->getConfigValue());
+		for($i=1;$x<$total_registros;$i++){
+			$rs=$conf->getConfigValue($i);
+			if($rs["DOMINIO"]==$dominio)
+				echo $rs["DATABASE"]." - ".number_format(bitconversor(db_mysql_quotastatus($rs["DATABASE"]),"byte","mbyte"), 2, ',', '.')." MB<br>";
+			if($rs)
+				$x++;
+		}
 }
 ?>

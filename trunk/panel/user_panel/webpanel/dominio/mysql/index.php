@@ -1,6 +1,10 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
-$basedatos=xmlconfig_buscadbase($_GET['dominio'],"database");
+if($_GET['base']!=""){
+	$basedatos=$_GET['base'];
+}else{
+	$basedatos=xmlconfig_buscadbase($_GET['dominio'],"database");
+}
 ?> 
 <script  language="JavaScript" type="text/javascript">
 <!-- 
@@ -54,8 +58,6 @@ $basedatos=xmlconfig_buscadbase($_GET['dominio'],"database");
         </tr>
         <tr align="center"> 
           <td colspan="3">
-	<form method="POST" name="formulario" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=1&dominio=<?php echo $_GET['dominio']; ?>">
-	<input type="hidden" name="frmBase" value="<?php echo $basedatos; ?>">
 	          <table width="100%" border="0" cellspacing="2" cellpadding="0">
                 <tr> 
                   <td align="left" bgcolor="#d6d6d6" width="25%"><span class="Estilo5">&nbsp;&nbsp;Nombre 
@@ -63,30 +65,47 @@ $basedatos=xmlconfig_buscadbase($_GET['dominio'],"database");
                   <td align="left" bgcolor="#d6d6d6" width="23%"><span class="Estilo5">&nbsp;&nbsp;Usuario 
                     base datos</span></td>
                   <td align="left" bgcolor="#d6d6d6" width="30%"><span class="Estilo5">&nbsp;&nbsp;</span>Contrase&ntilde;a</td>
-                  <td align="left" bgcolor="#d6d6d6" width="11%"><span class="Estilo5">&nbsp;&nbsp;</span></td>
+                  <td align="left" bgcolor="#d6d6d6" width="11%"><span class="Estilo5">&nbsp;modificar/phpmyadmin&nbsp;</span></td>
                   <td align="left" bgcolor="#d6d6d6" width="11%">chequear/reparar</td>
                 </tr>
+<?php 
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_BASEDATOS);
+	$total_registros=count($conf->getConfigValue());
+	for($i=1;$x<$total_registros;$i++){
+		$rs=$conf->getConfigValue($i);
+		if($rs["DOMINIO"]==$_GET['dominio']){
+?>
+	<form method="POST" name="formulario<?php echo $rs["DATABASE"]; ?>" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=1&dominio=<?php echo $_GET['dominio']; ?>">
+	<input type="hidden" name="frmBase" value="<?php echo $rs["DATABASE"]; ?>">
                 <tr> 
                   <td align="left" width="25%"> 
-                    <?php echo $basedatos; ?>
+                    <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=index&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><?php echo $rs["DATABASE"]; ?></a>
                   </td>
                   <td align="left" width="23%"> 
-                    <?php echo $basedatos; ?>
+                    <?php echo $rs["USUARIO"]; ?>
                   </td>
                   <td align="left" width="30%"> 
                     <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="20" maxlength="14">
                     Max 14 car.</td>
-                  <td width="11%" align="center"> <a href="javascript:document.formulario.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
-                    &nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
-                  <td width="11%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=check&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $basedatos; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
-                    &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=repair&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $basedatos; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                  <td width="11%" align="center"> <a href="javascript:document.formulario<?php echo $rs["DATABASE"]; ?>.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>?pma_username=<?php echo $rs["USUARIO"]; ?>&pma_password=<?php echo md5_decrypt($rs['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
+                  <td width="11%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=check&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=repair&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
                 </tr>
+	</form>
+<?php 
+		}
+		if($rs)
+			$x++;
+	}
+?>
                 <tr> 
                   <td align="left" bgcolor="#d6d6d6" colspan="5"><img src="#" width="1" height="1"> 
                   </td>
                 </tr>
               </table>
-	</form>
             <br>
             <table border="0" cellspacing="0" cellpadding="0" width="550">
               <tr> 

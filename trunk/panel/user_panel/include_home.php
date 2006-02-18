@@ -35,7 +35,7 @@
    $mes_anterior=DateAdd("m", -1, mktime(0,0,0,date("m"),"1",date("Y")));
    foreach($_SESSION['SEC_USER_DOMINIOS'] as $key => $value ) {
 	$total_espacio_ftp=pureftpd_quotastatus($value);
-	$total_espacio_mysql=db_mysql_quotastatus(xmlconfig_buscadbase($key,"database"));
+	$total_espacio_mysql=db_mysql_quotaall($key);
 	$total_espacio_ocupado=$total_espacio_ftp+$total_espacio_mysql;
 	$total_espacio_global=$total_espacio_ocupado+$total_espacio_global;
 	$total_anchobanda=bandwidth_estadisticas_mes_total($key,date("Y"),date("n"));

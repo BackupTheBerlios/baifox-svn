@@ -79,6 +79,83 @@ function pureftpd_domainread($id){
    @mysql_close($link);
 }
 
+function pureftpd_passwd($dominio,$usuario,$password,$homedir,$tipo){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	if($password!="")
+		$sqladd="password=ENCRYPT('$password'),";
+        mysql_query("UPDATE "._CFG_PUREFTPD_TABLE." SET dominio='$dominio',usuario='$usuario',$sqladd homedir='$homedir' where dominio='$dominio' AND usuario='$usuario';",$link);
+	//Crea la configuracion en el XML
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_FTP,a);
+	$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
+	if($password!=""){
+		$set_password=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
+	}else{
+		$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"datos");
+		$set_password=$datos["PASSWORD"];
+	}
+	$conf->setConfigValue($EDIT_ID, array(
+	 	"ID" 	  => $EDIT_ID,
+	 	"DOMINIO" => $dominio,
+	 	"HOMEDIR"=> $homedir,
+	 	"USUARIO" => $usuario, 
+	 	"PASSWORD" => $set_password,
+	 	"TIPO" => $tipo)
+	, "array");
+	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	//Fin fichero configuracion XML}
+	@mysql_close($link);
+	return true;
+}
+
+function pureftpd_crearsecundario($dominio,$usuario,$password,$homedir,$quotasize,$tipo){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	$result=mysql_query("SELECT * FROM "._CFG_PUREFTPD_TABLE." WHERE usuario='$usuario';",$link);
+	if(mysql_numrows($result)<=0){
+		//Crea el usuario en la base de datos
+		mysql_query("INSERT INTO "._CFG_PUREFTPD_TABLE."(id,dominio,usuario,password,homedir,quotafile,quotasize,estado,tipo) VALUES ('', '$dominio','$usuario',ENCRYPT('$password'),'$homedir',0,$quotasize,1,2);",$link);
+
+		//Crea la configuracion en el XML
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_FTP,a);
+		$NEW_ID=xmlconfig_generaid(_CFG_XML_FTP);
+		$conf->setConfigValue($NEW_ID, array(
+	 		"ID" 	  => $NEW_ID,
+	 		"DOMINIO" => $dominio,
+		 	"HOMEDIR"=> $homedir,
+	 		"USUARIO" => $usuario, 
+	 		"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
+			"TIPO" => $tipo)
+		, "array");
+		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+		//Fin fichero configuracion XML
+		$resultado=true;
+	}else{
+		$resultado=false;
+	}
+	mysql_free_result($result);
+	@mysql_close($link);
+	return $resultado;
+}
+
+function pureftpd_deletesecundario($usuario,$dominio){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+        mysql_query("DELETE FROM "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' AND usuario='$usuario';",$link);
+	//Crea la configuracion en el XML
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_FTP,a);
+	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
+	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	//Fin fichero configuracion XML}
+	@mysql_close($link);
+}
+
 function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,$id,$tipo){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
@@ -109,38 +186,44 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 		//Fin fichero configuracion XML
 	}else{
-		//Crea el directorio
-		$exec_cmd = "mkdir";
-		$result = execute_cmd("$exec_cmd $homedir");
-		//Asigna permisos al directorio
-		$exec_cmd = "chown";
-		$result = execute_cmd("$exec_cmd "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
-		//Crea el usuario en la base de datos
-		mysql_query("INSERT INTO "._CFG_PUREFTPD_TABLE."(id,dominio,usuario,password,homedir,quotafile,quotasize,estado,tipo) VALUES ('', '$dominio','$usuario',ENCRYPT('$password'),'$homedir',0,$quotasize,$estado,$tipo);",$link);
+		$result=mysql_query("SELECT * FROM "._CFG_PUREFTPD_TABLE." WHERE usuario='$usuario';",$link);
+		if(mysql_numrows($result)<=0){
+			//Crea el directorio
+			$exec_cmd = "mkdir";
+			$result = execute_cmd("$exec_cmd $homedir");
+			//Asigna permisos al directorio
+			$exec_cmd = "chown";
+			$result = execute_cmd("$exec_cmd "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
+			//Crea el usuario en la base de datos
+			mysql_query("INSERT INTO "._CFG_PUREFTPD_TABLE."(id,dominio,usuario,password,homedir,quotafile,quotasize,estado,tipo) VALUES ('', '$dominio','$usuario',ENCRYPT('$password'),'$homedir',0,$quotasize,$estado,$tipo);",$link);
 
-		//Crea la configuracion en el XML
-		$conf = new patConfiguration;
-		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-		$conf->parseConfigFile(_CFG_XML_FTP,a);
+			//Crea la configuracion en el XML
+			$conf = new patConfiguration;
+			$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+			$conf->parseConfigFile(_CFG_XML_FTP,a);
 
-		$NEW_ID=xmlconfig_generaid(_CFG_XML_FTP);
-		$conf->setConfigValue($NEW_ID, array(
-		 	"ID" 	  => $NEW_ID,
-		 	"DOMINIO" => $dominio,
-		 	"HOMEDIR"=> $homedir,
-		 	"USUARIO" => $usuario, 
-		 	"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
-			"TIPO" => $tipo)
-		, "array");
-		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
-		//Fin fichero configuracion XML
+			$NEW_ID=xmlconfig_generaid(_CFG_XML_FTP);
+			$conf->setConfigValue($NEW_ID, array(
+			 	"ID" 	  => $NEW_ID,
+		 		"DOMINIO" => $dominio,
+		 		"HOMEDIR"=> $homedir,
+		 		"USUARIO" => $usuario, 
+		 		"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
+				"TIPO" => $tipo)
+			, "array");
+			$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+			//Fin fichero configuracion XML
 
-		$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' and usuario='$usuario' order by id desc",$link);
-		if($rs=mysql_fetch_array($result)){
-			return $rs["id"];
+			$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' and usuario='$usuario' order by id desc",$link);
+			if($rs=mysql_fetch_array($result)){
+				return $rs["id"];
+			}else{
+				return 0;
+			}
 		}else{
-			return 0;
+			return false;
 		}
+		mysql_free_result($result);
 	}
 	@mysql_close($link);
 }

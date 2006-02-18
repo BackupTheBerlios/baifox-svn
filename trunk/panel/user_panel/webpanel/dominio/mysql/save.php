@@ -5,9 +5,10 @@
 <?php 
 include "../include_permiso.php"; 
 require_once _CFG_INTERFACE_DIRMODULES."mod_db_mysql/include_funciones.php";
+require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 ?>
 <?php
-$mDominio=trim($_POST['frmDominio']);
+$mDominio=trim($_GET['dominio']);
 $mBase=trim($_POST['frmBase']);
 $mPassword=$_POST['frmPassword'];
 

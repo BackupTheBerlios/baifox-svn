@@ -30,8 +30,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Espacio 
                   usado por SQL</span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%"> 
-                  <?php echo $basedatos=xmlconfig_buscadbase($_GET['dominio'],"database"); echo " - "; echo number_format(bitconversor(db_mysql_quotastatus($basedatos),"byte","mbyte"), 2, ',', '.'); ?>
-                  MB</td>
+		<?php db_mysql_showquotas($_GET['dominio']); ?>
+		</td>
               </tr>
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Ancho 
@@ -58,6 +58,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           </td>
         </tr>
       </table>
+<?php flush(); ?>
       <br>
       <table width="320" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
@@ -105,6 +106,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           </td>
         </tr>
       </table>
+<?php flush(); ?>
     </td>
     <td width="4%">&nbsp;</td>
     <td width="39%"> <br>
@@ -161,7 +163,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Directorios protegidos</a></td>
               </tr>
               <tr align="center" valign="top">
-                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=copiaseguridad&pag=index&dominio=<?php echo $_GET["dominio"]; ?>" ><img src="images/icn_ftp.gif" width="50" height="50" border="0"><br>
+                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=ftp&pag=index&dominio=<?php echo $_GET["dominio"]; ?>" ><img src="images/icn_ftp.gif" width="50" height="50" border="0"><br>
                   Acceso FTP</a></td>
                 <td width="23%" class="Estilo2">&nbsp;</td>
                 <td width="17%">&nbsp;</td>
@@ -200,6 +202,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
       </table>
       <br>
       <br>
+    <?php $datos=xmlconfig_buscar(_CFG_XML_DOMINIOS,"DOMINIO",$_GET["dominio"],"","","datos"); ?>
       <table width="345" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
           <td colspan="3" valign="top"> 
@@ -210,7 +213,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
             </table>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center" valign="top"> 
-                <td width="23%" class="Estilo2"><a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_AWSTATS.$_GET['dominio']; ?>');"><img src="images/icn_awstats.gif" width="50" height="50" border="0"><br>
+                <td width="23%" class="Estilo2"><a href="Javascript:Ventana('http://<?php echo $datos["USUARIO"]; ?>:<?php echo md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>@<?php echo str_replace("http://","",_CFG_USERINTERFACE_AWSTATS); ?><?php echo $_GET['dominio']; ?>');"><img src="images/icn_awstats.gif" width="50" height="50" border="0"><br>
                   AwStats</a></td>
                 <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=logsapache&pag=index&dominio=<?php echo $_GET["dominio"]; ?>"><img src="images/icn_logs.gif" width="50" height="50" border="0"><br>
                   Logs apache</a></td>
@@ -226,3 +229,4 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
     </td>
   </tr>
 </table>
+<?php flush(); ?>

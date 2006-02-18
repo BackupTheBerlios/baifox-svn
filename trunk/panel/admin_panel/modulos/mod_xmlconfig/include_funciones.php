@@ -88,7 +88,6 @@ function xmlconfig_buscar($XML_RUTA,$mcampo1,$mcadena1,$mcampo2,$mcadena2,$flag)
 		$x++;
 	   }
    }
-   return 0;
 }
 
 function xmlconfig_rellenacombo($XML_RUTA,$mid,$mdescripcion,$mselected){

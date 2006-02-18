@@ -1,4 +1,3 @@
-
 <table width=70% align=center class=main>
   <tr bgcolor="#FFCC66"> 
     <td width=50% valign=top align=left height="10" style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" bgcolor="#FFCB0D"> 
@@ -15,4 +14,3 @@
     </td>
   </tr>
 </table>
-<p>&nbsp;</p>
