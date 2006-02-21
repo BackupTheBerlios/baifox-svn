@@ -86,7 +86,7 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 					 "QUOTACORREO" => $mQuotaCORREO,
 					 "IDFTP" => 0,
 					 "QUOTAFTP" => $mQuotaFTP,
-					 "ESTADO" => $mEstado)
+					 "ESTADO" => 0)
 			 	, "array");
 	}
 	
