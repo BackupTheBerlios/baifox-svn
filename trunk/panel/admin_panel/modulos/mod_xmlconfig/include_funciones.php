@@ -97,13 +97,15 @@ function xmlconfig_rellenacombo($XML_RUTA,$mid,$mdescripcion,$mselected){
    $strselected="";
    $x=0;
    $total_registros=count($conf->getConfigValue());
+   if($total_registros>0)
+	$array_mostrar=array_ordenar_campo($conf->getConfigValue(),$mdescripcion);
    for($i=1;$x<$total_registros;$i++){
-	   $rs = $conf->getConfigValue($i);
+	   $rs = $array_mostrar[$i];
 	   if($rs){
 		if($mselected==$rs[$mid]){ $strselected="selected"; }else{ $strselected=""; }
-		echo " <option value=\"".$rs[$mid]."\" $strselected>".$rs[$mdescripcion]."</option>";
-		$x++;
+		echo " <option value=\"".$rs[$mid]."\" $strselected>".$rs[$mdescripcion]."</option>";	
 	   }
+	   $x++;
    }
 }
 

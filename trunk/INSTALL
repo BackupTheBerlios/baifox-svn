@@ -89,7 +89,7 @@ useradd -g virtual -s /bin/false -c "Usuario PureFTPD" virtual
 mkdir /home/virtual
 chown virtual.virtual /home/virtual
 
-CREATE DATABASE baifox;
+CREATE DATABASE baifox_panel;
 
 CREATE TABLE `tbmod_pureftpd` (
   `id` int(16) NOT NULL auto_increment,

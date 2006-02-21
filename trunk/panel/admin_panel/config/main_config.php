@@ -3,7 +3,7 @@ define("_CFG_INTERFACE_NOMBRE","BAIFOX Panel");
 define("_CFG_INTERFACE_VERSION","1.0beta");
 define("_CFG_INTERFACE_EMAIL","example@example.com"); //email que se usara para el envios de email 
 define("_CFG_INTERFACE_MYSQLSERVER","localhost"); //servidor que aloja la base de datos de baifox
-define("_CFG_INTERFACE_MYSQLDB","baifox");  //base de datos de baifox
+define("_CFG_INTERFACE_MYSQLDB","baifox_panel");  //base de datos de baifox
 define("_CFG_INTERFACE_MYSQLUSER",""); //usuario de la base de datos baifox
 define("_CFG_INTERFACE_MYSQLPASSWORD",""); //contraseña de la base de datos baifox
 define("_CFG_INTERFACE_DIR","/usr/local/baifox/panel/");
@@ -97,7 +97,7 @@ define("_CFG_AWSTATS_CRON","/usr/bin/actualizar_estadisticas");
 define("_CFG_AWSTATS_BIN","/usr/local/apache/cgi-bin/awstats/awstats.pl");
 define("_CFG_AWSTATS_PASSWD_FILE","/usr/local/apache/cgi-bin/awstats/.htpasswd");
 
-define("_CFG_FILESYSTEM_BACKUPDIR","/home/backup/");
+define("_CFG_FILESYSTEM_BACKUPDIR","/home/backup/"); //directorio temporal para guardar los backups de los usuarios
 
 define("_CFG_EZMLM_LIST","/usr/local/bin/ezmlm/ezmlm-list");
 define("_CFG_EZMLM_MAKE","/usr/local/bin/ezmlm/ezmlm-make");
