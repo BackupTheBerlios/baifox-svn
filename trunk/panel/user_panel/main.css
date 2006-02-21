@@ -3,6 +3,14 @@ body {
 	font-size: 0.8em;
 }
 
+select {
+	border: #000000 1px solid;  	
+	color: #000000; 
+ 	background-color: white;
+	margin-left:5px;
+	font-family:verdana, trebuchet MS, trebuchet, arial, sans-serif;
+	font-size: 11px; 
+}
 .Estilo2 {font-size: 11px}
 .Estilo5 {font-size: 11px}
 .Estilo6 {font-size: 11px}
@@ -38,7 +46,7 @@ td {
  	background-color: white;
 	margin-left:5px;
 	font-family:verdana, trebuchet MS, trebuchet, arial, sans-serif;
-	font-size: 0.8em; 
+	font-size: 11px; 
 }
 .boxFocus {
 	border: #000000 1px solid; 
@@ -46,7 +54,7 @@ td {
 	background-color: #FFEDC6;
 	margin-left:5px;	
 	font-family:verdana, trebuchet MS, trebuchet, arial, sans-serif;
-	font-size: 0.8em; 
+	font-size: 11px; 
 }
 
 table.box {

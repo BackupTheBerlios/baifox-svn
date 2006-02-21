@@ -66,9 +66,10 @@
             <?php echo count($_SESSION['SEC_USER_DOMINIOS']); ?>
             Dominios en total - Max. [<?php echo $_SESSION['SEC_USER_TOTAL_DOMINIOS']; ?>]</td>
 	<?php if(count($_SESSION['SEC_USER_DOMINIOS'])<$_SESSION['SEC_USER_TOTAL_DOMINIOS']){ ?>
-          <td width="9%" valign="middle" align="right"><img src="images/icn_dominio.gif" width="30" height="29"> 
+          <td width="9%" valign="middle" align="right"><a href="index.php?grupo=general&seccion=dominio&pag=index"><img src="images/icn_dominio.gif" width="30" height="29" border="0"></a> 
           </td>
-          <td width="24%" valign="middle">A&ntilde;adir dominio</td>
+          <td width="24%" valign="middle"><a href="index.php?grupo=general&seccion=dominio&pag=index">A&ntilde;adir 
+            dominio</a></td>
 	<?php } ?>
         </tr>
       </table>

@@ -45,17 +45,48 @@ function ezmlm_list($dominio){
 	return $array_listas;
 }
 
-function ezmlm_crearlista($dominio,$lista,$opciones){
+function ezmlm_setreplyto ($fichero,$cadena,$dominio,$lista)
+{
+  $directorio=ezmlm_homedir($dominio);
+  $result = execute_cmd("cat $directorio/$lista/$fichero"); 
+  $fichero_nuevo=fopen("/tmp/$fichero","w");
+  foreach($result as $line)
+  {
+	if(strpos($line,"Reply-To")===false)
+		fputs($fichero_nuevo,$line."\n");
+  }
+  fputs($fichero_nuevo,$cadena);
+  fclose($fichero_nuevo);
+  $result = execute_cmd("mv -f /tmp/$fichero $directorio/$lista");  
+}
+
+function ezmlm_crearlista($dominio,$lista,$opciones,$respuesta,$email_respuesta){
 	$exec_cmd = _CFG_EZMLM_MAKE;
 	$directorio=ezmlm_homedir($dominio);
 	$result = execute_cmd("$exec_cmd -$opciones $directorio/$lista $directorio/.qmail-$lista $lista $dominio");
+
+	switch($respuesta){
+	case "REPLYTO_SENDER":
+		ezmlm_setreplyto ("headeradd", "",$dominio,$lista);
+		ezmlm_setreplyto ("headerremove", "",$dominio,$lista);
+	break;
+	case "REPLYTO_LIST":
+		ezmlm_setreplyto ("headeradd", "Reply-To: <#l#>@<#h#>\n",$dominio,$lista);
+		ezmlm_setreplyto ("headerremove", "Reply-To",$dominio,$lista);
+	break;
+	case "REPLYTO_ADDRESS":
+		ezmlm_setreplyto ("headeradd", "Reply-To: $email_respuesta\n",$dominio,$lista);
+		ezmlm_setreplyto ("headerremove", "Reply-To",$dominio,$lista);
+	break;
+	}
+
 	$result = execute_cmd("echo '$dominio-$lista' >/tmp/inlocal");
 	$result = execute_cmd("mv /tmp/inlocal $directorio/$lista");
 	$result = execute_cmd("echo '$dominio' >/tmp/inhost");
 	$result = execute_cmd("mv /tmp/inhost $directorio/$lista");
+
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/$lista");
-	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail-".$lista);
-	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail-".$lista."*");
+
 	return true;
 }
 
@@ -64,8 +95,12 @@ function ezmlm_deletelista($dominio,$lista){
 	list($lista_correo, $dominio_lista) =split("@", $lista, 2);
 	$result = execute_cmd("rm -R $directorio/$lista_correo");
 	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo);
-	$result = execute_cmd("chown 777 $directorio/.qmail-".$lista_correo."*");
-	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."*");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."-default");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."-owner");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."-return-default");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."-reject-default");
+	$result = execute_cmd("rm $directorio/.qmail-".$lista_correo."-accept-default");
+
 	return true;
 }
 

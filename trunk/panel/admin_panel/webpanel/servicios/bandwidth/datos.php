@@ -5,6 +5,7 @@
 <?php
 include "../include_permiso.php"; 
 require_once _CFG_INTERFACE_DIRMODULES."mod_bandwidth/include_funciones.php";
+require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 ?>
 <link rel="stylesheet" type="text/css" href="../../../main.css">
 <?php

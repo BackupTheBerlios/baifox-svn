@@ -209,7 +209,7 @@ function bandwidth_estadisticas_mes($dominio,$anio){
 				$contenido.= "  <tr class=\"boxbody\"> ";
 				$contenido.= "    <td><div class=\"fuentecelda\">".Mes($mes)."</div></td>";
 				$contenido.= "    <td align=\"center\"><div class=\"fuentecelda\">".number_format($consumo,2,",",".")." MB</div></td>";
-				$contenido.= "    <td align=\"center\"><a href=\"javascript:Carga_Datos('webpanel/".$_GET['grupo']."/".$_GET['seccion']."/','$dominio',$mes,$anio);\"><img src=\"images/estadisticas.gif\" width=\"20\" height=\"20\" border=\"0\"></a></td>";
+				$contenido.= "    <td align=\"center\"><a href=\"javascript:Carga_Datos('webpanel/".$_GET['grupo']."/".$_GET['seccion']."/','$dominio',$mes,$anio);\"><img src=\"images/icn_estadisticas.gif\" width=\"20\" height=\"20\" border=\"0\"></a></td>";
 				$contenido.= "  </tr>";
 			}
 			$contenido.= "</table>";

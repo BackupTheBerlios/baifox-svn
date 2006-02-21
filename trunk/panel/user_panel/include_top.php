@@ -22,7 +22,7 @@
           <td width="150"><font color="#FFFFFF">[ <a href="index.php" class="blanco">inicio</a> 
             ]</font></td>
           <td width="150"><font color="#FFFFFF">[ ayuda ]</font></td>
-          <td width="150"><font color="#FFFFFF">[ contacta ]</font></td>
+          <td width="150"><font color="#FFFFFF">[ <a href="index.php?grupo=general&seccion=contacta&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="blanco">contacta</a> ]</font></td>
           <td width="150"><font color="#FFFFFF">[ <a href="salir.php" class="blanco">cerrar sesi&oacute;n</a> 
             ] </font></td>
           <td width="150"><b></b></td>

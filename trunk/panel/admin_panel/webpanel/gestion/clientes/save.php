@@ -17,7 +17,7 @@
 	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_CLIENTES));
   	$mPassword=$datos['PASSWORD'];
   }else{
-	$mPassword=md5_encrypt(trim($_POST['frmPassword']),_CFG_INTERFACE_BLOWFISH);
+	$mPassword=md5(trim($_POST['frmPassword']));
   }
   $mEstado=$_POST['frmEstado'];
   $mPermiso=$_POST['frmPermiso'];

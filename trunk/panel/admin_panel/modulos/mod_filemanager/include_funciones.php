@@ -1387,13 +1387,6 @@ function filemanager_dir_list_form() {
                     }
                 }
         }
-        function decompress(arg){
-                if(confirm('".strtoupper(filemanager_st('Decompress'))." \\' '+arg+' \\' ?')) {
-                    document.form_action.action.value = 72;
-                    document.form_action.cmd_arg.value = arg;
-                    document.form_action.submit();
-                }
-        }
         function edit_file(arg){
                 var w = 800;
                 var h = 600;
@@ -1577,8 +1570,7 @@ function filemanager_dir_list_form() {
                       <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
                       <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
                       <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">
-                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".filemanager_st('Compress')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">";
             if ($islinux) $out .= "
                       <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
             $out .= "
@@ -1689,7 +1681,7 @@ function filemanager_dir_list_form() {
                      if ( is_readable($dir_atual.$file) && (strpos(".wav#.mp3#.mid#.avi#.mov#.mpeg#.mpg#.rm#.iso#.bin#.img#.dll#.psd#.fla#.swf#.class#.ppt#.jpg#.gif#.png#.wmf#.eps#.bmp#.msi#.exe#.com#.rar#.tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) === false)) $file_out .= "
                                  <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".filemanager_st('Edit')."</a>";
                      if ( is_readable($dir_atual.$file) && strlen($dir_entry["ext"]) && (strpos(".tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:decompress('$file')\">".filemanager_st('Decompress')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center>";
 			if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
                                  <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".filemanager_st('View')."</a>";
                      $file_out .= "</tr>";
@@ -1720,8 +1712,7 @@ function filemanager_dir_list_form() {
                       <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
                       <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
                       <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">
-                      <input type=\"button\" style=\"width:100\" onclick=\"test_prompt(71)\" value=\"".filemanager_st('Compress')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">";
             if ($islinux) $out .= "
                       <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
             $out .= "
