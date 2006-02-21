@@ -76,21 +76,22 @@ include "include_top_numpage.php";
             <td colspan="3"> 
               <table width="100%" border="0" cellspacing="2" cellpadding="0">
                 <tr align="center"> 
-                  <td width="50%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;Nombre 
+                  <td width="32%" align="right" bgcolor="#d6d6d6">&nbsp;&nbsp;Nombre 
                     Lista </td>
-                  <td width="50%" align="left" bgcolor="#d6d6d6"><input type="text" name="frmLista" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">@<?php echo $_GET['dominio']; ?>
+                  <td width="68%" align="left" bgcolor="#d6d6d6"> 
+                    <input type="text" name="frmLista" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">@<?php echo $_GET['dominio']; ?>
                   </td>
                 </tr>
                 <tr align="center"> 
-                  <td width="50%" bgcolor="#d6d6d6" align="right">Email propietario 
+                  <td width="32%" bgcolor="#d6d6d6" align="right">Email propietario 
                     lista </td>
-                  <td width="50%" bgcolor="#d6d6d6" align="left"> 
-                    <input type="text" name="frmOwner" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="40">
+                  <td width="68%" bgcolor="#d6d6d6" align="left"> 
+                    <input type="text" name="frmOwner" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">
                   </td>
                 </tr>
                 <tr align="center"> 
-                  <td width="50%" bgcolor="#d6d6d6" align="right">Envios mensajes</td>
-                  <td width="50%" bgcolor="#d6d6d6" align="left"> 
+                  <td width="32%" bgcolor="#d6d6d6" align="right">Envios mensajes</td>
+                  <td width="68%" bgcolor="#d6d6d6" align="left"> 
                     <select name="frmSendOp">
                       <option value="MU" selected>Lista abierta</option>
                       <option value="Mu">Suscriptores - Resto rechazados</option>
@@ -101,15 +102,15 @@ include "include_top_numpage.php";
                   </td>
                 </tr>
                 <tr align="center"> 
-                  <td bgcolor="#d6d6d6" align="right" width="50%">Respuesta mensajes</td>
-                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
-                    <select name="select2">
-                      <option selected>Lista de correo</option>
-                      <option>Remitente original</option>
-                      <option>Rediriguen al email</option>
+                  <td bgcolor="#d6d6d6" align="right" width="32%">Respuesta mensajes</td>
+                  <td bgcolor="#d6d6d6" align="left" width="68%"> 
+                    <select name="frmRespuesta">
+                      <option value="REPLYTO_SENDER" selected>Lista de correo</option>
+                      <option value="REPLYTO_LIST">Remitente original</option>
+                      <option value="REPLYTO_ADDRESS">Rediriguen al email</option>
                     </select>
-                    email remitente 
-                    <input type="text" name="frmCuenta2" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="35">
+                    redirigido a email
+                    <input type="text" name="frmEmailRespuesta" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">
                   </td>
                 </tr>
                 <tr align="center"> 
@@ -117,27 +118,27 @@ include "include_top_numpage.php";
                     </b> </td>
                 </tr>
                 <tr align="center"> 
-                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere enviar 
+                  <td bgcolor="#d6d6d6" align="right" width="32%">Requiere enviar 
                     un email de confirmaci&oacute;n a la direcci&oacute;n de suscripci&oacute;n</td>
-                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
-                    <input type="checkbox" name="checkbox" value="H" checked>
+                  <td bgcolor="#d6d6d6" align="left" width="68%"> 
+                    <input type="checkbox" name="frmSubH" value="true" checked>
                   </td>
                 </tr>
                 <tr align="center"> 
-                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere aprobaci&oacute;n 
+                  <td bgcolor="#d6d6d6" align="right" width="32%">Requiere aprobaci&oacute;n 
                     del moderador</td>
-                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
-                    <input type="checkbox" name="checkbox" value="s">
+                  <td bgcolor="#d6d6d6" align="left" width="68%"> 
+                    <input type="checkbox" name="frmSubS" value="true">
                   </td>
                 </tr>
                 <tr align="center"> 
                   <td bgcolor="#d6d6d6" colspan="2"><b>Peticiones de baja</b></td>
                 </tr>
                 <tr align="center"> 
-                  <td bgcolor="#d6d6d6" align="right" width="50%">Requiere enviar 
+                  <td bgcolor="#d6d6d6" align="right" width="32%">Requiere enviar 
                     un email de confirmaci&oacute;n a la direcci&oacute;n de baja</td>
-                  <td bgcolor="#d6d6d6" align="left" width="50%"> 
-                    <input type="checkbox" name="checkbox" value="J" checked>
+                  <td bgcolor="#d6d6d6" align="left" width="68%"> 
+                    <input type="checkbox" name="frmSubJ" value="true" checked>
                   </td>
                 </tr>
                 <tr align="center"> 
