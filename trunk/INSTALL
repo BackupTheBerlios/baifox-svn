@@ -100,6 +100,7 @@ CREATE TABLE `tbmod_pureftpd` (
   `quotafile` int(5) NOT NULL default '0',
   `quotasize` int(5) NOT NULL default '0',
   `estado` tinyint(1) NOT NULL default '0',
+  `tipo` tinyint(5) NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
