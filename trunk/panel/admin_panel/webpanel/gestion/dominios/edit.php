@@ -36,8 +36,8 @@ $rs=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
             <td height="25" align="left" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Base 
               Datos </font></td>
             <td height="25" align="left"> 
-              <input type="text" name="frmBase" size="15" maxlength="14" value="<?php echo $rs["BASE"]; ?>">
-              <font face="Arial, Helvetica, sans-serif" size="2"> Max 14 car.</font></td>
+              <input type="hidden" name="frmBase" size="15" maxlength="14" value="<?php echo $rs["BASE"]; ?>">
+              <font face="Arial, Helvetica, sans-serif" size="2"><?php echo $rs["BASE"]; ?></font></td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 
             <td bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Usuario</font></td>

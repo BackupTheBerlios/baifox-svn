@@ -78,6 +78,7 @@
             vpopmail_domainconf($mDominio,"quota",$mQuotaCORREO);
         } 
 	flush();
+	$datos['ESTADO']=1;
 	$conf->setConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	

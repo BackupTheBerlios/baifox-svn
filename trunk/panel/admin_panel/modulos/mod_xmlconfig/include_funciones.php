@@ -99,7 +99,7 @@ function xmlconfig_rellenacombo($XML_RUTA,$mid,$mdescripcion,$mselected){
    $total_registros=count($conf->getConfigValue());
    if($total_registros>0)
 	$array_mostrar=array_ordenar_campo($conf->getConfigValue(),$mdescripcion);
-   for($i=1;$x<$total_registros;$i++){
+   for($i=0;$x<$total_registros;$i++){
 	   $rs = $array_mostrar[$i];
 	   if($rs){
 		if($mselected==$rs[$mid]){ $strselected="selected"; }else{ $strselected=""; }
