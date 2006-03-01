@@ -117,11 +117,11 @@ function db_mysql_dbasecrear($dominio,$dbase,$password){
 		mysql_query("INSERT INTO db (Host,Db,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Create_tmp_table_priv,Lock_tables_priv) values ('localhost','$dbase','$dbase','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');",$link);
 	break;
 	case "4.1":
-		mysql_query("INSERT INTO user VALUES('localhost','$dbase',PASSWORD('$password'),'N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','','','','',0,0,0);",$link);
+		mysql_query("INSERT INTO user VALUES('localhost','$dbase',OLD_PASSWORD('$password'),'N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','','','','',0,0,0);",$link);
 		mysql_query("INSERT INTO db (Host,Db,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Create_tmp_table_priv,Lock_tables_priv) values ('localhost','$dbase','$dbase','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');",$link);
 	break;
 	case "5.0":
-		mysql_query("INSERT INTO user VALUES('localhost','$dbase',PASSWORD('$password'),'N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','','','','',0,0,0);",$link);
+		mysql_query("INSERT INTO user VALUES('localhost','$dbase',OLD_PASSWORD('$password'),'N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','','','','',0,0,0);",$link);
 		mysql_query("INSERT INTO db (Host,Db,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Create_tmp_table_priv,Lock_tables_priv) values ('localhost','$dbase','$dbase','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');",$link);
 	break;
 	}

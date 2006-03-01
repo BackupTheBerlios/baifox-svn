@@ -17,18 +17,19 @@ cd /usr/local
 tar xfz baifox.tar.gz
 groupadd baifox
 useradd -g baifox -s /bin/false -c "Panel control baifox" baifox
-passwd baifox [PASSWORD]
+passwd baifox [CONTRASEÑA TEXTO PLANO USUARIO BAIFOX]
 chown -R baifox.baifox /usr/local/baifox
 
 Instalar el sudo
 ===========================
 apt-get install sudo
 /etc/sudoers
-cat [CONTRASEÑA TEXTO PLANO] > /usr/local/baifox/panel/admin_panel/config/.htpasswd
+cat [CONTRASEÑA TEXTO PLANO USUARIO BAIFOX] > /usr/local/baifox/panel/admin_panel/config/.htpasswd
 chown baifox.baifox /usr/local/baifox/panel/admin_panel/config/.htpasswd
 chmod 600 /usr/local/baifox/panel/admin_panel/config/.htpasswd
 
-modificar el fichero sudoers e incluir la siguiente linea
+modificar el fichero /etc/sudoers e incluir la siguiente linea
+----------------------------------------
 baifox  ALL=PASSWD:ALL
 
 mod_apache
@@ -40,6 +41,19 @@ chmod 775 vhosts
 
 httpd.conf
 ----------------------------------------
+<VirtualHost *:80>
+ServerName webmail.dominio.com
+DocumentRoot /usr/local/apache/htdocs/squirrelmail
+</VirtualHost>
+<VirtualHost *:80>
+ServerName mysql.dominio.com
+DocumentRoot /usr/local/apache/htdocs/phpmyadmin
+</VirtualHost>
+<VirtualHost *:80>
+ServerName estadisticas.dominio.com
+DocumentRoot /usr/local/apache/htdocs
+</VirtualHost>
+
 Include /usr/local/apache/conf/vhosts/
 
 mod_awstats
@@ -50,9 +64,27 @@ chmod 775 /etc/awstats/
 touch /usr/bin/actualizar_estadisticas
 chgrp baifox /usr/bin/actualizar_estadisticas
 chmod 760 /usr/bin/actualizar_estadisticas
+mkdir /usr/local/apache/cgi-bin/awstats/
+chgrp baifox /usr/local/apache/cgi-bin/awstats/
 touch /usr/local/apache/cgi-bin/awstats/.htpasswd
 chgrp baifox /usr/local/apache/cgi-bin/awstats/.htpasswd
 chmod 664 /usr/local/apache/cgi-bin/awstats/.htpasswd
+touch /usr/local/apache/cgi-bin/awstats/.htaccess
+echo "AuthType Basic" >/usr/local/apache/cgi-bin/awstats/.htaccess
+echo "AuthUserFile" >>/usr/local/apache/cgi-bin/awstats/.htpasswd
+echo "AuthName Estadisticas" >>/usr/local/apache/cgi-bin/awstats/.htpasswd
+echo "require valid-user" >>/usr/local/apache/cgi-bin/awstats/.htpasswd
+echo "satisfy any" >>/usr/local/apache/cgi-bin/awstats/.htpasswd
+
+httpd.conf
+----------------------------------------
+   <Directory "/usr/local/apache/cgi-bin/awstats">
+    deny from all
+    Options ExecCGI
+    AllowOverride AuthConfig
+    Order deny,allow
+   </Directory>
+
 
 mod_banthwidth
 ===========================
@@ -80,8 +112,7 @@ chmod 775 /home/backup
 
 mod_pureftpd
 ===========================
-./configure --with-mysql --with-cookie --with-throttling --with-ratios --with-language=spanish --with-diraliases 
---with-peruserlimits --with-welcomemsg --with-quotas --with-cookie --sysconfdir=/etc
+./configure --with-mysql --with-cookie --with-throttling --with-ratios --with-language=spanish --with-diraliases --with-peruserlimits --with-welcomemsg --with-quotas --with-cookie --sysconfdir=/etc
 
 
 groupadd virtual
@@ -104,7 +135,7 @@ CREATE TABLE `tbmod_pureftpd` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
-Usar el fichero de configuracion pureftpd-mysql.conf que esta en admin_panel/modulos/mod_pureftpd
+Usar el fichero de configuracion pureftpd-mysql.conf que esta en admin_panel/modulos/mod_pureftpd/
 
 Revisar que el UID y GID del usuario virtual sea el mismo para el fichero pureftpd-mysql.conf y en el main_config.php de baifox
 y configurar el socket mysqld.sock en el fichero pureftpd-mysql.conf para que apunte al de mysql

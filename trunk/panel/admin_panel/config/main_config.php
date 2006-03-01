@@ -18,7 +18,7 @@ define("_CFG_USERINTERFACE_WEBMAIL","http://webmail.dominio.com");
 define("_CFG_USERINTERFACE_WEBMAIL_LOGIN","http://webmail.dominio.com/src/login.php?loginname=");
 define("_CFG_USERINTERFACE_AWSTATS","http://estadisticas.dominio.com/cgi-bin/awstats/awstats.pl?config=");
 
-define("_CFG_SERVER_NAME",""); // servidor.com
+define("_CFG_SERVER_NAME",""); // servidor.com sin las www. (servidor principal que dara los servicios, estadisticas,webmail,phpmyadmin)
 define("_CFG_SERVER_NS",""); //ns1.servidor.com
 define("_CFG_SERVER_IP",""); // IP servidor
 

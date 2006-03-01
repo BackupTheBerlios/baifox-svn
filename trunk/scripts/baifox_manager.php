@@ -58,6 +58,10 @@ function dominio_editar($iddominio,$idcliente,$dominio,$usuario,$password,$cuent
 
 	$mPassword=md5_encrypt(trim($password),_CFG_INTERFACE_BLOWFISH);
 	
+	$conf = new patConfiguration;
+	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
+
 	$conf->setConfigValue($iddominio, array(
 		 "ID" 	  => $iddominio,
 		 "IDCLIENTE" => $idcliente,
@@ -93,15 +97,15 @@ function dominio_estado($iddominio,$estado){
 	$datos=$conf->getConfigValue(xmlconfig_buscaid($iddominio,_CFG_XML_DOMINIOS));
 	
 	if ($estado==1){
-		apache_domainonoff($datos['DOMINIO'],0);
-		pureftpd_domainonoffall($datos['DOMINIO'],0);
-		vpopmail_domainonoff($datos['DOMINIO'],0);
-		$datos["ESTADO"]=0;
-  	}else{
 		apache_domainonoff($datos['DOMINIO'],1);
 		pureftpd_domainonoffall($datos['DOMINIO'],1);
 		vpopmail_domainonoff($datos['DOMINIO'],1);
 		$datos["ESTADO"]=1;
+  	}else{
+		apache_domainonoff($datos['DOMINIO'],0);
+		pureftpd_domainonoffall($datos['DOMINIO'],0);
+		vpopmail_domainonoff($datos['DOMINIO'],0);
+		$datos["ESTADO"]=0;
   	}
 	$conf->setConfigValue(xmlconfig_buscaid($iddominio,_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
