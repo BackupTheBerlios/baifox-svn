@@ -129,21 +129,24 @@ function db_mysql_dbasecrear($dominio,$dbase,$password){
 	mysql_close($link);
 
 	//Crea la configuracion en el XML
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+	$EXISTE=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion"); 
+	if($EXISTE==0){
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
 
-	$NEW_ID=xmlconfig_generaid(_CFG_XML_BASEDATOS);
-	$conf->setConfigValue($NEW_ID, array(
-		 "ID" 	  => $NEW_ID,
-		 "DOMINIO" => $dominio,
-		 "DATABASE"=> $dbase,
-		 "USUARIO" => $dbase, 
-		 "PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
-		 "ESTADO" => 1)
-	, "array");
-	$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
-	//Fin fichero configuracion XML
+		$NEW_ID=xmlconfig_generaid(_CFG_XML_BASEDATOS);
+		$conf->setConfigValue($NEW_ID, array(
+		 	"ID" 	  => $NEW_ID,
+		 	"DOMINIO" => $dominio,
+		 	"DATABASE"=> $dbase,
+		 	"USUARIO" => $dbase, 
+		 	"PASSWORD" => md5_encrypt($password,_CFG_INTERFACE_BLOWFISH),
+		 	"ESTADO" => 1)
+		, "array");
+		$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+		//Fin fichero configuracion XML
+	}
 }
 
 function db_mysql_dbasedelall($dominio){
