@@ -1,6 +1,6 @@
 <?php 
 define("_CFG_INTERFACE_NOMBRE","BAIFOX Panel");
-define("_CFG_INTERFACE_VERSION","1.0beta");
+define("_CFG_INTERFACE_VERSION","0.8.0");
 define("_CFG_INTERFACE_EMAIL","example@example.com"); //email que se usara para el envios de email 
 define("_CFG_INTERFACE_MYSQLSERVER","localhost"); //servidor que aloja la base de datos de baifox
 define("_CFG_INTERFACE_MYSQLDB","baifox_panel");  //base de datos de baifox

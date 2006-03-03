@@ -77,4 +77,9 @@ if($mod_estado[0]){
     <td valign="middle" height="20" width="81%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1">&nbsp;&nbsp;<a class="negro" href="index.php?grupo=configuracion&seccion=usuarios&pag=index">Usuarios</a> 
       </font></td>
   </tr>
+  <tr> 
+    <td valign="middle" width="19%" align="center" height="20">&nbsp;</td>
+    <td valign="middle" height="20" width="81%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1">&nbsp;&nbsp;<a class="negro" href="Javascript:Ventana('update/index.php');">Actualizaci&oacute;n</a> 
+      </font></td>
+  </tr>
 </table>
