@@ -10,8 +10,8 @@
 </head>
 
 <frameset rows="110,*" cols="*"> 
-  <frame src="top.php">
-  <frame src="main.php">
+  <frame name="cabecera" src="top.php">
+  <frame name="principal" src="main.php">
 </frameset>
 <noframes><body bgcolor="#FFFFFF" text="#000000">
 
