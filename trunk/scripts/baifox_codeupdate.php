@@ -26,6 +26,7 @@ if(file_exists(CFG_DIRECTORY.SVN_PROJECT)){
          		exit;
 		}
  		foreach ($files as $lista) {
+			$lista['ruta']=str_replace(CFG_DIRECTORY.SVN_PROJECT,"",$lista['ruta']);
 			if (array_search($lista["nombre"],$update_files)!==false) {
 				$cadena="[U][".$lista['dir']."][".$lista['size']."][".$lista["nombre"]."][".$lista['ruta']."]\n";
 			}elseif (array_search($lista["nombre"],$ignore_files)!==false) {
