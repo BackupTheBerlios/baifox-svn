@@ -4,7 +4,6 @@
 	//Solo para uso interno del proyecto
 	define(SVN_URL,"");
 	define(SVN_USER,"");
-	define(SVN_PASS,"");
 	define(SVN_PROJECT,"baifox");
 	define(CFG_DIRECTORY,"/usr/local/src/");
 	define(CFG_UPDATE,"update.cfg");
@@ -15,7 +14,7 @@ if($argv[1]=="update"){
 	exec("cd ".CFG_DIRECTORY);
 	if(file_exists(CFG_DIRECTORY.SVN_PROJECT))
         	exec("rm -R ".CFG_DIRECTORY.SVN_PROJECT);
-        exec("echo ".SVN_PASS."|svn checkout svn+ssh://".SVN_USER."@".SVN_URL." ".CFG_DIRECTORY.SVN_PROJECT);
+        exec("svn checkout svn+ssh://".SVN_USER."@".SVN_URL." ".CFG_DIRECTORY.SVN_PROJECT);
 }
 
 if(file_exists(CFG_DIRECTORY.SVN_PROJECT)){
