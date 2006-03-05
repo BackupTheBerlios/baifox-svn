@@ -128,7 +128,7 @@ $variables=array();
    			if(stristr ($value,"CFG_ESTADO")!=false)
 				$variables["CFG_ESTADO"]=trim(substr($value,-2));
    			if(stristr ($value,"CFG_DOCUMENTROOT")!=false)
-				$variables["CFG_DOCUMENTROOT"]=trim(substr($value,strlen("# CFG_DOCUMENTROOT=")));;
+				$variables["CFG_DOCUMENTROOT"]=trim(substr($value,strlen("# CFG_DOCUMENTROOT=")));
    			if(stristr ($value,"register_globals")!=false)
 				$variables["PHP_REGISTERGLOBAL"]=trim(substr($value,stripos($value,"register_globals")+strlen("register_globals")));
    			if(stristr ($value,"safe_mode")!=false)
@@ -142,9 +142,10 @@ $variables=array();
    			if(stristr ($value,"Indexes")!=false)
 				$variables["APACHE_INDEXES"]="Indexes";
    			if(stristr ($value,"DocumentRoot")!=false)
-				$variables["APACHE_DOCUMENTROOT"]=trim(substr($value,strlen("DocumentRoot")+1));;
+				$variables["APACHE_DOCUMENTROOT"]=trim(substr($value,strlen("DocumentRoot")+1));
    			if(stristr ($value,"ServerAlias")!=false)
-				$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias *.$dominio $dominio")+1));;
+				$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias")+1));
+				//$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias *.$dominio $dominio")+1));
 		}
 	}
 return $variables;

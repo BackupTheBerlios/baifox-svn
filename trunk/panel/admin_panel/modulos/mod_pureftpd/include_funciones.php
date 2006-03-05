@@ -267,6 +267,7 @@ function pureftpd_domaindel($id,$borrar_contenido){
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
 	$result=mysql_query("select * from "._CFG_PUREFTPD_TABLE." WHERE id=$id",$link);
 	if($rs=mysql_fetch_array($result)){
+		$dominio=$rs["dominio"];
 		$usuario=$rs["usuario"];
 		if($borrar_contenido){
 			if (file_exists($rs["homedir"]) AND $rs["homedir"]!="") {
@@ -279,11 +280,13 @@ function pureftpd_domaindel($id,$borrar_contenido){
 	@mysql_close($link);
 
 	//Crea la configuracion en el XML
-   	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_FTP,a);
-	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
-	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	if($dominio!="" AND $usuario!=""){
+   		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_FTP,a);
+		$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
+		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	}
 	//Fin fichero configuracion XML
 }
 

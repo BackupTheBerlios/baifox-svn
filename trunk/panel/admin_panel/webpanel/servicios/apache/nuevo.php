@@ -14,7 +14,7 @@
           <tr align="left" bgcolor="#FFFFFF"> 
             <td height="25" align="left" bgcolor="#FFFFFF"><font face="Arial, Helvetica, sans-serif" size="2">Dominio</font></td>
             <td height="25" align="left"> 
-              <input type="text" name="frmDominio" size="50" onkeyup="crear_documentroot(this.form,'<?php echo _CFG_APACHE_DOCUMENTROOT; ?>');">
+              <input type="text" name="frmDominio" size="50" onkeyup="crear_documentroot(this.form,'<?php echo _CFG_APACHE_DOCUMENTROOT; ?>');crear_serveralias(this.form);">
             </td>
           </tr>
           <tr align="left" bgcolor="#FFFFFF"> 

@@ -12,6 +12,10 @@ function crear_documentroot(frm,prefix) {
 	frm.frmDocumentRoot.value=prefix + frm.frmDominio.value;
 }
 
+function crear_serveralias(frm) {
+	frm.frmAlias.value= '*.' + frm.frmDominio.value + ' ' + frm.frmDominio.value;
+}
+
 function crear_homedir(frm,prefix) {
 	frm.frmHomedir.value=prefix + frm.frmDominio.value;
 }
