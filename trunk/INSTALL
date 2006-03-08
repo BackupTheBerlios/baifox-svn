@@ -70,6 +70,7 @@ touch /usr/local/apache/cgi-bin/awstats/.htpasswd
 chgrp baifox /usr/local/apache/cgi-bin/awstats/.htpasswd
 chmod 664 /usr/local/apache/cgi-bin/awstats/.htpasswd
 touch /usr/local/apache/cgi-bin/awstats/.htaccess
+chmod 644 /usr/local/apache/cgi-bin/awstats/.htaccess
 echo "AuthType Basic" >/usr/local/apache/cgi-bin/awstats/.htaccess
 echo "AuthUserFile" >>/usr/local/apache/cgi-bin/awstats/.htpasswd
 echo "AuthName Estadisticas" >>/usr/local/apache/cgi-bin/awstats/.htpasswd

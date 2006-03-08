@@ -173,11 +173,13 @@ function db_mysql_dbasedel($dominio,$dbase){
 	mysql_close($link);
 
 	//Crea la configuracion en el XML
-   	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
-	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion")); 
-	$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+	if($dominio!="" AND $dbase!=""){
+   		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
+		$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion")); 
+		$conf->writeConfigFile(_CFG_XML_BASEDATOS, "xml", array( "mode" => "pretty" ) );
+	}
 	//Fin fichero configuracion XML
 }
 

@@ -78,10 +78,10 @@ function awstats_htpasswdsave($dominio,$usuario_actual,$usuario_nuevo,$password)
 			else
 				$usuario=trim($usuario_actual);
 			if($password!="")
-				$password=encriptar(trim($password));
+				$pass_crypt=encriptar(trim($password));
 			else
-				$password=trim($ht_password);
-			$contenido="$usuario:$password\n";
+				$pass_crypt=trim($ht_password);
+			$contenido="$usuario:$pass_crypt\n";
 			fputs($fichero_nuevo,$contenido);
 			$b_nuevo=true;
       		}else{
@@ -90,12 +90,26 @@ function awstats_htpasswdsave($dominio,$usuario_actual,$usuario_nuevo,$password)
 		}
  	}
 	if(!$b_nuevo){
-		$password=encriptar($password);
-		$contenido="$usuario_nuevo:$password\n";
+		$pass_crypt=encriptar($password);
+		$contenido="$usuario_nuevo:$pass_crypt\n";
 		fputs($fichero_nuevo,$contenido);
 	}
  	fclose($fichero_nuevo);
 	
+	//Si modifica el password del awstats, tambien lo actualiza en los datos del dominio
+	$ID=xmlconfig_buscar(_CFG_XML_DOMINIOS,"DOMINIO",$dominio,"","","posicion"); 
+	if($ID!=0 AND $password!=""){
+		//Crea la configuracion en el XML
+	    	$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
+		$datos=$conf->getConfigValue($ID);
+		$datos['PASSWORD']=md5_encrypt(trim($password),_CFG_INTERFACE_BLOWFISH);	
+		$conf->setConfigValue($ID, $datos, "array");
+		$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
+	}
+	//Fin fichero configuracion XML
+
 	return true;
 }
 

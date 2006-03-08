@@ -80,7 +80,7 @@ $datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$_GET["dominio"],"TIPO",1,"datos"
 	$total_registros=count($conf->getConfigValue());
 	for($i=1;$x<$total_registros;$i++){
 		$rs=$conf->getConfigValue($i);
-		if($rs["DOMINIO"]==$_GET['dominio'] AND $rs["TIPO"]!=1){
+		if($rs["DOMINIO"]==$_GET['dominio'] AND $rs["TIPO"]==2){
 ?>
               <form method="POST" name="formulario<?php echo $rs["USUARIO"]; ?>" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=1&dominio=<?php echo $_GET['dominio']; ?>">
                 <input type="hidden" name="frmUsuario" value="<?php echo $rs["USUARIO"]; ?>">

@@ -150,11 +150,13 @@ function pureftpd_deletesecundario($usuario,$dominio){
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
         mysql_query("DELETE FROM "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' AND usuario='$usuario';",$link);
 	//Crea la configuracion en el XML
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_FTP,a);
-	$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
-	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	if($usuario!="" AND $dominio!=""){
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_FTP,a);
+		$conf->clearConfigValue(xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion")); 
+		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
+	}
 	//Fin fichero configuracion XML}
 	@mysql_close($link);
 }
@@ -247,19 +249,21 @@ function pureftpd_domaindelall($dominio,$borrar_contenido){
 	@mysql_close($link);
 
 	//Borramos por si quedan restos
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_FTP);
-	$total_registros=count($conf->getConfigValue());
-	for($i=1;$x<$total_registros;$i++){
-		$rs=$conf->getConfigValue($i);
-		if($rs["DOMINIO"]==$dominio){
-			$conf->clearConfigValue($i); 
+	if($dominio!=""){
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_FTP);
+		$total_registros=count($conf->getConfigValue());
+		for($i=1;$x<$total_registros;$i++){
+			$rs=$conf->getConfigValue($i);
+			if($rs["DOMINIO"]==$dominio){
+				$conf->clearConfigValue($i); 
+			}
+			if($rs)
+				$x++;
 		}
-		if($rs)
-			$x++;
+		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 	}
-	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 }
 
 function pureftpd_domaindel($id,$borrar_contenido){
