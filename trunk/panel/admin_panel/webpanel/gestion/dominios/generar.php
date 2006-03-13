@@ -83,6 +83,8 @@
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
 	
 	echo "Proceso finalizado.<br>";
+
+	echo "<br><a href=\"index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=accion&accion=restart\">Pulse aqui para reiniciar servicios...</a><br>";
 	flush();
 	exit();	
 ?>
