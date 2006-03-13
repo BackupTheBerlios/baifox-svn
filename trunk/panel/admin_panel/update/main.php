@@ -38,7 +38,7 @@
         }
 	foreach ($origen as $linea){
 		if(strpos($linea,"_CFG_INTERFACE_VERSION")!==false){
-			if (fwrite($destino, "define(\"_CFG_INTERFACE_VERSION\",\"$version\");") === FALSE) {
+			if (fwrite($destino, "define(\"_CFG_INTERFACE_VERSION\",\"$version\");\n") === FALSE) {
 				// error escribiendo el fichero
 	   			echo "[ERROR] escribiendo fichero destino<br>\n";
            			return false;
