@@ -147,7 +147,7 @@
 			}
 			flush();
  		} 
-		update_version($fichero_config,$nueva_version);
+		update_version($fichero_config,trim($nueva_version));
 		echo "<br>----------------------------------------------<br>\n";
 		echo "<b>Actualización finalizada</b><br>\n";
 		?>
