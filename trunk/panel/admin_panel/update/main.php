@@ -113,8 +113,10 @@
 		$nueva_version=$lines[0];
 		$fichero_config="";
 		$lines = file("http://update.baifox.net/update.cfg");
-	 
+		$no_modificar = file(_CFG_INTERFACE_UPDATEIGNORE);
+
 	 	foreach ($lines as $linea) {
+			$modificar=true;
     			list($operacion,$tipo,$tam,$fichero,$ruta) =explode("][",substr($linea,1,strlen($linea)-3));
 			$ruta_destino=str_replace("/panel/","",_CFG_INTERFACE_DIR).$ruta."/".$fichero;
 			echo "----------------------------------------------<br>\n";
@@ -128,10 +130,16 @@
 			}else{
 				switch($operacion){
 				case "O":
-					if(download($fichero,$ruta,$ruta_destino))
+					foreach($no_modificar as $no_fichero){
+						if($ruta_destino==$no_fichero){
+							$modificar=false;
+							echo "NO TOCAR fichero $ruta_destino<br>\n";
+						}
+					}
+					/*if(download($fichero,$ruta,$ruta_destino))
 						echo "Sobreescribiendo fichero $ruta_destino<br>\n";
 					else
-						echo "[ERROR] Sobreescribiendo fichero $ruta_destino<br>\n";
+						echo "[ERROR] Sobreescribiendo fichero $ruta_destino<br>\n";*/
 				break;
 				case "X":
 					echo "Fichero sin modificar $ruta_destino<br>\n";

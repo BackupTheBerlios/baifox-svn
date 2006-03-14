@@ -106,7 +106,120 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           </td>
         </tr>
       </table>
-<?php flush(); ?>
+      <?php flush(); ?>
+      <br>
+      <table width="320" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr> 
+          <td colspan="3" bgcolor="#E27400"> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                <td width="12%" align="center"><img src="images/img_info.gif" width="50" height="34"></td>
+                <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Informaci&oacute;n 
+                  General de acceso</font></b></font></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr align="center"> 
+          <td colspan="3"> 
+            <table width="100%" border="0" cellspacing="2" cellpadding="0">
+              <tr align="center"> 
+                <td colspan="2" bgcolor="#BFBFBF"><b> Accesso FTP</b></td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
+                  FTP </td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> ftp.
+                  <?php echo $_GET['dominio'] ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Usuario FTP</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> 
+                  <?php $datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$_GET["dominio"],"TIPO",1,"datos"); echo $datos["USUARIO"]; ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Contrase&ntilde;a 
+                  FTP</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> 
+                  <select name="cmbftp">
+                    <option>ver contrase&ntilde;a</option>
+                    <option>
+                    <?php echo md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>
+                    </option>
+                  </select>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Programa 
+                  FTP </td>
+                <td bgcolor="#DFDFDF" align="center" width="49%"> <a href="<?php echo _CFG_INTERFACE_URLFTP; ?>"><font color="#000000">descargar</font></a></td>
+              </tr>
+              <tr align="center"> 
+                <td colspan="2" bgcolor="#BFBFBF"><b>Base de datos</b></td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
+                  MySQL</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> localhost</td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Base datos</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> 
+                  <?php $basedatos=xmlconfig_buscadbase($_GET['dominio'],"database"); echo $basedatos; ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Usuario base 
+                  datos</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> 
+                  <?php echo $basedatos;  ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Contrase&ntilde;a 
+                  base datos</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> 
+                  <?php $datos=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$_GET["dominio"],"DATABASE",$basedatos,"datos"); ?>
+                  <select name="cmbbasedatos">
+                    <option>ver contrase&ntilde;a</option>
+                    <option>
+                    <?php echo md5_decrypt($datos['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>
+                    </option>
+                  </select>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td colspan="2" bgcolor="#BFBFBF">&nbsp;<b>Correo</b></td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
+                  POP3</td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.
+                  <?php echo $_GET['dominio'] ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
+                  SMTP </td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.
+                  <?php echo $_GET['dominio'] ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td colspan="2" bgcolor="#BFBFBF"><b>Configuraci&oacute;n Correo</b></td>
+              </tr>
+              <tr align="left" bgcolor="#DFDFDF"> 
+                <td colspan="2"> 
+                  <?php echo _CFG_SERVER_CORREO; ?>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <?php flush(); ?>
     </td>
     <td width="4%">&nbsp;</td>
     <td width="39%"> <br>

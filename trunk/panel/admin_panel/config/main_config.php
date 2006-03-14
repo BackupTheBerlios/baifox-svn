@@ -10,8 +10,10 @@ define("_CFG_INTERFACE_DIR","/usr/local/baifox/panel/");
 define("_CFG_INTERFACE_DIRMODULES",_CFG_INTERFACE_DIR."admin_panel/modulos/");
 define("_CFG_INTERFACE_LIBRERIA",_CFG_INTERFACE_DIR."libreria.php");
 define("_CFG_INTERFACE_FASTTEMPLATE",_CFG_INTERFACE_DIR."admin_panel/interface/class.FastTemplate.php");
+define("_CFG_INTERFACE_UPDATEIGNORE",_CFG_INTERFACE_DIR."admin_panel/config/update_ignore.txt");
 define("_CFG_INTERFACE_PLANTILLAS",_CFG_INTERFACE_DIR."admin_panel/plantillas/");
 define("_CFG_INTERFACE_BLOWFISH",""); //palabra de paso para encriptar las contraseñas
+define("_CFG_INTERFACE_URLFTP",""); //programa/cliente de FTP para que el usuario pueda descargar y facilitar su labor
 
 define("_CFG_USERINTERFACE_PHPMYADMIN","http://mysql.dominio.com");
 define("_CFG_USERINTERFACE_WEBMAIL","http://webmail.dominio.com");
@@ -21,6 +23,7 @@ define("_CFG_USERINTERFACE_AWSTATS","http://estadisticas.dominio.com/cgi-bin/aws
 define("_CFG_SERVER_NAME",""); // servidor.com sin las www. (servidor principal que dara los servicios, estadisticas,webmail,phpmyadmin)
 define("_CFG_SERVER_NS",""); //ns1.servidor.com
 define("_CFG_SERVER_IP",""); // IP servidor
+define("_CFG_SERVER_CORREO","- Las cuentas de correo se identifican siempre con elusuario@sudominio.com<br>- Debe activar SIEMPRE \"Mi servidor requiere autentificación\" o \"Autentificación en el correo saliente (SMTP)\" en su programa de correo"); // Datos de configuración extra para el correo
 
 //Configuración RUTAS
 define("_CFG_APACHE_DESACTIVADO","/home/desactivado");

@@ -32,23 +32,27 @@
 			    <td colspan="4" align="center"><br>
         <table width="340" border="0" cellpadding="2" cellspacing="2">
           <tr> 
-            <td colspan="2" align="center" valign="bottom"><img src="logo.gif" width="147" height="107" border="0" align="absmiddle"><br>
-              <font face="Verdana, Arial, Helvetica, sans-serif"><strong></strong></font></td>
+            <td colspan="2" align="center" valign="bottom"><img src="logo.gif" width="147" height="107" border="0" align="absmiddle"><br></td>
           </tr>
           <tr align="center"> 
             <td colspan="2" class="red"><font face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="2">Login 
               Usuarios </font></strong></font> </td>
           </tr>
-            <td width="90" align="right" valign="middle"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Usuario:&nbsp;&nbsp;</font></b></td>
+          <td width="90" align="right" valign="middle"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Usuario:&nbsp;&nbsp;</font></b></td>
           <td> 
-              <input type="text" maxlength="272" name="frmUsuario">
-            </td>
+            <input type="text" maxlength="272" name="frmUsuario">
+          </td>
           </tr>
           <tr> 
             <td align="right" valign="middle"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Contrase&ntilde;a:&nbsp;&nbsp;</font></b></td>
             <td> 
               <input type="password" maxlength="60" name="frmPassword">
             </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><a href="index_recuperar.php"><font color="#000000">Recuperar 
+              Contrase&ntilde;a</font></a></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>

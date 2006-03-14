@@ -1,0 +1,1 @@
+//Indique aqui los ficheros que no desea que se modifiquen al actualizar BAIFOX. Uno en cada linea e incluyendo la ruta desde /panel [EJ: /panel/user_panel/include_top.php ] - (NO BORRE ESTA LINEA)

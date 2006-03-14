@@ -8,7 +8,7 @@
 	define(CFG_DIRECTORY,"/usr/local/src/");
 	define(CFG_UPDATE,"update.cfg");
 	$update_files=array("main_config.php");
-	$ignore_files=array("bind_ignore.txt","clientes.xml","database.xml","dominios.xml","ftp.xml",".htpasswd","usuarios.xml");
+	$ignore_files=array("bind_ignore.txt","clientes.xml","database.xml","dominios.xml","ftp.xml",".htpasswd","usuarios.xml","update_ignore.txt");
 
 if($argv[1]=="update"){
 	exec("cd ".CFG_DIRECTORY);
