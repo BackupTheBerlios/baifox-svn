@@ -119,6 +119,7 @@
 			$modificar=true;
     			list($operacion,$tipo,$tam,$fichero,$ruta) =explode("][",substr($linea,1,strlen($linea)-3));
 			$ruta_destino=str_replace("/panel/","",_CFG_INTERFACE_DIR).$ruta."/".$fichero;
+			$ruta_relativa=$ruta."/".$fichero;
 			echo "----------------------------------------------<br>\n";
 			if($tipo=="DIR"){
 				if(file_exists($ruta_destino)){
@@ -131,15 +132,20 @@
 				switch($operacion){
 				case "O":
 					foreach($no_modificar as $no_fichero){
-						if($ruta_destino==$no_fichero){
-							$modificar=false;
-							echo "NO TOCAR fichero $ruta_destino<br>\n";
+						if(substr($no_fichero, 0, 2)!="//"){
+							if($ruta_relativa==trim($no_fichero)){
+								$modificar=false;
+							}
 						}
 					}
-					/*if(download($fichero,$ruta,$ruta_destino))
-						echo "Sobreescribiendo fichero $ruta_destino<br>\n";
-					else
-						echo "[ERROR] Sobreescribiendo fichero $ruta_destino<br>\n";*/
+					if($modificar){
+						if(download($fichero,$ruta,$ruta_destino))
+							echo "Sobreescribiendo fichero $ruta_destino<br>\n";
+						else
+							echo "[ERROR] Sobreescribiendo fichero $ruta_destino<br>\n";
+					}else{
+						echo "Fichero sin modificar $ruta_destino<br>\n";
+					}
 				break;
 				case "X":
 					echo "Fichero sin modificar $ruta_destino<br>\n";
