@@ -129,9 +129,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
                   FTP </td>
-                <td bgcolor="#DFDFDF" align="left" width="49%"> ftp.
-                  <?php echo $_GET['dominio'] ?>
-                </td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> ftp.<?php echo $_GET['dominio'] ?></td>
               </tr>
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Usuario FTP</td>
@@ -196,16 +194,12 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
                   POP3</td>
-                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.
-                  <?php echo $_GET['dominio'] ?>
-                </td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.<?php echo $_GET['dominio'] ?></td>
               </tr>
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
                   SMTP </td>
-                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.
-                  <?php echo $_GET['dominio'] ?>
-                </td>
+                <td bgcolor="#DFDFDF" align="left" width="49%"> mail.<?php echo $_GET['dominio'] ?></td>
               </tr>
               <tr align="center"> 
                 <td colspan="2" bgcolor="#BFBFBF"><b>Configuraci&oacute;n Correo</b></td>
