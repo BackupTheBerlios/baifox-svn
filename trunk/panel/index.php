@@ -51,7 +51,7 @@
           </tr>
           <tr>
             <td>&nbsp;</td>
-            <td><a href="index_recuperar.php"><font color="#000000">Recuperar 
+            <td><a href="index_recuperar.php"><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Recuperar 
               Contrase&ntilde;a</font></a></td>
           </tr>
           <tr> 
