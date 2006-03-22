@@ -10,6 +10,9 @@
 		require _CFG_INTERFACE_DIRMODULES."mod_".$modulo."/include_funciones.php"; 
 	}
 
+	//Crea copia seguridad antes de modificar
+	xmlconfig_backup(_CFG_XML_DOMINIOS);
+
     	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_DOMINIOS,a);

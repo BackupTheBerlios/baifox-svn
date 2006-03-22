@@ -4,6 +4,7 @@ $rs=pureftpd_domainread($_GET['id']);
 ?>
 <form method="POST" action="webpanel/<?php echo $_GET['grupo']."/".$_GET['seccion']; ?>/save.php?id=<?php echo $_GET['id']; ?>">
 <input type="hidden" name="frmCFG_ESTADO" value="<?php echo $rs["estado"]; ?>">
+<input type="hidden" name="frmUsuarioActual" value="<?php echo $rs["usuario"]; ?>">
   <font size="2" face="Arial, Helvetica, sans-serif">Modificar FTP</font><br>
 <br>
 <table width="75%" border="1" bordercolor="#333333" cellspacing="0" cellpadding="0">

@@ -11,6 +11,9 @@
 	} else { 
 		$EDIT_ID=xmlconfig_buscar(_CFG_XML_CLIENTES,"USUARIO",$_POST['frmUsuario'],"","","posicion"); 
 		if ($EDIT_ID!=0){ 
+			//Crea copia seguridad antes de modificar
+			xmlconfig_backup(_CFG_XML_CLIENTES);
+
 			$conf = new patConfiguration;
 			$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 			$conf->parseConfigFile(_CFG_XML_CLIENTES);
@@ -30,6 +33,9 @@
 		}else{
 			$EDIT_ID=xmlconfig_buscar(_CFG_XML_USUARIOS,"USUARIO",$_POST['frmUsuario'],"","","posicion"); 
 			if ($EDIT_ID!=0){ 
+				//Crea copia seguridad antes de modificar
+				xmlconfig_backup(_CFG_XML_USUARIOS);
+
 				$conf = new patConfiguration;
 				$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 				$conf->parseConfigFile(_CFG_XML_USUARIOS);

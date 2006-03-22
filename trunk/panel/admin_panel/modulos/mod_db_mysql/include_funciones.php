@@ -82,6 +82,9 @@ function db_mysql_password($dominio,$dbase,$password){
 		//Crea la configuracion en el XML
 		$EDIT_ID=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion"); 
 		if($EDIT_ID!=0){
+			//Crea copia seguridad antes de modificar
+			xmlconfig_backup(_CFG_XML_BASEDATOS);
+
 			$mPassword=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
 
 			$conf = new patConfiguration;
@@ -131,6 +134,9 @@ function db_mysql_dbasecrear($dominio,$dbase,$password){
 	//Crea la configuracion en el XML
 	$EXISTE=xmlconfig_buscar(_CFG_XML_BASEDATOS,"DOMINIO",$dominio,"DATABASE",$dbase,"posicion"); 
 	if($EXISTE==0){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_BASEDATOS);
+
 		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);
@@ -150,6 +156,9 @@ function db_mysql_dbasecrear($dominio,$dbase,$password){
 }
 
 function db_mysql_dbasedelall($dominio){
+	//Crea copia seguridad antes de modificar
+	xmlconfig_backup(_CFG_XML_BASEDATOS);
+
 	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 	$conf->parseConfigFile(_CFG_XML_BASEDATOS);
@@ -174,6 +183,9 @@ function db_mysql_dbasedel($dominio,$dbase){
 
 	//Crea la configuracion en el XML
 	if($dominio!="" AND $dbase!=""){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_BASEDATOS);
+
    		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_BASEDATOS,a);

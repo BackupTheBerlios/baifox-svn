@@ -10,6 +10,7 @@ require_once _CFG_INTERFACE_DIRMODULES."mod_xmlconfig/include_funciones.php";
 <?php
 $mDominio=trim($_POST['frmDominio']);
 $mUsuario=$_POST['frmUsuario'];
+$mUsuarioActual=$_POST['frmUsuarioActual'];
 $mPassword=$_POST['frmPassword'];
 $mHomedir=$_POST['frmHomedir'];
 $mQuota=$_POST['frmQuota'];
@@ -17,9 +18,9 @@ $mEstado=$_POST['frmCFG_ESTADO'];
 $mTipo=$_POST['frmTipo'];
 
 	if ($_GET['id']!=0){
-		pureftpd_crear($mDominio,$mUsuario,$mPassword,$mHomedir,$mQuota,$mEstado,$_GET['id'],$mTipo);
+		pureftpd_crear($mDominio,$mUsuario,$mUsuarioActual,$mPassword,$mHomedir,$mQuota,$mEstado,$_GET['id'],$mTipo);
 	}else{
-		pureftpd_crear($mDominio,$mUsuario,$mPassword,$mHomedir,$mQuota,$mEstado,$_GET['id'],$mTipo);
+		pureftpd_crear($mDominio,$mUsuario,"",$mPassword,$mHomedir,$mQuota,$mEstado,$_GET['id'],$mTipo);
 	}
 		
 	header ("Location: ../../../index.php?grupo=servicios&seccion=pureftpd&pag=index\n\n");

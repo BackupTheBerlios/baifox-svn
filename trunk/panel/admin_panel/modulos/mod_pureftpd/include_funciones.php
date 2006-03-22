@@ -85,26 +85,34 @@ function pureftpd_passwd($dominio,$usuario,$password,$homedir,$tipo){
 	if($password!="")
 		$sqladd="password=ENCRYPT('$password'),";
         mysql_query("UPDATE "._CFG_PUREFTPD_TABLE." SET dominio='$dominio',usuario='$usuario',$sqladd homedir='$homedir' where dominio='$dominio' AND usuario='$usuario';",$link);
-	//Crea la configuracion en el XML
-	$conf = new patConfiguration;
-	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
-	$conf->parseConfigFile(_CFG_XML_FTP,a);
+	
 	$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
-	if($password!=""){
-		$set_password=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
-	}else{
-		$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"datos");
-		$set_password=$datos["PASSWORD"];
+	if($EDIT_ID!=0){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_FTP);
+
+		//Crea la configuracion en el XML
+		$conf = new patConfiguration;
+		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
+		$conf->parseConfigFile(_CFG_XML_FTP,a);
+
+		if($password!=""){
+			$set_password=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
+		}else{
+			$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"datos");
+			$set_password=$datos["PASSWORD"];
+		}	
+
+		$conf->setConfigValue($EDIT_ID, array(
+	 		"ID" 	  => $EDIT_ID,
+	 		"DOMINIO" => $dominio,
+	 		"HOMEDIR"=> $homedir,
+	 		"USUARIO" => $usuario, 
+	 		"PASSWORD" => $set_password,
+	 		"TIPO" => $tipo)
+		, "array");
+		$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 	}
-	$conf->setConfigValue($EDIT_ID, array(
-	 	"ID" 	  => $EDIT_ID,
-	 	"DOMINIO" => $dominio,
-	 	"HOMEDIR"=> $homedir,
-	 	"USUARIO" => $usuario, 
-	 	"PASSWORD" => $set_password,
-	 	"TIPO" => $tipo)
-	, "array");
-	$conf->writeConfigFile(_CFG_XML_FTP, "xml", array( "mode" => "pretty" ) );
 	//Fin fichero configuracion XML}
 	@mysql_close($link);
 	return true;
@@ -120,6 +128,9 @@ function pureftpd_crearsecundario($dominio,$usuario,$password,$homedir,$quotasiz
 
 		$EXISTE=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
 		if($EXISTE==0){
+			//Crea copia seguridad antes de modificar
+			xmlconfig_backup(_CFG_XML_FTP);
+
 			//Crea la configuracion en el XML
 			$conf = new patConfiguration;
 			$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
@@ -151,6 +162,9 @@ function pureftpd_deletesecundario($usuario,$dominio){
         mysql_query("DELETE FROM "._CFG_PUREFTPD_TABLE." WHERE dominio='$dominio' AND usuario='$usuario';",$link);
 	//Crea la configuracion en el XML
 	if($usuario!="" AND $dominio!=""){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_FTP);
+
 		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_FTP,a);
@@ -161,7 +175,7 @@ function pureftpd_deletesecundario($usuario,$dominio){
 	@mysql_close($link);
 }
 
-function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,$id,$tipo){
+function pureftpd_crear($dominio,$usuario,$usuario_actual,$password,$homedir,$quotasize,$estado,$id,$tipo){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
 	if($id!=0){
@@ -170,8 +184,11 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 	        mysql_query("UPDATE "._CFG_PUREFTPD_TABLE." SET dominio='$dominio',usuario='$usuario',$sqladd homedir='$homedir',quotafile=0,quotasize=$quotasize,estado=$estado where ID=$id;",$link);
 
 		//Crea la configuracion en el XML
-		$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
+		$EDIT_ID=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario_actual,"posicion"); 
 		if($EDIT_ID!=0){
+			//Crea copia seguridad antes de modificar
+			xmlconfig_backup(_CFG_XML_FTP);
+
 	   		$conf = new patConfiguration;
 			$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 			$conf->parseConfigFile(_CFG_XML_FTP,a);
@@ -179,7 +196,7 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 			if($password!=""){
 				$set_password=md5_encrypt($password,_CFG_INTERFACE_BLOWFISH);
 			}else{
-				$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"datos");
+				$datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario_actual,"datos");
 				$set_password=$datos["PASSWORD"];
 			}
 			$conf->setConfigValue($EDIT_ID, array(
@@ -208,6 +225,9 @@ function pureftpd_crear($dominio,$usuario,$password,$homedir,$quotasize,$estado,
 			//Crea la configuracion en el XML
 			$EXISTE=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$dominio,"USUARIO",$usuario,"posicion"); 
 			if($EXISTE==0){
+				//Crea copia seguridad antes de modificar
+				xmlconfig_backup(_CFG_XML_FTP);
+
 				$conf = new patConfiguration;
 				$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 				$conf->parseConfigFile(_CFG_XML_FTP,a);
@@ -250,6 +270,9 @@ function pureftpd_domaindelall($dominio,$borrar_contenido){
 
 	//Borramos por si quedan restos
 	if($dominio!=""){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_FTP);
+
 		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_FTP);
@@ -285,6 +308,9 @@ function pureftpd_domaindel($id,$borrar_contenido){
 
 	//Crea la configuracion en el XML
 	if($dominio!="" AND $usuario!=""){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_FTP);
+
    		$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 		$conf->parseConfigFile(_CFG_XML_FTP,a);

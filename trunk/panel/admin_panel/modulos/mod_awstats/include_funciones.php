@@ -99,6 +99,8 @@ function awstats_htpasswdsave($dominio,$usuario_actual,$usuario_nuevo,$password)
 	//Si modifica el password del awstats, tambien lo actualiza en los datos del dominio
 	$ID=xmlconfig_buscar(_CFG_XML_DOMINIOS,"DOMINIO",$dominio,"","","posicion"); 
 	if($ID!=0 AND $password!=""){
+		//Crea copia seguridad antes de modificar
+		xmlconfig_backup(_CFG_XML_DOMINIOS);
 		//Crea la configuracion en el XML
 	    	$conf = new patConfiguration;
 		$conf->setConfigDir(_CFG_XML_CONFIG_DIR);

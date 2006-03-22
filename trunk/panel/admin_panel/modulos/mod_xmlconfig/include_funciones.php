@@ -39,6 +39,15 @@ function xmlconfig_buscaid($id,$XML_RUTA){
 	}
 }
 
+function xmlconfig_backup($XML_RUTA){
+	$original=_CFG_XML_CONFIG_DIR."/".$XML_RUTA;
+	$copia=_CFG_XML_CONFIG_DIR."/".$XML_RUTA.".bak";
+	if (!copy($original, $copia))
+   		return false;
+	else
+		return true;
+}
+
 function xmlconfig_generaid($XML_RUTA){
 	$conf = new patConfiguration;
 	$conf->setConfigDir(_CFG_XML_CONFIG_DIR);
