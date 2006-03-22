@@ -66,7 +66,7 @@
 	flush();
         if (function_exists("pureftpd_info") AND function_exists("xmlconfig_info")){
 	    echo "Modulo mod_pureftpd...<br>";
-            $datos["IDFTP"]=pureftpd_crear($mDominio,$mUsuario,$mPassword,_CFG_APACHE_DOCUMENTROOT.$mDominio,$mQuotaFTP,1,0,1);
+            $datos["IDFTP"]=pureftpd_crear($mDominio,$mUsuario,"",$mPassword,_CFG_APACHE_DOCUMENTROOT.$mDominio,$mQuotaFTP,1,0,1);
         }
 	flush();
         if (function_exists("vpopmail_info")){
