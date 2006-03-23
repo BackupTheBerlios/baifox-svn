@@ -1,5 +1,8 @@
-BAIFOX 0.1
+BAIFOX 0.8.5
 ===================================================
+2006-03-23  Lorenzo Tejera fidojones@fidojones.com
+
+ * Cientos de cambios y añadido el panel de usuarios
 
 2005-10-30  Lorenzo Tejera fidojones@fidojones.com
 
@@ -45,5 +48,3 @@ MYSQL
 APACHE
 AWSTATS
 PUREFTPD
-
-
