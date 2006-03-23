@@ -131,7 +131,7 @@
 			}else{
 				switch($operacion){
 				case "O":
-					if($no_modificar!=false)
+					if($no_modificar!=false){
 						foreach($no_modificar as $no_fichero){
 							if(substr($no_fichero, 0, 2)!="//"){
 								if($ruta_relativa==trim($no_fichero)){
