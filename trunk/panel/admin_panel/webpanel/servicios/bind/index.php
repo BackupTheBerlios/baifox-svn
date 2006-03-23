@@ -4,10 +4,10 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
 <?php
 $array_listado=bind_listdomains();
 //Busca dato si se ha solicitado
-if(trim($fndBusqueda)!=""){
+if(trim($_GET['fndBusqueda'])!=""){
 	$array_busqueda=Array();
 	foreach ($array_listado as $value) {
-   		if(strpos($value,$fndBusqueda)!==false){
+   		if(stripos($value,$_GET['fndBusqueda'])!==false){
 			$array_busqueda[]=$value;
 		}
 	}

@@ -3,12 +3,40 @@
 $conf = new patConfiguration;
 $conf->setConfigDir(_CFG_XML_CONFIG_DIR);
 $conf->parseConfigFile(_CFG_XML_CLIENTES);
-$total_registros=count($conf->getConfigValue());
+$array_listado=$conf->getConfigValue();
+//Busca dato si se ha solicitado
+if(trim($_GET['fndBusqueda'])!=""){
+	$array_busqueda=Array();
+	foreach ($array_listado as $value) {
+   		if(stripos($value["NOMBRE"],$_GET['fndBusqueda'])!==false){
+			$array_busqueda[]=$value;
+		}
+	}
+	$array_listado=$array_busqueda;
+}
+$total_registros=count($array_listado);
 $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag'];
 include "include_top_numpage.php"; 
 ?>
 <div align="center"><font size="2" face="Arial, Helvetica, sans-serif">Listado Clientes.</font><br>
+    <table border="1" width="552" align="center" cellspacing="0" bordercolor="#999999">
+      <tr> 
+        <td align="center" valign="middle"> 
+   <form name="frmBusqueda" action="index.php" method="get" onSubmit="return checkForm(this);">
+	<input type="hidden" name="grupo" size="46" maxlength="150" value="<?php echo $_GET['grupo']; ?>">
+        <input type="hidden" name="seccion" size="46" maxlength="150" value="<?php echo $_GET['seccion']; ?>">
+        <input type="hidden" name="pag" size="46" maxlength="150" value="<?php echo $_GET['pag']; ?>">
+            <font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Buscar:</b></font> 
+            <select name=searchby  size=1>
+              <option value="nombre">nombre</option>
+            </select>
+          <input type=text name=fndBusqueda size=40 value=''>
+            <input type="submit" value="Buscar" name="submit">
+          </form>
+        </td>
+      </tr>
+    </table>  
   <br>
 </div>
 <table width="80%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#000000">
@@ -23,7 +51,7 @@ include "include_top_numpage.php";
 
    $x=1;
    if($total_registros>0)
-   	$array_mostrar=array_ordenar_campo($conf->getConfigValue(),"NOMBRE");
+   	$array_mostrar=array_ordenar_campo($array_listado,"NOMBRE");
    for($i=$from;$x<=$numpage_regpage AND $x<=($total_registros-$from);$i++){
    $rs = $array_mostrar[$i];
    if($rs){
