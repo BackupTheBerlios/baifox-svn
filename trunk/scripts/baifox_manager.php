@@ -97,12 +97,12 @@ function dominio_estado($iddominio,$estado){
 	$datos=$conf->getConfigValue(xmlconfig_buscaid($iddominio,_CFG_XML_DOMINIOS));
 	
 	if ($estado==1){
-		apache_domainonoff($datos['DOMINIO'],1);
+		apache_domainonoff($datos['DOMINIO'],1,false);
 		pureftpd_domainonoffall($datos['DOMINIO'],1);
 		vpopmail_domainonoff($datos['DOMINIO'],1);
 		$datos["ESTADO"]=1;
   	}else{
-		apache_domainonoff($datos['DOMINIO'],0);
+		apache_domainonoff($datos['DOMINIO'],0,false);
 		pureftpd_domainonoffall($datos['DOMINIO'],0);
 		vpopmail_domainonoff($datos['DOMINIO'],0);
 		$datos["ESTADO"]=0;
