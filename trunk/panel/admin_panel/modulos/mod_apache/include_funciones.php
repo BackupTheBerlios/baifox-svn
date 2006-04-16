@@ -61,8 +61,10 @@ $array_modules= array();
     if ($file != "." && $file != "..") { 
 	if(!is_dir(_CFG_APACHE_CONF.$file)){
 		if(substr($file,-5)=="_conf"){
-			if (trim(substr($file,-5))!="")
-				$array_modules[]=substr($file,0,-5);
+			$dominio=trim(substr($file,0,-5));
+			if ($dominio!="")
+				if(substr_count($dominio, '.')<2)
+					$array_modules[]=$dominio;
 		}
 	}
      }
@@ -70,16 +72,73 @@ $array_modules= array();
 return $array_modules;
 }
 
-function apache_generartemplate($dominio,$variables){
+function apache_listsubdomains(){
+$handle=GetDirArray(_CFG_APACHE_CONF); 
+$array_modules= array();
+
+ while (list ($key, $file) = each ($handle)) { 
+    if ($file != "." && $file != "..") { 
+	if(!is_dir(_CFG_APACHE_CONF.$file)){
+		if(substr($file,-5)=="_conf"){
+			$subdominio=trim(substr($file,0,-5));
+			if ($subdominio!="")
+				if(substr_count($subdominio, '.')>1)
+					$array_modules[]=$subdominio;
+		}
+	}
+     }
+ }
+return $array_modules;
+}
+
+function apache_subdomains($dominio){
+$handle=GetDirArray(_CFG_APACHE_CONF); 
+$array_modules= array();
+
+$x=0;
+ while (list ($key, $file) = each ($handle)) { 
+    if ($file != "." && $file != "..") { 
+	if(!is_dir(_CFG_APACHE_CONF.$file)){
+		if(substr($file,-5)=="_conf"){
+			if (strpos(trim($file),".".$dominio)!==false)
+				if (trim(substr($file,-5))!=""){
+					$subdominio=trim(substr($file,0,-5));
+					$array_modules[$x]["dominio"]=$subdominio;
+					$array_modules[$x]["directorio"]=substr($subdominio,0,strpos($subdominio,"."));
+					$x++;
+				}
+		}
+	}
+     }
+ }
+return $array_modules;
+}
+
+function apache_generartemplate($dominio,$variables,$subdominio){
 	//Generar conf apache
 	require_once _CFG_INTERFACE_FASTTEMPLATE;
 	$tpl = new FastTemplate(_CFG_INTERFACE_PLANTILLAS);
-	if($variables["APACHE_CGIBIN"]==1){
-		$tpl->define(array(main=> "apache-cgi.tpl"));
+	if($subdominio){
+		if($variables["APACHE_CGIBIN"]==1){
+			$tpl->define(array(main=> "subapache-cgi.tpl"));
+		}else{
+			$tpl->define(array(main=> "subapache.tpl"));
+		}
 	}else{
-		$tpl->define(array(main=> "apache.tpl"));
+		if($variables["APACHE_CGIBIN"]==1){
+			$tpl->define(array(main=> "apache-cgi.tpl"));
+		}else{
+			$tpl->define(array(main=> "apache.tpl"));
+		}
 	}
-	$tpl->assign(DOMINIO, $dominio);
+	if($subdominio){
+		$substrip=substr($subdominio,0,strpos($subdominio,".")+1);
+		$domstrip=substr($subdominio,strpos($subdominio,".")+1);
+		$tpl->assign(SUBDOMINIO, $substrip);
+		$tpl->assign(DOMINIO, $domstrip);
+	}else{
+		$tpl->assign(DOMINIO, $dominio);
+	}
 	$tpl->assign(CFG_ESTADO, $variables["CFG_ESTADO"]);
 	$tpl->assign(CFG_DOCUMENTROOT, $variables["CFG_DOCUMENTROOT"]);
 	$tpl->assign(APACHE_ALIAS, $variables["APACHE_ALIAS"]);
@@ -145,13 +204,12 @@ $variables=array();
 				$variables["APACHE_DOCUMENTROOT"]=trim(substr($value,strlen("DocumentRoot")+1));
    			if(stristr ($value,"ServerAlias")!=false)
 				$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias")+1));
-				//$variables["APACHE_ALIAS"]=trim(substr($value,strlen("ServerAlias *.$dominio $dominio")+1));
 		}
 	}
 return $variables;
 }
 
-function apache_domainonoff($dominio,$estado){
+function apache_domainonoff($dominio,$estado,$subdominio){
 	$variables=apache_domainread($dominio);
 	if($estado==1){
 		$variables["APACHE_DOCUMENTROOT"]=$variables["CFG_DOCUMENTROOT"];
@@ -160,7 +218,7 @@ function apache_domainonoff($dominio,$estado){
 		$variables["APACHE_DOCUMENTROOT"]=_CFG_APACHE_DESACTIVADO;
 		$variables["CFG_ESTADO"]=0;
 	}
-	apache_generartemplate($dominio,$variables);
+	apache_generartemplate($dominio,$variables,$subdominio);
 }
 
 function apache_control($accion){

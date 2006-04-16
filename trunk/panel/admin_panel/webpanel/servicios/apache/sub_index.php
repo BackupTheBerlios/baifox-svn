@@ -3,7 +3,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
 include "webpanel/".$_GET['grupo']."/".$_GET['seccion']."/menu.php"; 
 ?>
 <?php
-$array_listado=apache_listdomains();
+$array_listado=apache_listsubdomains();
 //Busca dato si se ha solicitado
 if(trim($_GET['fndBusqueda'])!=""){
 	$array_busqueda=Array();
@@ -19,8 +19,8 @@ $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag'];
 include "include_top_numpage.php"; 
 ?>
-<div align="center">
-  <font size="2" face="Arial, Helvetica, sans-serif">Listado Dominios Apache</font><br>
+<div align="center"> <font size="2" face="Arial, Helvetica, sans-serif">Listado 
+  Subdominios Apache</font><br>
     <table border="1" width="552" align="center" cellspacing="0" bordercolor="#999999">
       <tr> 
         <td align="center" valign="middle"> 
@@ -30,7 +30,7 @@ include "include_top_numpage.php";
         <input type="hidden" name="pag" size="46" maxlength="150" value="<?php echo $_GET['pag']; ?>">
             <font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b>Buscar:</b></font> 
             <select name=searchby  size=1>
-              <option value="dominio">dominio</option>
+              <option value="dominio">subdominio</option>
             </select>
           <input type=text name=fndBusqueda size=40 value=''>
             <input type="submit" value="Buscar" name="submit">
@@ -53,7 +53,7 @@ include "include_top_numpage.php";
 <br>
 <table width="80%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#000000">
   <tr align="center"> 
-    <td bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Dominio</font></b></td>
+    <td bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Subdominio</font></b></td>
     <td width="6%" bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Estado</font></b></td>
     <td width="28%" bgcolor="#CC3300"><b><font color="#000000" size="2" face="Arial, Helvetica, sans-serif">Acciones</font></b></td>
   </tr>
@@ -78,9 +78,9 @@ include "include_top_numpage.php";
       <img src="images/icn_suspendido.gif" width="20" height="20"> 
       <?php } ?>
     </td>
-    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=edit&id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/estado.php?id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>&estado=<?php echo $estado; ?>"><img src="images/icn_suspendido.gif" width="20" height="20" border="0"></a> 
-      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a></td>
+    <td width="28%" valign="top" align="center" height="2"> <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=sub_edit&id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>"><img src="images/icn_editar.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/sub_estado.php?id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>&estado=<?php echo $estado; ?>"><img src="images/icn_suspendido.gif" width="20" height="20" border="0"></a> 
+      &nbsp;&nbsp;&nbsp;<a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/sub_delete.php?id=<?php echo $x; ?>&dominio=<?php echo $rs; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs; ?>?')"><img src="images/icn_borrar.gif" width="20" height="20" border="0"></a></td>
   </tr>
   <?php 	$x++;
         	if($bool_celdcolor){ $bool_celdcolor=false; }else{ $bool_celdcolor=true; }
@@ -97,9 +97,9 @@ include "include_top_numpage.php";
     <td colspan="3"> 
       <table width="40%" border="0" align="right">
         <tr> 
-          <td width="93%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir 
-            Nuevo Dominio</font></a></td>
-          <td width="7%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=nuevo"><img src="images/icn_nuevo.gif" width="20" height="20" border="0"></a></td>
+          <td width="93%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=sub_nuevo"><font size="2" face="Arial, Helvetica, sans-serif">A&ntilde;adir 
+            Nuevo Subdominio</font></a></td>
+          <td width="7%" height="9"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=sub_nuevo"><img src="images/icn_nuevo.gif" width="20" height="20" border="0"></a></td>
         </tr>
       </table>
     </td>

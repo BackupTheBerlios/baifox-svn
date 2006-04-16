@@ -12,13 +12,26 @@ function crear_documentroot(frm,prefix) {
 	frm.frmDocumentRoot.value=prefix + frm.frmDominio.value;
 }
 
+function crear_subdocumentroot(frm,prefix) {
+	cadenasub=frm.frmDominio.value;
+	cadenadom=frm.frmDominio.value;
+	subdominio=cadenasub.substr(0,strpos(frm.frmDominio.value, "."));
+	dominio=cadenadom.substr(strpos(frm.frmDominio.value, ".")+1);
+	frm.frmDocumentRoot.value= prefix + dominio + '/' + subdominio;
+}
+
 function crear_serveralias(frm) {
-	frm.frmAlias.value= '*.' + frm.frmDominio.value + ' ' + frm.frmDominio.value;
+	frm.frmAlias.value= frm.frmDominio.value;
+}
+
+function crear_subserveralias(frm) {
+	frm.frmAlias.value= 'www.' + frm.frmDominio.value;
 }
 
 function crear_homedir(frm,prefix) {
 	frm.frmHomedir.value=prefix + frm.frmDominio.value;
 }
+
 
 function crear_basedatos(frm) {
 	str=fnStripSLD(frm.frmDominio.value);

@@ -3,7 +3,7 @@
     <td width="57%"> <br>
       <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr> 
-          <td colspan="4" bgcolor="#E27400"> 
+          <td colspan="3" bgcolor="#E27400"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
                 <td width="12%" align="center"><img src="images/img_mundo.gif" width="39" height="39"></td>
@@ -26,9 +26,9 @@
           </td>
         </tr>
         <tr align="center"> 
-          <td colspan="4"> 
+          <td colspan="3"> 
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
-<?php
+              <?php
    $total_espacio_global=0;
    $total_anchobanda_global=0;
    $total_anchobanda_globalant=0;
@@ -45,15 +45,15 @@
 ?>
               <tr align="center"> 
                 <td width="61%" align="left"><span class="Estilo5"><font color="#D65300">&nbsp; 
-                  <a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $key; ?>" class="naranja">
+                  <a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $key; ?>" class="naranja"> 
                   <?php echo $key; ?>
                   </a></font></span></td>
-                <td width="18%" align="right"><strong><span class="Estilo6">
+                <td width="18%" align="right"><strong><span class="Estilo6"> 
                   <?php echo number_format(bitconversor($total_espacio_ocupado,"byte","mbyte"), 2, ',', '.'); ?>
                   MB&nbsp;</span></strong></td>
-                <td width="21%" align="right"><span class="Estilo5"><b>
-                  <?php echo  number_format($total_anchobanda, 2, ',', '.'); ?> MB
-                  </b></span><b>&nbsp;</b></td>
+                <td width="21%" align="right"><span class="Estilo5"><b> 
+                  <?php echo  number_format($total_anchobanda, 2, ',', '.'); ?>
+                  MB </b></span><b>&nbsp;</b></td>
               </tr>
               <?php 
    }
@@ -62,15 +62,22 @@
           </td>
         </tr>
         <tr align="center"> 
-          <td colspan="2">
+          <td colspan="3">seleccione el dominio que desea configurar<br>
+            <br>
+          </td>
+        </tr>
+        <tr align="center"> 
+          <td> 
             <?php echo count($_SESSION['SEC_USER_DOMINIOS']); ?>
-            Dominios en total - Max. [<?php echo $_SESSION['SEC_USER_TOTAL_DOMINIOS']; ?>]</td>
-	<?php if(count($_SESSION['SEC_USER_DOMINIOS'])<$_SESSION['SEC_USER_TOTAL_DOMINIOS']){ ?>
+            Dominios en total - Max. [ 
+            <?php echo $_SESSION['SEC_USER_TOTAL_DOMINIOS']; ?>
+            ]</td>
+          <?php if(count($_SESSION['SEC_USER_DOMINIOS'])<$_SESSION['SEC_USER_TOTAL_DOMINIOS']){ ?>
           <td width="9%" valign="middle" align="right"><a href="index.php?grupo=general&seccion=dominio&pag=index"><img src="images/icn_dominio.gif" width="30" height="29" border="0"></a> 
           </td>
           <td width="24%" valign="middle"><a href="index.php?grupo=general&seccion=dominio&pag=index">A&ntilde;adir 
             dominio</a></td>
-	<?php } ?>
+          <?php } ?>
         </tr>
       </table>
     </td>
@@ -86,7 +93,11 @@
                   en disco</b></font><br><font face="Arial, Helvetica, sans-serif" size="1" color="#FFFFFF">consumo y disponibilidad</font>&nbsp;</td>
               </tr>
             </table>
-	<?php $ancho_espacio=round((bitconversor($total_espacio_global,"byte","mbyte")*100)/$_SESSION['SEC_USER_TOTAL_ESPACIO']); ?>
+	<?php 
+		$ancho_espacio=round((bitconversor($total_espacio_global,"byte","mbyte")*100)/$_SESSION['SEC_USER_TOTAL_ESPACIO']); 
+		if($ancho_espacio>100)
+			$ancho_espacio=100;
+	?>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center"> 
                 <td width="46%" align="left" class="Estilo2">&nbsp;Espacio en 
@@ -121,7 +132,11 @@
 		<br><font color="#FFFFFF" size="1" face="Verdana, Arial, Helvetica, sans-serif">Transferencia de Datos</font>&nbsp;</td>
               </tr>
             </table>
-	<?php $ancho_banda=round(($total_anchobanda_global*100)/$_SESSION['SEC_USER_TOTAL_ANCHOBANDA']); ?>
+	<?php 
+		$ancho_banda=round(($total_anchobanda_global*100)/$_SESSION['SEC_USER_TOTAL_ANCHOBANDA']); 
+		if($ancho_banda>100)
+			$ancho_banda=100;
+	?>
             <table width="100%" border="0" cellspacing="5" cellpadding="0">
               <tr align="center"> 
                 <td width="46%" align="left" class="Estilo2">&nbsp;Transferencia</td>

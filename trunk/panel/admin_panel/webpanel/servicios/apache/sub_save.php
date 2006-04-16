@@ -49,7 +49,8 @@ if($_POST['frmOPUpload']==1){
 }
  
 apache_generartemplate($mDominio,$variables,false);
-	
-	header ("Location: ../../../index.php?grupo=servicios&seccion=apache&pag=index\n\n");
+pureftpd_crearsubdomain	($variables["APACHE_DOCUMENTROOT"]);
+
+	header ("Location: ../../../index.php?grupo=servicios&seccion=apache&pag=sub_index\n\n");
 	exit();
  ?>

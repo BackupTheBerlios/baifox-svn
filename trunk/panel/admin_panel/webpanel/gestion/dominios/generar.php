@@ -38,7 +38,7 @@
             $variables["PHP_REGISTERGLOBAL"]=1;
             $variables["PHP_SAFEMODE"]=1;
             $variables["PHP_UPLOAD"]=0;
-            apache_generartemplate($mDominio,$variables);
+            apache_generartemplate($mDominio,$variables,false);
         }
 	flush();
         if (function_exists("awstats_info")){

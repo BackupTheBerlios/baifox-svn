@@ -8,6 +8,40 @@ $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag']."&dominio=".$_GET['dominio'];
 include "include_top_numpage.php"; 
 ?>
+<script type="text/javascript">
+<!--
+	function hideDiv() {
+		if (document.getElementById) { // DOM3 = IE5, NS6
+			document.getElementById('hideshow').style.visibility = 'hidden';
+		}else {
+			if (document.layers) { // Netscape 4
+				document.hideshow.visibility = 'hidden';
+			}
+			else { // IE 4
+				document.all.hideshow.style.visibility = 'hidden';
+			}
+		}
+	}
+	function showDiv() {
+		if (document.getElementById) { // DOM3 = IE5, NS6
+			document.getElementById('hideshow').style.visibility = 'visible';
+		}else {
+			if (document.layers) { // Netscape 4
+				document.hideshow.visibility = 'visible';
+			}
+			else { // IE 4
+				document.all.hideshow.style.visibility = 'visible';
+			}
+		}
+	}
+	function mostrar(valor){
+		if(valor=='REPLYTO_ADDRESS')
+			showDiv();
+		else
+			hideDiv();
+	}
+-->
+</script>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
     <td> <br>
@@ -34,7 +68,7 @@ include "include_top_numpage.php";
    $bool_celdcolor=false;
 
    $x=1;
-   for($i=$from;$x<=($total_registros-$from);$i++){
+   for($i=$from;$x<=$total_registros;$i++){
    $rs =$array_listado[$i];
 	if($rs!=""){
 ?>
@@ -104,13 +138,11 @@ include "include_top_numpage.php";
                 <tr align="center"> 
                   <td bgcolor="#d6d6d6" align="right" width="32%">Respuesta mensajes</td>
                   <td bgcolor="#d6d6d6" align="left" width="68%"> 
-                    <select name="frmRespuesta">
+                    <select name="frmRespuesta" onchange="Javascript:mostrar(this.value);" onkeyup="Javascript:mostrar(this.value);">
                       <option value="REPLYTO_SENDER" selected>Lista de correo</option>
                       <option value="REPLYTO_LIST">Remitente original</option>
                       <option value="REPLYTO_ADDRESS">Rediriguen al email</option>
-                    </select>
-                    redirigido a email
-                    <input type="text" name="frmEmailRespuesta" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25">
+                    </select><div id="hideshow">redirigido a email<input type="text" name="frmEmailRespuesta" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="25"></div>
                   </td>
                 </tr>
                 <tr align="center"> 
@@ -153,3 +185,8 @@ include "include_top_numpage.php";
     </td>
   </tr>
 </table>
+<script type="text/javascript">
+<!--
+hideDiv();
+-->
+</script>

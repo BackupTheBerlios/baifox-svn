@@ -21,12 +21,12 @@
 	$datos=$conf->getConfigValue(xmlconfig_buscaid($_GET['id'],_CFG_XML_DOMINIOS));
 	
 	if ($_GET['estado']==1){
-		apache_domainonoff($datos['DOMINIO'],0);
+		apache_domainonoff($datos['DOMINIO'],0,false);
 		pureftpd_domainonoffall($datos['DOMINIO'],0);
 		vpopmail_domainonoff($datos['DOMINIO'],0);
 		$datos["ESTADO"]=0;
   	}else{
-		apache_domainonoff($datos['DOMINIO'],1);
+		apache_domainonoff($datos['DOMINIO'],1,false);
 		pureftpd_domainonoffall($datos['DOMINIO'],1);
 		vpopmail_domainonoff($datos['DOMINIO'],1);
 		$datos["ESTADO"]=1;

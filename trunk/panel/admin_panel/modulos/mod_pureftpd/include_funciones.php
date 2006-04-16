@@ -175,6 +175,15 @@ function pureftpd_deletesecundario($usuario,$dominio){
 	@mysql_close($link);
 }
 
+function pureftpd_crearsubdomain($homedir){
+	if (!file_exists($homedir) AND $homedir!="") {
+		//Crea el directorio
+		$result = execute_cmd("mkdir $homedir");
+		//Asigna permisos al directorio
+		$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
+	}
+}
+
 function pureftpd_crear($dominio,$usuario,$usuario_actual,$password,$homedir,$quotasize,$estado,$id,$tipo){
 	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
 	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
@@ -214,11 +223,9 @@ function pureftpd_crear($dominio,$usuario,$usuario_actual,$password,$homedir,$qu
 		$result=mysql_query("SELECT * FROM "._CFG_PUREFTPD_TABLE." WHERE usuario='$usuario';",$link);
 		if(mysql_numrows($result)<=0){
 			//Crea el directorio
-			$exec_cmd = "mkdir";
-			$result = execute_cmd("$exec_cmd $homedir");
+			$result = execute_cmd("mkdir $homedir");
 			//Asigna permisos al directorio
-			$exec_cmd = "chown";
-			$result = execute_cmd("$exec_cmd "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
+			$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
 			//Crea el usuario en la base de datos
 			mysql_query("INSERT INTO "._CFG_PUREFTPD_TABLE."(id,dominio,usuario,password,homedir,quotafile,quotasize,estado,tipo) VALUES ('', '$dominio','$usuario',ENCRYPT('$password'),'$homedir',0,$quotasize,$estado,$tipo);",$link);
 
