@@ -132,10 +132,14 @@ function apache_generartemplate($dominio,$variables,$subdominio){
 		}
 	}
 	if($subdominio){
-		$substrip=substr($subdominio,0,strpos($subdominio,".")+1);
-		$domstrip=substr($subdominio,strpos($subdominio,".")+1);
+		$substrip=substr($dominio,0,strpos($dominio,".")+1);
+		$domstrip=substr($dominio,strpos($dominio,".")+1);
 		$tpl->assign(SUBDOMINIO, $substrip);
 		$tpl->assign(DOMINIO, $domstrip);
+		if($variables["APACHE_DOCUMENTROOT"]!=_CFG_APACHE_DESACTIVADO)
+			$tpl->assign(APACHE_SUBDOCUMENTROOT, substr($variables["APACHE_DOCUMENTROOT"],0,-(strlen($substrip))));
+		else
+			$tpl->assign(APACHE_SUBDOCUMENTROOT, $variables["APACHE_DOCUMENTROOT"]);
 	}else{
 		$tpl->assign(DOMINIO, $dominio);
 	}

@@ -47,7 +47,7 @@ include "include_top_numpage.php";
                 <td width="36%" align="left">
                   <?php echo $rs["directorio"]; ?>
                 </td>
-                <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&usuario=<?php echo $rs["cuenta_origen"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["cuenta_origen"]; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
+                <td width="15%" align="center"><a href="webpanel/<?php echo $_GET['grupo']; ?>/<?php echo $_GET['seccion']; ?>/delete.php?id=<?php echo $x; ?>&subdominio=<?php echo $rs["dominio"]; ?>&dominio=<?php echo $_GET['dominio']; ?>" onclick="return confirmLink(this, '¿Desea borrar <?php echo $rs["dominio"]; ?>?')"><img src="images/icn_eliminar.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr align="center"> 
                 <td colspan="3" align="left" bgcolor="#d6d6d6"><img src="#" width="1" height="1"> 
@@ -83,7 +83,7 @@ include "include_top_numpage.php";
                 <tr align="center"> 
                   <td width="17%" align="left" bgcolor="#d6d6d6">&nbsp;&nbsp;subdominio</td>
                   <td width="31%" align="left" bgcolor="#d6d6d6"> 
-                    <input type="text" name="frmCuentaOrigen" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="15">.<?php echo $_GET['dominio']; ?>
+                    <input type="text" name="frmSubdominio" class="boxBlur" onfocus="this.className='boxFocus'"  onblur="this.className='boxBlur'" size="15">.<?php echo $_GET['dominio']; ?>
                   </td>
                   <td bgcolor="#d6d6d6" align="center" width="12%"><a href="#"><img src="images/icn_grabar.gif" width="25" height="25" border="0" onclick="document.formulario.submit()"></a></td>
                 </tr>

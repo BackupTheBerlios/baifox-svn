@@ -5,6 +5,8 @@
 <?php
 include "../include_permiso.php"; 
 require_once _CFG_INTERFACE_DIRMODULES."mod_apache/include_funciones.php";
+require_once _CFG_INTERFACE_DIRMODULES."mod_filesystem/include_funciones.php";
+
 ?>
 <?php
 $variables=Array();
@@ -48,8 +50,8 @@ if($_POST['frmOPUpload']==1){
 	$variables["PHP_UPLOAD"]=0;
 }
  
-apache_generartemplate($mDominio,$variables,false);
-pureftpd_crearsubdomain	($variables["APACHE_DOCUMENTROOT"]);
+apache_generartemplate($mDominio,$variables,true);
+filesystem_crearsubdomain($variables["APACHE_DOCUMENTROOT"]);
 
 	header ("Location: ../../../index.php?grupo=servicios&seccion=apache&pag=sub_index\n\n");
 	exit();

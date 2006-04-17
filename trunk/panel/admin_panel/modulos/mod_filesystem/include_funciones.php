@@ -315,4 +315,13 @@ function filesystem_backupcomprimir($dominio,$flag){
 	}
 }
 
+function filesystem_crearsubdomain($homedir){
+	if (!file_exists($homedir) AND $homedir!="") {
+		//Crea el directorio
+		$result = execute_cmd("mkdir $homedir");
+		//Asigna permisos al directorio
+		$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $homedir");
+	}
+}
+
 ?>
