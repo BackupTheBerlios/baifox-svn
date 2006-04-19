@@ -272,7 +272,8 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
               <tr align="center" valign="top">
                 <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=ftp&pag=index&dominio=<?php echo $_GET["dominio"]; ?>" ><img src="images/icn_ftp.gif" width="50" height="50" border="0"><br>
                   Acceso FTP</a></td>
-                <td width="23%" class="Estilo2">&nbsp;</td>
+                <td width="23%" class="Estilo2"><a href="index.php?grupo=dominio&seccion=subdominios&pag=index&dominio=<?php echo $_GET["dominio"]; ?>" ><img src="images/icn_subdominios.gif" width="50" height="50" border="0"><br>
+                  Subdominios</a></td>
                 <td width="17%">&nbsp;</td>
                 <td width="17%">&nbsp;</td>
               </tr>
