@@ -52,7 +52,6 @@ if(file_exists($ficherolog)){
 	foreach ($lineas as $line_num => $linea) {
 		list( , , , , , , , , , $tamanio) = explode(" ", $linea, 10);
 		if($tamanio != "-") { $total = ($total + $tamanio); }
-		$contador++;
 	}
 	return number_format(bitconversor($total,"byte","mbyte"), 2, '.', '');
 }else{
