@@ -222,14 +222,16 @@ function vpopmail_autorespondadd($cuenta,$cuentacopia,$asunto,$mensaje,$dominio)
 	if(!file_exists($directorio)){
 		$result = execute_cmd("mkdir $directorio");
 	}
-	$cuerpo="From: $cuenta@$dominio";
 	$result = execute_cmd("echo $cuerpo>/tmp/message");
-	$cuerpo="Subject: $asunto";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
-	$cuerpo="";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
-	$cuerpo="$mensaje";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+
+	$cuerpo="From: $cuenta@$dominio\n";
+	$cuerpo.="Subject: $asunto\n";
+	$cuerpo.="\n";
+	$cuerpo.=$mensaje;
+	$fichero_nuevo=fopen("/tmp/message","w");
+	fputs($fichero_nuevo,$cuerpo);
+	fclose($fichero_nuevo);
+	//Mueve el fichero temporal creado
 	$result = execute_cmd("mv -f /tmp/message $directorio/message");
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
 	$result = execute_cmd("chmod 700 $directorio");
@@ -295,14 +297,14 @@ function vpopmail_cuenta_autorespondadd($cuenta,$asunto,$mensaje,$dominio){
 		$result = execute_cmd("mkdir $directorio");
 	}
 	//Crea el mensaje de autorespuesta
-	$cuerpo="From: $cuenta@$dominio";
-	$result = execute_cmd("echo $cuerpo>/tmp/message");
-	$cuerpo="Subject: $asunto";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
-	$cuerpo="";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
-	$cuerpo="$mensaje";
-	$result = execute_cmd("echo $cuerpo>>/tmp/message");
+	$cuerpo="From: $cuenta@$dominio\n";
+	$cuerpo.="Subject: $asunto\n";
+	$cuerpo.="\n";
+	$cuerpo.=$mensaje;
+	$fichero_nuevo=fopen("/tmp/message","w");
+	fputs($fichero_nuevo,$cuerpo);
+	fclose($fichero_nuevo);
+	//Mueve el fichero temporal creado
 	$result = execute_cmd("mv -f /tmp/message $directorio/message");
 	$result = execute_cmd("chown -R "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio");
 	$result = execute_cmd("chmod 700 $directorio");
