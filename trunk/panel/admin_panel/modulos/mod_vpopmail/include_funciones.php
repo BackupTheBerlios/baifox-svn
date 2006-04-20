@@ -339,7 +339,12 @@ function vpopmail_cuenta_autoresponddel($cuenta,$dominio){
 			execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
 		}
 	}
-	$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+	if(filesize("/tmp/tmpqmail")>0){
+		$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+	}else{
+		$result = execute_cmd("rm -f /tmp/tmpqmail");
+		$result = execute_cmd("rm -f $directorio/.qmail");
+	}
 	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
 	$result = execute_cmd("chmod 600 $directorio/.qmail");
 
@@ -406,7 +411,12 @@ function vpopmail_cuentaantispam($cuenta,$dominio,$flag){
 				execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
 			}
 		}
-		$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+		if(filesize("/tmp/tmpqmail")>0){
+			$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
+		}else{
+			$result = execute_cmd("rm -f /tmp/tmpqmail");
+			$result = execute_cmd("rm -f $directorio/.qmail");
+		}
 		$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
 		$result = execute_cmd("chmod 600 $directorio/.qmail");
 		$result = execute_cmd("rm -f /tmp/tmpqmail"); 
