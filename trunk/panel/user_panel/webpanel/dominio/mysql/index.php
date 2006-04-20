@@ -87,7 +87,7 @@ if($_GET['base']!=""){
                     <?php echo $rs["USUARIO"]; ?>
                   </td>
                   <td align="left" width="30%"> 
-                    <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="20" maxlength="14">
+                    <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14" maxlength="14">
                     Max 14 car.</td>
                   <td width="11%" align="center"> <a href="javascript:document.formulario<?php echo $rs["DATABASE"]; ?>.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
                     &nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>?pma_username=<?php echo $rs["USUARIO"]; ?>&pma_password=<?php echo md5_decrypt($rs['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
