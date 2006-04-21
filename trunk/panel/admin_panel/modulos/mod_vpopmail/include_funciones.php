@@ -318,6 +318,7 @@ function vpopmail_cuenta_autorespondadd($cuenta,$asunto,$mensaje,$dominio){
 	{
 		execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
 	}
+	$result = execute_cmd("echo \"$directorio_usuario/Maildir/\">> /tmp/tmpqmail");
 	$result = execute_cmd("echo \"|"._CFG_VPOPMAIL_AUTORESPOND." 86400 3 $directorio/message $directorio \">> /tmp/tmpqmail");
 	$result = execute_cmd("mv -f /tmp/tmpqmail $directorio_usuario/.qmail");
 	$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio_usuario/.qmail");
@@ -335,7 +336,7 @@ function vpopmail_cuenta_autoresponddel($cuenta,$dominio){
 	$result = execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
 	for($i=0;$i<count($result);$i++)
 	{
-		if(strpos($result[$i],_CFG_VPOPMAIL_AUTORESPOND)===false){
+		if(strpos($result[$i],_CFG_VPOPMAIL_AUTORESPOND)===false AND strpos($result[$i],"$directorio/Maildir/")===false){
 			execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
 		}
 	}
