@@ -23,7 +23,7 @@ se puede usar como script de arranque baifox_initd copiándolo en el /etc/init.d/
 -----------------------------------------------------------
 cp /usr/local/baifox/baifox_initd /etc/init.d/baifox
 chmod 700 /etc/init.d/baifox
-solo para debian
+# solo para debian
 update-rc.d /etc/init.d/baifox defaults 99
 
 
