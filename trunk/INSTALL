@@ -11,7 +11,6 @@ Puerto de acceso: 7777
 Ejemplo: http://www.miservidor.com:7777/
 usuario: admin
 password: admin
-se puede usar como script de arranque baifox_initd copiandolo en el /etc/init.d/ por ejemplo
 
 cd /usr/local
 tar xfz baifox.tar.gz
@@ -20,10 +19,17 @@ useradd -g baifox -s /bin/false -c "Panel control baifox" baifox
 passwd baifox [CONTRASEÑA TEXTO PLANO USUARIO BAIFOX]
 chown -R baifox.baifox /usr/local/baifox
 
+se puede usar como script de arranque baifox_initd copiándolo en el /etc/init.d/ por ejemplo
+-----------------------------------------------------------
+cp /usr/local/baifox/baifox_initd /etc/init.d/baifox
+chmod 700 /etc/init.d/baifox
+solo para debian
+update-rc.d /etc/init.d/baifox defaults 99
+
+
 Instalar el sudo
 ===========================
 apt-get install sudo
-/etc/sudoers
 echo "[CONTRASEÑA TEXTO PLANO USUARIO BAIFOX]" > /usr/local/baifox/panel/admin_panel/config/.htpasswd
 chown baifox.baifox /usr/local/baifox/panel/admin_panel/config/.htpasswd
 chmod 600 /usr/local/baifox/panel/admin_panel/config/.htpasswd
