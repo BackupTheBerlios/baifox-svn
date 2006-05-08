@@ -124,7 +124,7 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
           <td colspan="3"> 
             <table width="100%" border="0" cellspacing="2" cellpadding="0">
               <tr align="center"> 
-                <td colspan="2" bgcolor="#BFBFBF"><b> Accesso FTP</b></td>
+                <td colspan="2" bgcolor="#BFBFBF"><b> Acceso FTP</b></td>
               </tr>
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF">&nbsp;Servidor 
