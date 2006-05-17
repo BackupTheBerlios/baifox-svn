@@ -1,6 +1,6 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
-apache_domainread($_GET['dominio']);
+$rs=apache_domainread($_GET['dominio']);
 ?>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
