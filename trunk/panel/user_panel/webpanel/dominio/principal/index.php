@@ -1,5 +1,6 @@
 <?php 
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
+apache_domainread($_GET['dominio']);
 ?>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center" height="400">
   <tr valign="top"> 
@@ -30,14 +31,15 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Espacio 
                   usado por SQL</span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%"> 
-		<?php db_mysql_showquotas($_GET['dominio']); ?>
+		          <?php db_mysql_showquotas($_GET['dominio']); ?>
 		</td>
               </tr>
               <tr align="center"> 
                 <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;Ancho 
                   de banda usado</span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%"> 
-                  <?php echo number_format(bandwidth_estadisticas_mes_total($_GET['dominio'],date("Y"),date("n")), 2, ',', '.'); ?> MB
+                  <?php echo number_format(bandwidth_estadisticas_mes_total($_GET['dominio'],date("Y"),date("n")), 2, ',', '.'); ?>
+                   MB
                 </td>
               </tr>
               <tr align="center"> 
@@ -52,6 +54,18 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                   Home </span></td>
                 <td bgcolor="#DFDFDF" align="right" width="49%">
                   <?php echo _CFG_APACHE_DOCUMENTROOT.$_GET['dominio']; ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;PHP Safe Mode</span></td>
+                <td bgcolor="#DFDFDF" align="right" width="49%">
+                  <?php if($rs["PHP_SAFEMODE"]==1){ echo "Activado"; }else{ echo "Desactivado"; } ?>
+                </td>
+              </tr>
+              <tr align="center"> 
+                <td width="51%" align="left" bgcolor="#BFBFBF"><span class="Estilo5">&nbsp;PHP Upload</span></td>
+                <td bgcolor="#DFDFDF" align="right" width="49%">
+                  <?php if($rs["PHP_UPLOAD"]==1){ echo "Activado"; }else{ echo "Desactivado"; } ?>
                 </td>
               </tr>
             </table>

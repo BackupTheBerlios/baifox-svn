@@ -162,7 +162,7 @@ function filesystem_htaccesssave($dominio,$directorio,$cadena){
 	$result = execute_cmd("touch $fichero_htaccess");
 	$result = execute_cmd("chown "._CFG_PUREFTPD_VIRTUALUSER."."._CFG_PUREFTPD_VIRTUALGROUP." $fichero_htaccess");
 	$result = execute_cmd("chmod 777 $fichero_htaccess");
-	$contenido="AuthName $cadena\n";
+	$contenido="AuthName \"$cadena\"\n";
 	$contenido.="AuthType Basic\n";
 	$contenido.="AuthUserFile "._CFG_APACHE_DOCUMENTROOT.$dominio."/".$directorio."/.htpasswd\n";
 	$contenido.="require valid-user\n";
@@ -183,7 +183,7 @@ function filesystem_htaccessread($dominio,$directorio,$flag){
         case "cadena":
 		if(file_exists($fichero_htaccess)){
 			$result = execute_cmd(_CFG_CMD_CAT." $fichero_htaccess");
-			list($cadena_auth, $cadena) =split("AuthName", $result[0], 2);
+			list($cadena_auth, $cadena) =split("AuthName", str_replace("\"","",$result[0]), 2);
 		}else{
 			$cadena="";
 		}
