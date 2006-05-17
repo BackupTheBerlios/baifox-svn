@@ -394,7 +394,9 @@ function vpopmail_cuentaantispam($cuenta,$dominio,$flag){
 		$result = execute_cmd(_CFG_CMD_CAT." $directorio/.qmail");
 		for($i=0;$i<count($result);$i++)
 		{
-			$error = execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");
+			if(strpos($result[$i],_CFG_VPOPMAIL_CFG_ANTISPAM)===false){
+				execute_cmd("echo \"".addslashes_cmd(trim($result[$i]))."\" >> /tmp/tmpqmail");	
+			}
 		}
 		$result = execute_cmd("mv -f /tmp/tmpqmail $directorio/.qmail");
 		$result = execute_cmd("chown "._CFG_VPOPMAIL_USER."."._CFG_VPOPMAIL_GROUP." $directorio/.qmail");
