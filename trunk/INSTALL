@@ -148,3 +148,9 @@ Revisar que el UID y GID del usuario virtual sea el mismo para el fichero pureft
 y configurar el socket mysqld.sock en el fichero pureftpd-mysql.conf para que apunte al de mysql
 
 /usr/local/sbin/pure-ftpd -p 50000:50400 -B -A -C 8 -E -D -c 50 -s -w -z -b -l mysql:/etc/pureftpd-mysql.conf -l unix &
+
+cron
+===========================
+añadir al cron
+
+1 5 * * * /usr/local/baifox/panel/admin_panel/cron.php 1>/dev/null 2>&1
