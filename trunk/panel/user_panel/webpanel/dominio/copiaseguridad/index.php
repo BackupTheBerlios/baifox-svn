@@ -27,13 +27,13 @@ include "webpanel/".$_GET['grupo']."/include_permiso.php";
                 <td align="left" width="78%"> 
                   <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=web"><?php echo $_GET["dominio"]; ?> - p&aacute;gina web</a>
                 </td>
-                <td width="22%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=web"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                <td width="22%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=web"><img src="images/icn_cseguridad_dw.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr> 
                 <td align="left" width="78%"> 
                   <a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=basedatos"><?php echo $_GET["dominio"]; ?> - base de datos</a>
                 </td>
-                <td width="22%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=basedatos"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                <td width="22%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=generar&dominio=<?php echo $_GET['dominio']; ?>&tipo=basedatos"><img src="images/icn_cseguridad_dw.gif" width="30" height="30" border="0"></a></td>
               </tr>
               <tr> 
                 <td align="left" bgcolor="#d6d6d6" colspan="2"><img src="#" width="1" height="1"> 

@@ -91,8 +91,8 @@ if($_GET['base']!=""){
                     Max 14 car.</td>
                   <td width="11%" align="center"> <a href="javascript:document.formulario<?php echo $rs["DATABASE"]; ?>.submit();"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
                     &nbsp;&nbsp;&nbsp;<a href="Javascript:Ventana('<?php echo _CFG_USERINTERFACE_PHPMYADMIN; ?>?pma_username=<?php echo $rs["USUARIO"]; ?>&pma_password=<?php echo md5_decrypt($rs['PASSWORD'],_CFG_INTERFACE_BLOWFISH); ?>');"><img src="images/icn_phpmyadmin_mini.gif" width="30" height="30" border="0"></a></td>
-                  <td width="11%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=check&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a> 
-                    &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=repair&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_editar.gif" width="30" height="30" border="0"></a></td>
+                  <td width="11%" align="center"><a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=check&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_check.gif" width="30" height="30" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp;<a href="index.php?grupo=<?php echo $_GET['grupo']; ?>&seccion=<?php echo $_GET['seccion']; ?>&pag=mantener&accion=repair&dominio=<?php echo $_GET['dominio']; ?>&base=<?php echo $rs["DATABASE"]; ?>"><img src="images/icn_reparar.gif" width="30" height="30" border="0"></a></td>
                 </tr>
 	</form>
 <?php 

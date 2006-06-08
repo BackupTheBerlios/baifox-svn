@@ -11,7 +11,7 @@ $datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$_GET["dominio"],"TIPO",1,"datos"
           <td colspan="3" bgcolor="#E27400"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
-                <td width="12%" align="center" height="33"><img src="images/icn_cseguridad_sub.gif" width="47" height="34"></td>
+                <td width="12%" align="center" height="33"><img src="images/icn_ftp_sub.gif" width="47" height="34"></td>
                 <td width="88%" height="33"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Acceso 
                   FTP Principal</font></b></font></td>
               </tr>
@@ -57,7 +57,7 @@ $datos=xmlconfig_buscar(_CFG_XML_FTP,"DOMINIO",$_GET["dominio"],"TIPO",1,"datos"
           <td colspan="3" bgcolor="#E27400"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
-                <td width="12%" align="center" height="33"><img src="images/icn_cseguridad_sub.gif" width="47" height="34"></td>
+                <td width="12%" align="center" height="33"><img src="images/icn_ftp_sub.gif" width="47" height="34"></td>
                 <td width="88%" height="33"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Accesos 
                   FTP Secundarios</font></b></font></td>
               </tr>
