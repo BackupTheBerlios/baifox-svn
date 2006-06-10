@@ -35,9 +35,16 @@
 <br>
 <table width="80%" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr valign="middle"> 
-    <td colspan="3">&nbsp;<img src="images/flechita.gif" width="6" height="10"> 
-      <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: </b><a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="naranjas"><?php echo $_GET['dominio']; ?></a>
-      </font></td>
+    <td colspan="2">&nbsp;<img src="images/flechita.gif" width="6" height="10"> 
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Dominio: 
+      </b><a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="naranjas"> 
+      <?php echo $_GET['dominio']; ?>
+      </a> </font></td>
+	<?php if($_GET['seccion']!="principal"){ ?>
+    		<td width="30%" align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="naranjas">Volver 
+      		menu [ <?php echo $_GET['dominio']; ?> ]</a></font></td>
+    		<td width="2%" align="right"><a href="index.php?grupo=dominio&seccion=principal&pag=index&dominio=<?php echo $_GET['dominio']; ?>" class="naranjas"><img src="images/icn_volver.gif" width="15" height="15" border="0"></a></td>
+	<?php } ?>
   </tr>
 </table>
 <?php } ?>
