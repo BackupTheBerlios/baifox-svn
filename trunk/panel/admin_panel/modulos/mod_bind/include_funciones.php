@@ -44,22 +44,24 @@ function bind_listdomains(){
 
 	$i=0;
 	foreach ($lines as $line_num => $line) {
-   		$cadena=str_word_count($line,1);
-	   	if($cadena[0]=="zone"){
-		   	$linea_zona=trim($line);
-			$pos_ini=strpos($linea_zona, '"');
-			$pos_fin=strpos($linea_zona, '"',$pos_ini+1);
-			$zona=substr($linea_zona, $pos_ini+1,$pos_fin-strlen($linea_zona));
-			if(!word_exist($zona,_CFG_BIND_IGNORE_FILE)){
-				$array_listado[$i]=trim($zona);
-				$i++;
-			}
-   		}
-   		if($cadena[0]=="file"){
-   			$linea_fichero=trim($line);
-			$pos=strpos($linea_fichero, '"');
-			$fichero=trim(substr($linea_fichero, $pos+1,-2));
-   		}
+		if(substr($line,0,2)!="//"){
+   			$cadena=str_word_count($line,1);
+	   		if($cadena[0]=="zone"){
+			   	$linea_zona=trim($line);
+				$pos_ini=strpos($linea_zona, '"');
+				$pos_fin=strpos($linea_zona, '"',$pos_ini+1);
+				$zona=substr($linea_zona, $pos_ini+1,$pos_fin-strlen($linea_zona));
+				if(!word_exist($zona,_CFG_BIND_IGNORE_FILE)){
+					$array_listado[$i]=trim($zona);
+					$i++;
+				}
+   			}
+   			if($cadena[0]=="file"){
+	   			$linea_fichero=trim($line);
+				$pos=strpos($linea_fichero, '"');
+				$fichero=trim(substr($linea_fichero, $pos+1,-2));
+   			}
+		}
 	}
 	sort($array_listado);
 	return $array_listado;

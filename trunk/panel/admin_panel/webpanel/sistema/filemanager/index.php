@@ -2,7 +2,7 @@
 include "webpanel/".$_GET['grupo']."/include_permiso.php"; 
 ?>
 <?php
-$array_listado=filemanager_listdomains();
+$array_listado=apache_listdomains();
 $total_registros=count($array_listado);
 $numpage_total=$total_registros;
 $numpage_urlweb="index.php?grupo=".$_GET['grupo']."&seccion=".$_GET['seccion']."&pag=".$_GET['pag'];

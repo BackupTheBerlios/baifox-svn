@@ -36,23 +36,6 @@ function filemanager_test(){
 	return $test;
 }
 
-function filemanager_listdomains(){
-$handle=GetDirArray(_CFG_APACHE_CONF); 
-$array_modulos= array();
-
- while (list ($key, $file) = each ($handle)) { 
-    if ($file != "." && $file != "..") { 
-	if(!is_dir(_CFG_APACHE_CONF.$file)){
-		if(substr($file,-5)=="_conf"){
-			if (trim(substr($file,-5))!="")
-				$array_modulos[]=substr($file,0,-5);
-		}
-	}
-     }
- }
-return $array_modulos;
-}
-
 function filemanager_quotacalculate($dominio){
 	$exec_cmd = _CFG_PUREFTPD_QUOTACHECK;
 	execute_cmd("$exec_cmd -u "._CFG_PUREFTPD_UID." -g "._CFG_PUREFTPD_GID." -d "._CFG_APACHE_DOCUMENTROOT.$dominio."/");
