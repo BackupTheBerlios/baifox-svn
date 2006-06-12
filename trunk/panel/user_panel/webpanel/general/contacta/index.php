@@ -26,12 +26,12 @@
                   <td  align="right" height="22"><b><font face="Arial, Helvetica, sans-serif" size="2" color="#000000">De</font></b></td>
                   <td  align="left" height="22"> <font face="Arial, Helvetica, sans-serif"> 
                     <font size="2"> 
-                    <?php echo $SEC_USER_NOMBRE; ?>
+                    <?php echo $_SESSION['SEC_USER_NOMBRE']; ?>
                     < 
-                    <?php echo $SEC_USER_EMAIL; ?>
+                    <?php echo $_SESSION['SEC_USER_EMAIL']; ?>
                     > 
-                    <input type="hidden" name="frmNombre" value="<?php echo $SEC_USER_NOMBRE; ?>">
-                    <input type="hidden" name="frmEmail" value="<?php echo $SEC_USER_EMAIL; ?>">
+                    <input type="hidden" name="frmNombre" value="<?php echo $_SESSION['SEC_USER_NOMBRE']; ?>">
+                    <input type="hidden" name="frmEmail" value="<?php echo $_SESSION['SEC_USER_EMAIL']; ?>">
                     </font> </font> </td>
                 </tr>
                 <tr bgcolor="#d6d6d6"> 
@@ -58,7 +58,7 @@
                   <td colspan="2"> 
                     <input type="submit" value="Enviar"  name="borrar">
                     <font face="Verdana, Arial, Helvetica, sans-serif" size="1" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font> 
-                    <input type="submit" value="Borrar"  name="borrar">
+                    <input type="reset" value="Borrar"  name="borrar">
                   </td>
                 </tr>
               </table>
