@@ -63,7 +63,7 @@ $array_modules= array();
 		if(substr($file,-5)=="_conf"){
 			$dominio=trim(substr($file,0,-5));
 			if ($dominio!="")
-				if(substr_count($dominio, '.')<2)
+				if(!apache_issubdomain(_CFG_APACHE_CONF.$file))
 					$array_modules[]=$dominio;
 		}
 	}
@@ -82,7 +82,7 @@ $array_modules= array();
 		if(substr($file,-5)=="_conf"){
 			$subdominio=trim(substr($file,0,-5));
 			if ($subdominio!="")
-				if(substr_count($subdominio, '.')>1)
+				if(apache_issubdomain(_CFG_APACHE_CONF.$file))
 					$array_modules[]=$subdominio;
 		}
 	}
@@ -182,6 +182,21 @@ $filename=_CFG_APACHE_CONF.$dominio."_conf";
 	}
 }
 
+function apache_issubdomain($file){
+
+	$find=false;
+	if(file_exists($file)) {
+		$lineas=file($file);
+		foreach ($lineas as $value) {
+   			if(stristr ($value,"CFG_SUBDOMINIO")!=false){
+				$find=true;
+				break;
+			}
+		}
+	}
+	return $find;
+}
+
 function apache_domainread($dominio){
 $variables=array();
 
@@ -267,6 +282,8 @@ function apache_descargarlog($dominio,$flag){
    			}			
 		}
 		$result = execute_cmd("rm -f /tmp/$file_nombre.gz");
+	}else{
+		return false;
 	}
 }
 
