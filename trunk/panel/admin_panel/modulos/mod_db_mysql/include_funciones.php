@@ -75,7 +75,21 @@ function db_mysql_password($dominio,$dbase,$password){
 	if($password!=""){
 		$link = mysql_connect(_CFG_MYSQL_SERVER,_CFG_MYSQL_USER,_CFG_MYSQL_PASSWORD);
 		mysql_select_db(_CFG_MYSQL_DB,$link);
-		mysql_query("UPDATE user SET Password=PASSWORD('$password') WHERE User='$dbase';",$link);
+		$version=db_mysql_version(1);
+		switch($version){
+		case "3.23":
+			mysql_query("UPDATE user SET Password=PASSWORD('$password') WHERE User='$dbase';",$link);
+		break;
+		case "4.0":
+			mysql_query("UPDATE user SET Password=PASSWORD('$password') WHERE User='$dbase';",$link);
+		break;
+		case "4.1":
+			mysql_query("UPDATE user SET Password=OLD_PASSWORD('$password') WHERE User='$dbase';",$link);
+		break;
+		case "5.0":
+			mysql_query("UPDATE user SET Password=OLD_PASSWORD('$password') WHERE User='$dbase';",$link);
+		break;
+		}
  		@mysql_query("FLUSH PRIVILEGES;",$link);
 		mysql_close($link);
 
