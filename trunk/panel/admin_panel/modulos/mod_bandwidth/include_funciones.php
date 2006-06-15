@@ -97,23 +97,6 @@ function bandwidth_grabar($dia,$mes,$anio,$dominio,$total){
 	}
 }
 
-function bandwidth_listdomains(){
-$handle=GetDirArray(_CFG_APACHE_CONF); 
-$array_modules= array();
-
- while (list ($key, $file) = each ($handle)) { 
-    if ($file != "." && $file != "..") { 
-	if(!is_dir(_CFG_APACHE_CONF.$file)){
-		if(substr($file,-5)=="_conf"){
-			if (trim(substr($file,-5))!="")
-				$array_modules[]=substr($file,0,-5);
-		}
-	}
-     }
- }
-return $array_modules;
-}
-
 function bandwidth_cron(){
 	$dominios=bandwidth_listdomains();
 	foreach ($dominios as $dominio) {

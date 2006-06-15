@@ -31,20 +31,20 @@
                       <tr align="center"> 
                         <td width="11%" bgcolor="#d6d6d6" align="right">contrase&ntilde;a</td>
                         <td width="17%" bgcolor="#d6d6d6" align="left"> 
-                          <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                          <input type="text" name="frmPassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14" value="<?php echo vpopmail_usershowpasswd($_GET["usuario"],$_GET['dominio']); ?>">
                         </td>
                       </tr>
                       <tr align="center"> 
                         <td width="11%" bgcolor="#d6d6d6" align="right">confirmar 
                           contrase&ntilde;a</td>
                         <td width="17%" bgcolor="#d6d6d6" align="left"> 
-                          <input type="text" name="frmRePassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14">
+                          <input type="text" name="frmRePassword" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="14" value="<?php echo vpopmail_usershowpasswd($_GET["usuario"],$_GET['dominio']); ?>">
                         </td>
                       </tr>
                       <tr align="center"> 
                         <td bgcolor="#d6d6d6" align="right" width="6%">espacio</td>
                         <td bgcolor="#d6d6d6" align="left" width="3%"> 
-                          <input type="text" name="frmQuota" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5">
+                          <input type="text" name="frmQuota" class="boxBlur" onFocus="this.className='boxFocus'"  onBlur="this.className='boxBlur'" size="5" value="<?php echo vpopmail_cuentalimits($_GET["usuario"],$_GET['dominio'],"quota"); ?>">
                         </td>
                       </tr>
                       <tr align="center"> 

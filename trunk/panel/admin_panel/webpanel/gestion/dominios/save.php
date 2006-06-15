@@ -57,6 +57,9 @@ $conf->parseConfigFile(_CFG_XML_DOMINIOS,a);
 					 "ESTADO" => $mEstado)
 			 	, "array");
 
+        	if (function_exists("pureftpd_info")){
+			pureftpd_quota($mIDFTP,$mQuotaFTP);
+		}
         	if (function_exists("awstats_info")){
 			$mUsuario_Antiguo=awstats_usuariohtpasswd($mDominio);
 			awstats_htpasswdsave($mDominio,$mUsuario_Antiguo,$mUsuario,$_POST['frmPassword']);

@@ -332,6 +332,13 @@ function pureftpd_domainonoff($id,$estado){
 	@mysql_close($link);
 }
 
+function pureftpd_quota($id,$quota){
+	$link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);
+	mysql_select_db(_CFG_INTERFACE_MYSQLDB,$link);
+	mysql_query("update "._CFG_PUREFTPD_TABLE." SET quotasize=$quota where id=$id",$link);
+	@mysql_close($link);
+}
+
 function pureftpd_quotastatus($id){
   if(is_numeric($id)){
    $link = mysql_connect(_CFG_INTERFACE_MYSQLSERVER,_CFG_INTERFACE_MYSQLUSER,_CFG_INTERFACE_MYSQLPASSWORD);

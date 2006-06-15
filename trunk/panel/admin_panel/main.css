@@ -1,18 +1,13 @@
-A  { text-decoration : none; color : #E85C08; }
-A:Link  { text-decoration : underline; color : #BC0101; }
+A  { text-decoration : none; color : black; }
+A:Link  { text-decoration : underline; color : black; }
 A:Visited  { text-decoration : underline; color : Black; }
 A:Active  { text-decoration : underline; color : Black; }
-A:Hover  { text-decoration : underline; color : #000000; }
+A:Hover  { text-decoration : underline; color : black; }
 
 A.negro  { text-decoration : none; color : black; }
 A.negro:Visited  { text-decoration : none; color : black; }
 A.negro:Active  { text-decoration : none; color : black; }
 A.negro:Hover  { text-decoration : underline; color : black; }
-
-A.melocoton  { text-decoration : none; color : #FFAE01; }
-A.melocoton:Visited  { text-decoration : none; color : #FFAE01; }
-A.melocoton:Active  { text-decoration : none; color : #FFAE01; }
-A.melocoton:Hover  { text-decoration : underline; color : #FFAE01; }
 
 .fondocelda1 {  background-color: #CC6666}
 .fondocelda2 {  background-color: #FFFFFF}
