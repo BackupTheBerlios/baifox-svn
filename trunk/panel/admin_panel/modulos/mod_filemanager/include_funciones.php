@@ -199,231 +199,6 @@ class config {
     }
 }
 // +--------------------------------------------------
-// | Internationalization
-// +--------------------------------------------------
-function filemanager_st($tag){
-    global $lang;
-    // English
-    $en['Version'] = 'Version';
-    $en['DocRoot'] = 'Document Root';
-    $en['FLRoot'] = 'File Manager Root';
-    $en['Name'] = 'Name';
-    $en['And'] = 'and';
-    $en['Enter'] = 'Enter';
-    $en['Send'] = 'Send';
-    $en['Refresh'] = 'Refresh';
-    $en['SaveConfig'] = 'Save Configurations';
-    $en['SavePass'] = 'Save Password';
-    $en['SaveFile'] = 'Save File';
-    $en['Save'] = 'Save';
-    $en['Leave'] = 'Leave';
-    $en['Edit'] = 'Edit';
-    $en['View'] = 'View';
-    $en['Config'] = 'Config';
-    $en['Ren'] = 'Rename';
-    $en['Rem'] = 'Delete';
-    $en['Compress'] = 'Compress';
-    $en['Decompress'] = 'Decompress';
-    $en['ResolveIDs'] = 'Resolve IDs';
-    $en['Move'] = 'Move';
-    $en['Copy'] = 'Copy';
-    $en['ServerInfo'] = 'Server Info';
-    $en['CreateDir'] = 'Create Directory';
-    $en['CreateArq'] = 'Create File';
-    $en['ExecCmd'] = 'Execute Command';
-    $en['Upload'] = 'Upload';
-    $en['UploadEnd'] = 'Upload Finished';
-    $en['Perms'] = 'Permissions';
-    $en['Owner'] = 'Owner';
-    $en['Group'] = 'Group';
-    $en['Other'] = 'Other';
-    $en['Size'] = 'Size';
-    $en['Date'] = 'Date';
-    $en['Type'] = 'Type';
-    $en['Free'] = 'free';
-    $en['Shell'] = 'Shell';
-    $en['Read'] = 'Read';
-    $en['Write'] = 'Write';
-    $en['Exec'] = 'Execute';
-    $en['Apply'] = 'Apply';
-    $en['StickyBit'] = 'Sticky Bit';
-    $en['Pass'] = 'Password';
-    $en['Lang'] = 'Language';
-    $en['File'] = 'File';
-    $en['File_s'] = 'file(s)';
-    $en['Dir_s'] = 'directory(s)';
-    $en['To'] = 'to';
-    $en['Destination'] = 'Destination';
-    $en['Configurations'] = 'Configurations';
-    $en['JSError'] = 'JavaScript Error';
-    $en['NoSel'] = 'There are no selected itens';
-    $en['SelDir'] = 'Select the destination directory on the left tree';
-    $en['TypeDir'] = 'Enter the directory name';
-    $en['TypeArq'] = 'Enter the file name';
-    $en['TypeCmd'] = 'Enter the command';
-    $en['TypeArqComp'] = 'Enter the file name.\\nThe extension will define the compression type.\\nEx:\\nnome.zip\\nnome.tar\\nnome.bzip\\nnome.gzip';
-    $en['RemSel'] = 'DELETE selected itens';
-    $en['NoDestDir'] = 'There is no selected destination directory';
-    $en['DestEqOrig'] = 'Origin and destination directories are equal';
-    $en['InvalidDest'] = 'Destination directory is invalid';
-    $en['NoNewPerm'] = 'New permission not set';
-    $en['CopyTo'] = 'COPY to';
-    $en['MoveTo'] = 'MOVE to';
-    $en['AlterPermTo'] = 'CHANGE PERMISSIONS to';
-    $en['ConfExec'] = 'Confirm EXECUTE';
-    $en['ConfRem'] = 'Confirm DELETE';
-    $en['EmptyDir'] = 'Empty directory';
-    $en['IOError'] = 'I/O Error';
-    $en['FileMan'] = 'Baifox File Manager';
-    $en['TypePass'] = 'Enter the password';
-    $en['InvPass'] = 'Invalid Password';
-    $en['ReadDenied'] = 'Read Access Denied';
-    $en['FileNotFound'] = 'File not found';
-    $en['AutoClose'] = 'Close on Complete';
-    $en['OutDocRoot'] = 'File beyond DOCUMENT_ROOT';
-    $en['NoCmd'] = 'Error: Command not informed';
-    $en['ConfTrySave'] = 'File without write permisson.\\nTry to save anyway';
-    $en['ConfSaved'] = 'Configurations saved';
-    $en['PassSaved'] = 'Password saved';
-    $en['FileDirExists'] = 'File or directory already exists';
-    $en['NoPhpinfo'] = 'Function phpinfo disabled';
-    $en['NoReturn'] = 'no return';
-    $en['FileSent'] = 'File sent';
-    $en['SpaceLimReached'] = 'Space limit reached';
-    $en['InvExt'] = 'Invalid extension';
-    $en['FileNoOverw'] = 'File could not be overwritten';
-    $en['FileOverw'] = 'File overwritten';
-    $en['FileIgnored'] = 'File ignored';
-    $en['ChkVer'] = 'Check sf.net for new version';
-    $en['ChkVerAvailable'] = 'New version, click here to begin download!!';
-    $en['ChkVerNotAvailable'] = 'No new version available. :(';
-    $en['ChkVerError'] = 'Connection Error.';
-    $en['Website'] = 'Website';
-    $en['SendingForm'] = 'Sending files, please wait';
-    $en['NoFileSel'] = 'No file selected';
-    $en['SelAll'] = 'All';
-    $en['SelNone'] = 'None';
-    $en['SelInverse'] = 'Inverse';
-    $en['Selected_s'] = 'selected';
-    $en['Total'] = 'total';
-    $en['Partition'] = 'Partition';
-    $en['RenderTime'] = 'Time to render this page';
-    $en['Seconds'] = 'sec';
-    $en['ErrorReport'] = 'Error Reporting';
-
-    // Spanish
-    $es['Version'] = 'Versión';
-    $es['DocRoot'] = 'Documento Raiz';
-    $es['FLRoot'] = 'Gestor de ficheros';
-    $es['Name'] = 'Nombre';
-    $es['And'] = 'y';
-    $es['Enter'] = 'Entrar';
-    $es['Send'] = 'Enviar';
-    $es['Refresh'] = 'Actualizar';
-    $es['SaveConfig'] = 'Grabar configuración';
-    $es['SavePass'] = 'Grabar Contraseña';
-    $es['SaveFile'] = 'Grabar Archivo';
-    $es['Save'] = 'Salvar';
-    $es['Leave'] = 'Salir';
-    $es['Edit'] = 'Editar';
-    $es['View'] = 'Ver';
-    $es['Config'] = 'Configurar';
-    $es['Ren'] = 'Renomb.';
-    $es['Rem'] = 'Borrar';
-    $es['Compress'] = 'Comprimir';
-    $es['Decompress'] = 'Descomprimir';
-    $es['ResolveIDs'] = 'Mostrar IDs';
-    $es['Move'] = 'Mover';
-    $es['Copy'] = 'Copiar';
-    $es['ServerInfo'] = 'Información servidor';
-    $es['CreateDir'] = 'Crear Directorio';
-    $es['CreateArq'] = 'Crear Archivo';
-    $es['ExecCmd'] = 'Ejecutar Comando';
-    $es['Upload'] = 'Subir';
-    $es['UploadEnd'] = 'Ficheros subidos';
-    $es['Perms'] = 'Permisos';
-    $es['Owner'] = 'Dueño';
-    $es['Group'] = 'Grupo';
-    $es['Other'] = 'Otros';
-    $es['Size'] = 'Tamaño';
-    $es['Date'] = 'Fecha';
-    $es['Type'] = 'Tipo';
-    $es['Free'] = 'libre';
-    $es['Shell'] = 'Consola';
-    $es['Read'] = 'Leer';
-    $es['Write'] = 'Escribir';
-    $es['Exec'] = 'Ejecutar';
-    $es['Apply'] = 'Aplicar';
-    $es['StickyBit'] = 'Sticky Bit';
-    $es['Pass'] = 'Contraseña';
-    $es['Lang'] = 'Idioma';
-    $es['File'] = 'Archivo';
-    $es['File_s'] = 'archivo(s)';
-    $es['Dir_s'] = 'diretorio(s)';
-    $es['To'] = 'para';
-    $es['Destination'] = 'Destino';
-    $es['Configurations'] = 'Configuración';
-    $es['JSError'] = 'Error de JavaScript';
-    $es['NoSel'] = 'No hay ficheros seleccionados';
-    $es['SelDir'] = 'Seleccione un directorio de destino en el arbol de la izquierda';
-    $es['TypeDir'] = 'Escriba el nombre de un directorio';
-    $es['TypeArq'] = 'Escriba el nombre de un archivo';
-    $es['TypeCmd'] = 'Escribir un comando';
-    $es['TypeArqComp'] = 'Escriba el nombre de un archivo.\\nLa extension determina el tipo de compresion.\\nEj:\\nnombre.zip\\nnombre.tar\\nnombre.bzip\\nnombre.gzip';
-    $es['RemSel'] = 'BORRAR archivos seleccionados';
-    $es['NoDestDir'] = 'No hay un directorio de destino seleccionado';
-    $es['DestEqOrig'] = 'Diretorio de origen y destino iguales';
-    $es['InvalidDest'] = 'Diretorio de destino inválido';
-    $es['NoNewPerm'] = 'No se han establecido nuevos permisos';
-    $es['CopyTo'] = 'COPIAR para';
-    $es['MoveTo'] = 'MOVER para';
-    $es['AlterPermTo'] = 'ALTERAR PERMISOS para';
-    $es['ConfExec'] = 'Confirmar EJECUTAR';
-    $es['ConfRem'] = 'Confirmar BORRAR';
-    $es['EmptyDir'] = 'Directorio vacío';
-    $es['IOError'] = 'Error de E/S';
-    $es['FileMan'] = 'Baifox File Manager';
-    $es['TypePass'] = 'Escriba una contraseña';
-    $es['InvPass'] = 'Contraseña incorrecta';
-    $es['ReadDenied'] = 'Denegado acceso de lectura';
-    $es['FileNotFound'] = 'Archivo no encontrado';
-    $es['AutoClose'] = 'Auto cerrado';
-    $es['OutDocRoot'] = 'Archivos fuera de DOCUMENT_ROOT';
-    $es['NoCmd'] = 'Error: comando incorrecto';
-    $es['ConfTrySave'] = 'El archivo no tiene permisos de escritura.\\nal intentar grabarse';
-    $es['ConfSaved'] = 'Configuración guardada';
-    $es['PassSaved'] = 'Contraseña guardada';
-    $es['FileDirExists'] = 'El archivo o directorio ya existe';
-    $es['NoPhpinfo'] = 'Función phpinfo deshabilitada';
-    $es['NoReturn'] = 'sin retorno';
-    $es['FileSent'] = 'Archivo enviado';
-    $es['SpaceLimReached'] = 'Limite de espacio alcanzado';
-    $es['InvExt'] = 'Extensión incorrecta';
-    $es['FileNoOverw'] = 'El archivo no puede ser sobreescrito';
-    $es['FileOverw'] = 'Archivo sobreescrito';
-    $es['FileIgnored'] = 'Archivo omitido';
-    $es['ChkVer'] = 'Verificar sf.net para nuevas versiones';
-    $es['ChkVerAvailable'] = '¡Nueva versión, haga click aqui para inciar la descarga!';
-    $es['ChkVerNotAvailable'] = 'No hay nuevas versiones disponibles :(';
-    $es['ChkVerError'] = 'Error de conexión';
-    $es['Website'] = 'Website';
-    $es['SendingForm'] = 'Enviando archivos, espere';
-    $es['NoFileSel'] = 'No ha seleccionado ningun fichero';
-    $es['SelAll'] = 'Todo';
-    $es['SelNone'] = 'Ninguno';
-    $es['SelInverse'] = 'Inverso';
-    $es['Selected_s'] = 'selecionado(s)';
-    $es['Total'] = 'total';
-    $es['Partition'] = 'Espacio asignado';
-    $es['RenderTime'] = 'Tiempo de renderización de página';
-    $es['Seconds'] = 'seg';
-    $es['ErrorReport'] = 'Reporte de Error';
-
-    $lang_ = $$lang;
-    if (isset($lang_[$tag])) return filemanager_htmlencode($lang_[$tag]);
-    else return "undefined";
-}
-// +--------------------------------------------------
 // | File System
 // +--------------------------------------------------
 function filemanager_total_size($arg) {
@@ -483,9 +258,9 @@ function filemanager_download(){
             if ($fh = fopen("$file", "rb")){
                 fpassthru($fh);
                 fclose($fh);
-            } else filemanager_alert(filemanager_st('ReadDenied').": ".$file);
-        } else filemanager_alert(filemanager_st('ReadDenied').": ".$file);
-    } else filemanager_alert(filemanager_st('FileNotFound').": ".$file);
+            } else filemanager_alert(T_('Read Access Denied').": ".$file);
+        } else filemanager_alert(T_('Read Access Denied').": ".$file);
+    } else filemanager_alert(T_('File not found').": ".$file);
 }
 
 function filemanager_borrarfichero($file){
@@ -719,8 +494,9 @@ function filemanager_html_header($plus=""){
 echo "
 <html>
 <head>
-<title>".filemanager_st('FileMan')."</title>
-<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
+<title>".T_('Baifox File Manager')."</title>
+
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset="._CFG_INTERFACE_GETTEXT_ENCODING."\">
 $plus
 </head>
 <script language=\"Javascript\" type=\"text/javascript\">
@@ -981,7 +757,7 @@ function filemanager_show_tree(){
         }
         echo "</select></form>";
     }
-    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"/admin_panel/modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".filemanager_st('Refresh')."</a></tr>";
+    echo "<a href=\"#\" onclick=\"atualizar()\"><img src=\"/admin_panel/modulos/mod_filemanager/images/refrescar.gif\" width=\"16\" height=\"16\" border=\"0\"> ".T_('Refresh')."</a></tr>";
     //if (!$islinux) $aux=substr($fm_root_atual,0,strlen($fm_root_atual)-1);
     //else
     $aux=$fm_root_atual;
@@ -993,7 +769,7 @@ function filemanager_show_tree(){
         <form name=\"login_form\" action=\"".$path_info["basename"]."\" method=\"post\" target=\"_parent\">
         <input type=hidden name=action value=1>
         <tr>
-        <td height=10 colspan=2 align=center><input type=button value=\"".filemanager_st('Leave')."\" onclick=\"window.parent.close();window.close();\">
+        <td height=10 colspan=2 align=center><input type=button value=\"".T_('Leave')."\" onclick=\"window.parent.close();window.close();\">
         </tr>
         </form>
     ";
@@ -1308,7 +1084,7 @@ function filemanager_dir_list_form() {
         }
         var sel_totalsize = 0;
         function update_sel_status(){
-            var t = total_dirs_selected+' ".filemanager_st('Dir_s')." ".filemanager_st('And')." '+total_files_selected+' ".filemanager_st('File_s')." ".filemanager_st('Selected_s')." = '+formatsize(sel_totalsize);
+            var t = total_dirs_selected+' ".T_('directory(s)')." ".T_('And')." '+total_files_selected+' ".T_('file(s)')." ".T_('selected(s)')." = '+formatsize(sel_totalsize);
             document.getElementById(\"sel_status\").innerHTML = t;
         }
         // Select all/none/inverse
@@ -1324,13 +1100,13 @@ function filemanager_dir_list_form() {
                 var Cells = Row.getElementsByTagName('td');
                 var newColor = null;
                 switch (Butt.value){
-                    case '".filemanager_st('SelAll')."':
+                    case '".T_('All')."':
                         if (select(entry_list[Row.id])) newColor = MarkColor;
                     break;
-                    case '".filemanager_st('SelNone')."':
+                    case '".T_('None')."':
                         if (unselect(entry_list[Row.id])) newColor = DefaultColor;
                     break;
-                    case '".filemanager_st('SelInverse')."':
+                    case '".T_('Inverse')."':
                         if (entry_list[Row.id].selected){
                             if (unselect(entry_list[Row.id])) newColor = DefaultColor;
                         } else {
@@ -1345,10 +1121,10 @@ function filemanager_dir_list_form() {
                     }
                 }
             }
-            if (Butt.value == '".filemanager_st('SelAll')."'){
-                Butt.value = '".filemanager_st('SelNone')."';
-            } else if (Butt.value == '".filemanager_st('SelNone')."'){
-                Butt.value = '".filemanager_st('SelAll')."';
+            if (Butt.value == '".T_('All')."'){
+                Butt.value = '".T_('None')."';
+            } else if (Butt.value == '".T_('None')."'){
+                Butt.value = '".T_('All')."';
             }
             return true;
         }
@@ -1361,9 +1137,9 @@ function filemanager_dir_list_form() {
                 window.open('".$path_info["basename"]."?action=10&dir_atual=$dir_atual', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function execute(){
-                document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeCmd').".');
+                document.form_action.cmd_arg.value = prompt('".T_('Enter the command').".');
                 if(document.form_action.cmd_arg.value.length>0){
-                    if(confirm('".filemanager_st('ConfExec')." \\' '+document.form_action.cmd_arg.value+' \\' ?')) {
+                    if(confirm('".T_('Confirm EXECUTE')." \\' '+document.form_action.cmd_arg.value+' \\' ?')) {
                         var w = 800;
                         var h = 600;
                         window.open('".$path_info["basename"]."?action=6&dir_atual=$dir_atual&cmd='+escape(document.form_action.cmd_arg.value), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
@@ -1373,7 +1149,7 @@ function filemanager_dir_list_form() {
         function edit_file(arg){
                 var w = 800;
                 var h = 600;
-                if(confirm('".strtoupper(filemanager_st('Edit'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=7&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+                if(confirm('".strtoupper(T_('Edit'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=7&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function config(){
                 var w = 600;
@@ -1393,24 +1169,24 @@ function filemanager_dir_list_form() {
         function view(arg){
                 var w = 800;
                 var h = 600;
-                if(confirm('".strtoupper(filemanager_st('View'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=4&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
+                if(confirm('".strtoupper(T_('View'))." \\' '+arg+' \\' ?')) window.open('".$path_info["basename"]."?action=4&dir_atual=$dir_atual&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
         }
         function rename(arg){
                 var nome = '';
-                if (nome = prompt('".strtoupper(filemanager_st('Ren'))." \\' '+arg+' \\' ".filemanager_st('To')." ...')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
+                if (nome = prompt('".strtoupper(T_('Rename'))." \\' '+arg+' \\' ".T_('to')." ...')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=3&dir_atual=$dir_atual&old_name='+escape(arg)+'&new_name='+escape(nome);
         }
         function set_dir_dest(arg){
             document.form_action.dir_dest.value=arg;
             if (document.form_action.action.value.length>0) test(document.form_action.action.value);
-            else alert('".filemanager_st('JSError').".');
+            else alert('".T_('JavaScript Error').".');
         }
         function sel_dir(arg){
             document.form_action.action.value = arg;
             document.form_action.dir_dest.value='';
-            if (!is_anything_selected()) alert('".filemanager_st('NoSel').".');
+            if (!is_anything_selected()) alert('".T_('There are no selected items').".');
             else {
                 if (!getCookie('sel_dir_warn')) {
-                    alert('".filemanager_st('SelDir').".');
+                    alert('".T_('Select the destination directory on the left tree').".');
                     document.cookie='sel_dir_warn'+'='+escape('true')+';';
                 }
                 parent.frame2.set_flag(true);
@@ -1419,13 +1195,13 @@ function filemanager_dir_list_form() {
         function set_chmod_arg(arg){
             document.form_action.chmod_arg.value=arg;
             if (document.form_action.action.value.length>0) test(document.form_action.action.value);
-            else alert('".filemanager_st('JSError')."');
+            else alert('".T_('JavaScript Error')."');
         }
         function chmod(arg){
             document.form_action.action.value = arg;
             document.form_action.dir_dest.value='';
             document.form_action.chmod_arg.value='';
-            if (!is_anything_selected()) alert('".filemanager_st('NoSel').".');
+            if (!is_anything_selected()) alert('".T_('There are no selected items').".');
             else {
                 var w = 280;
                 var h = 180;
@@ -1440,12 +1216,12 @@ function filemanager_dir_list_form() {
                 var erro='';
                 var conf='';
                 if (arg == 1){
-                    document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeDir').".');
+                    document.form_action.cmd_arg.value = prompt('".T_('Enter the directory name').".');
                 } else if (arg == 2){
-                    document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeArq').".');
+                    document.form_action.cmd_arg.value = prompt('".T_('Enter the file name').".');
                 } else if (arg == 71){
-                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
-                    else document.form_action.cmd_arg.value = prompt('".filemanager_st('TypeArqComp')."');
+                    if (!is_anything_selected()) erro = '".T_('There are no selected items').".';
+                    else document.form_action.cmd_arg.value = prompt('".T_('Enter the file name.\\nThe extension will define the compression type.\\nEx:\\nnome.zip\\nnome.tar\\nnome.bzip\\nnome.gzip')."');
                 }
                 if (erro!=''){
                     document.form_action.cmd_arg.focus();
@@ -1478,24 +1254,24 @@ function filemanager_dir_list_form() {
                 var erro='';
                 var conf='';
                 if (arg == 4){
-                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".\\n';
-                    conf = '".filemanager_st('RemSel')." ?\\n';
+                    if (!is_anything_selected()) erro = '".T_('There are no selected items').".\\n';
+                    conf = '".T_('RemSel')." ?\\n';
                 } else if (arg == 5){
-                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".\\n';
-                    else if(document.form_action.dir_dest.value.length == 0) erro = '".filemanager_st('NoDestDir').".';
-                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".filemanager_st('DestEqOrig').".';
-                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".filemanager_st('InvalidDest').".';
-                    conf = '".filemanager_st('CopyTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".T_('There are no selected items').".\\n';
+                    else if(document.form_action.dir_dest.value.length == 0) erro = '".T_('There is no selected destination directory').".';
+                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".T_('Origin and destination directories are equal').".';
+                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".T_('Destination directory is invalid').".';
+                    conf = '".T_('COPY to')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
                 } else if (arg == 6){
-                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
-                    else if(document.form_action.dir_dest.value.length == 0) erro = '".filemanager_st('NoDestDir').".';
-                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".filemanager_st('DestEqOrig').".';
-                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".filemanager_st('InvalidDest').".';
-                    conf = '".filemanager_st('MoveTo')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".T_('There are no selected items').".';
+                    else if(document.form_action.dir_dest.value.length == 0) erro = '".T_('There is no selected destination directory').".';
+                    else if(document.form_action.dir_dest.value == document.form_action.dir_atual.value) erro = '".T_('Origin and destination directories are equal').".';
+                    else if(!valid_dest(document.form_action.dir_dest.value,document.form_action.dir_atual.value)) erro = '".T_('Destination directory is invalid').".';
+                    conf = '".T_('MOVE to')." \\' '+document.form_action.dir_dest.value+' \\' ?\\n';
                 } else if (arg == 9){
-                    if (!is_anything_selected()) erro = '".filemanager_st('NoSel').".';
-                    else if(document.form_action.chmod_arg.value.length == 0) erro = '".filemanager_st('NoNewPerm').".';
-                    conf = '".filemanager_st('AlterPermTo')." \\' '+document.form_action.chmod_arg.value+' \\' ?\\n';
+                    if (!is_anything_selected()) erro = '".T_('There are no selected items').".';
+                    else if(document.form_action.chmod_arg.value.length == 0) erro = '".T_('New permission not set').".';
+                    conf = '".T_('CHANGE PERMISSIONS to')." \\' '+document.form_action.chmod_arg.value+' \\' ?\\n';
                 }
                 if (erro!=''){
                     document.form_action.cmd_arg.focus();
@@ -1525,17 +1301,17 @@ function filemanager_dir_list_form() {
             <input type=hidden name=\"selected_dir_list\" value=\"\">
             <input type=hidden name=\"selected_file_list\" value=\"\">";
 /* 
-            <input type=button onclick=\"config()\" value=\"".filemanager_st('Config')."\">
-            <input type=button onclick=\"server_info()\" value=\"".filemanager_st('ServerInfo')."\">
-            <input type=button onclick=\"execute()\" value=\"".filemanager_st('ExecCmd')."\">
-            <input type=button onclick=\"shell()\" value=\"".filemanager_st('Shell')."\">
+            <input type=button onclick=\"config()\" value=\"".T_('Config')."\">
+            <input type=button onclick=\"server_info()\" value=\"".T_('ServerInfo')."\">
+            <input type=button onclick=\"execute()\" value=\"".T_('ExecCmd')."\">
+            <input type=button onclick=\"shell()\" value=\"".T_('Shell')."\">
 */
         $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-            <input type=button onclick=\"test_prompt(1)\" value=\"".filemanager_st('CreateDir')."\">
-            <input type=button onclick=\"test_prompt(2)\" value=\"".filemanager_st('CreateArq')."\">
-            <input type=button onclick=\"upload()\" value=\"".filemanager_st('Upload')."\">
+            <input type=button onclick=\"test_prompt(1)\" value=\"".T_('Create Directory')."\">
+            <input type=button onclick=\"test_prompt(2)\" value=\"".T_('Create File')."\">
+            <input type=button onclick=\"upload()\" value=\"".T_('Upload')."\">
             <b>$ip</b>
             </nobr>";
         if ($dir_atual != $fm_root_atual){
@@ -1549,15 +1325,15 @@ function filemanager_dir_list_form() {
                 <tr><td bgcolor=\"#993333\" colspan=20><nobr>$uplink <a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\" class=blanco>$dir_atual</a></nobr>
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelAll')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".T_('All')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".T_('Inverse')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".T_('Delete')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".T_('Copy')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".T_('Move')."\">";
             if ($islinux) $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".T_('Resolve IDs')."\">";
             $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".filemanager_st('Perms')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".T_('Permissions')."\">";
             $out .= "
                 </nobr>
                 <tr><td bgcolor=\"#DDDDDD\" colspan=20><DIV ID=\"sel_status\"></DIV></td></tr>";
@@ -1579,8 +1355,8 @@ function filemanager_dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Dir']."\" align=center>[dir]";
                      // Opciones de directorio
                      if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $dir_out .= "
-                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".filemanager_st('ConfRem')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".filemanager_st('Rem')."</a>
-                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".filemanager_st('Ren')."</a>";
+                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:if(confirm('".T_('Confirm DELETE')." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".T_('Delete')."</a>
+                                 <td bgcolor=\"#FFFFFF\" align=center><a href=\"JavaScript:rename('$file')\">".T_('Rename')."</a>";
                      $dir_out .= "
                                  </tr>";
                  } else {
@@ -1659,14 +1435,14 @@ function filemanager_dir_list_form() {
                                  <td bgcolor=\"#".$fm_color['Ext']."\">".$dir_entry["extt"];
                      // Opciones de archivo
                      if ( is_writable($dir_atual.$file) || $dir_entry["u"]==_CFG_PUREFTPD_UID) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(filemanager_st('Rem'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".filemanager_st('Rem')."</a>
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".filemanager_st('Ren')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:if(confirm('".strtoupper(T_('Delete'))." \\'".$file."\\' ?')) document.location.href='".$path_info["basename"]."?dominio=".$dominio."&frame=3&action=8&cmd_arg=".$file."&dir_atual=$dir_atual'\">".T_('Delete')."</a>
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:rename('$file')\">".T_('Rename')."</a>";
                      if ( is_readable($dir_atual.$file) && (strpos(".wav#.mp3#.mid#.avi#.mov#.mpeg#.mpg#.rm#.iso#.bin#.img#.dll#.psd#.fla#.swf#.class#.ppt#.jpg#.gif#.png#.wmf#.eps#.bmp#.msi#.exe#.com#.rar#.tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) === false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".filemanager_st('Edit')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:edit_file('$file')\">".T_('Edit')."</a>";
                      if ( is_readable($dir_atual.$file) && strlen($dir_entry["ext"]) && (strpos(".tar#.zip#.bz2#.tbz2#.bz#.tbz#.bzip#.gzip#.gz#.tgz#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
                                  <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center>";
 			if( $is_reachable && is_readable($dir_atual.$file) && (strpos(".txt#.sys#.bat#.ini#.conf#.swf#.php#.php3#.asp#.html#.htm#.jpg#.gif#.png#.bmp#", $dir_entry["ext"]."#" ) !== false)) $file_out .= "
-                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".filemanager_st('View')."</a>";
+                                 <td width=\"15\" height=\"15\" bgcolor=\"#".$fm_color['Action']."\" align=center><a href=\"javascript:view('$file');\">".T_('View')."</a>";
                      $file_out .= "</tr>";
                  }
             }
@@ -1674,14 +1450,14 @@ function filemanager_dir_list_form() {
                 $out .= "
                 <tr>
  		      <td bgcolor=\"#".$fm_color['Title']."\"><img src=\"\" width=\"1\" height=\"1\" border=\"0\">
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or1&dir_atual=$dir_atual\">".filemanager_st('Name')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or2&dir_atual=$dir_atual\">".filemanager_st('Perms')."</a>";
-                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or3&dir_atual=$dir_atual\">".filemanager_st('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or4&dir_atual=$dir_atual\">".filemanager_st('Group')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or1&dir_atual=$dir_atual\">".T_('Name')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or2&dir_atual=$dir_atual\">".T_('Permissions')."</a>";
+                if ($islinux) $out .= "<td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or3&dir_atual=$dir_atual\">".T_('Owner')."</a><td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or4&dir_atual=$dir_atual\">".T_('Group')."</a>";
                 $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or5&dir_atual=$dir_atual\">".filemanager_st('Size')."</a>
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or6&dir_atual=$dir_atual\">".filemanager_st('Date')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or5&dir_atual=$dir_atual\">".T_('Size')."</a>
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or6&dir_atual=$dir_atual\">".T_('Date')."</a>";
                 if ($file_count) $out .= "
-                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or7&dir_atual=$dir_atual\">".filemanager_st('Type')."</a>";
+                      <td bgcolor=\"#".$fm_color['Title']."\"><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&or_by=$or7&dir_atual=$dir_atual\">".T_('Type')."</a>";
                 $out .= "
                       <td bgcolor=\"#".$fm_color['Title']."\" colspan=20>";
 
@@ -1691,33 +1467,33 @@ function filemanager_dir_list_form() {
             $out .= "
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=20><nobr>
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelAll')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".filemanager_st('SelInverse')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".filemanager_st('Rem')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".filemanager_st('Copy')."\">
-                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".filemanager_st('Move')."\">";
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".T_('All')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"selectANI(this)\" value=\"".T_('Inverse')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"test(4)\" value=\"".T_('Delete')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(5)\" value=\"".T_('Copy')."\">
+                      <input type=\"button\" style=\"width:60\" onclick=\"sel_dir(6)\" value=\"".T_('Move')."\">";
             if ($islinux) $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".filemanager_st('ResolveIDs')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"resolveIDs()\" value=\"".T_('Resolve IDs')."\">";
             $out .= "
-                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".filemanager_st('Perms')."\">";
+                      <input type=\"button\" style=\"width:100\" onclick=\"chmod(9)\" value=\"".T_('Permissions')."\">";
             $out .= "
                 </nobr></td>
                 </tr>";
             $out .= "
             </form>";
             $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>$dir_count ".filemanager_st('Dir_s')." ".filemanager_st('And')." $file_count ".filemanager_st('File_s')." = ".filemanager_formatsize($total_size)."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>$dir_count ".T_('directory(s)')." ".T_('And')." $file_count ".T_('file(s)')." = ".filemanager_formatsize($total_size)."</td></tr>";
             if ($quota_mb) {
                 $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(($quota_mb*1024*1024))." ".filemanager_st('Total')." - ".filemanager_formatsize(($quota_mb*1024*1024)-filemanager_quotastatus($dominio))." ".filemanager_st('Free')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".T_('Quota space').": ".filemanager_formatsize(($quota_mb*1024*1024))." ".T_('total')." - ".filemanager_formatsize(($quota_mb*1024*1024)-filemanager_quotastatus($dominio))." ".T_('free')."</td></tr>";
             } else {
                 $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('Partition').": ".filemanager_formatsize(disk_total_space($dir_atual))." ".filemanager_st('Total')." - ".filemanager_formatsize(disk_free_space($fm_root_atual))." ".filemanager_st('Free')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".T_('Quota space').": ".filemanager_formatsize(disk_total_space($dir_atual))." ".T_('total')." - ".filemanager_formatsize(disk_free_space($fm_root_atual))." ".T_('free')."</td></tr>";
             }
             $tf = filemanager_getmicrotime();
             $tt = ($tf - $ti);
             $out .= "
-                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('RenderTime').": ".substr($tt,0,strrpos($tt,".")+5)." ".filemanager_st('Seconds')."</td></tr>";
+                <tr><td bgcolor=\"#DDDDDD\" colspan=20>".T_('Time to render this page').": ".substr($tt,0,strrpos($tt,".")+5)." ".T_('sec')."</td></tr>";
             $out .= "
             <script language=\"Javascript\" type=\"text/javascript\">
             <!--
@@ -1728,9 +1504,9 @@ function filemanager_dir_list_form() {
             $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=20><nobr><a href=\"".$path_info["basename"]."?dominio=".$dominio."&frame=3&dir_atual=$dir_atual\">$dir_atual</a></nobr>
-            <tr><td bgcolor=\"#DDDDDD\" colspan=20>".filemanager_st('EmptyDir').".</tr>";
+            <tr><td bgcolor=\"#DDDDDD\" colspan=20>".T_('Empty directory').".</tr>";
         }
-    } else $out .= "<tr><td><font color=red>".filemanager_st('IOError').".<br>$dir_atual</font>";
+    } else $out .= "<tr><td><font color=red>".T_('I/O Error').".<br>$dir_atual</font>";
     $out .= "</table>";
     echo $out;
 }
@@ -1745,15 +1521,15 @@ function filemanager_upload_form(){
         <form name=\"upload_form\" action=\"".$path_info["basename"]."\" method=\"post\" ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=dir_dest value=\"$dir_atual\">
         <input type=hidden name=action value=10>
-        <tr><th colspan=2>".filemanager_st('Upload')."</th></tr>
-        <tr><td align=right><b>".filemanager_st('Destination').":<td><b><nobr>$dir_atual</nobr>";
+        <tr><th colspan=2>".T_('Upload')."</th></tr>
+        <tr><td align=right><b>".T_('Destination').":<td><b><nobr>$dir_atual</nobr>";
         for ($x=0;$x<$num_uploads;$x++){
-            echo "<tr><td width=1 align=right><b>".filemanager_st('File').":<td><nobr><input type=\"file\" name=\"file$x\"></nobr>";
+            echo "<tr><td width=1 align=right><b>".T_('File').":<td><nobr><input type=\"file\" name=\"file$x\"></nobr>";
             $test_js .= "(document.upload_form.file$x.value.length>0)||";
         }
         echo "
-        <input type=button value=\"".filemanager_st('Send')."\" onclick=\"test_upload_form()\"></nobr>
-        <tr><td> <td><input type=checkbox name=fechar value=\"1\"> <a href=\"JavaScript:troca();\">".filemanager_st('AutoClose')."</a>
+        <input type=button value=\"".T_('Send')."\" onclick=\"test_upload_form()\"></nobr>
+        <tr><td> <td><input type=checkbox name=fechar value=\"1\"> <a href=\"JavaScript:troca();\">".T_('Close on Complete')."</a>
         <tr><td colspan=2> </td></tr>
         </form>
         </table>
@@ -1765,19 +1541,19 @@ function filemanager_upload_form(){
             foi = false;
             function test_upload_form(){
                 if(".substr($test_js,0,strlen($test_js)-2)."){
-                    if (foi) alert('".filemanager_st('SendingForm')."...');
+                    if (foi) alert('".T_('Sending files, please wait')."...');
                     else {
                         foi = true;
                         document.upload_form.submit();
                     }
-                } else alert('".filemanager_st('NoFileSel').".');
+                } else alert('".T_('No file selected').".');
             }
             window.moveTo((window.screen.width-400)/2,((window.screen.height-200)/2)-20);
         //-->
         </script>";
     } else {
-        $out = "<tr><th colspan=2>".filemanager_st('UploadEnd')."</th></tr>
-                <tr><th colspan=2><nobr>".filemanager_st('Destination').": $dir_dest</nobr>";
+        $out = "<tr><th colspan=2>".T_('Upload Finished')."</th></tr>
+                <tr><th colspan=2><nobr>".T_('Destination').": $dir_dest</nobr>";
         for ($x=0;$x<$num_uploads;$x++){
             $temp_file = $_FILES["file".$x]["tmp_name"];
             $filename = $_FILES["file".$x]["name"];
@@ -1785,27 +1561,27 @@ function filemanager_upload_form(){
             else $resul = 7;
             switch($resul){
                 case 1:
-                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".filemanager_st('FileSent').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".T_('File sent').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 2:
-                $out .= "<tr><td colspan=2><font color=red><b>".filemanager_st('IOError')."</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><font color=red><b>".T_('I/O Error')."</font></td></tr>\n";
                 $x = $upload_num;
                 break;
                 case 3:
-                $out .= "<tr><td colspan=2><font color=red><b>".filemanager_st('SpaceLimReached')." ($quota_mb Mb)</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><font color=red><b>".T_('Space limit reached')." ($quota_mb Mb)</font></td></tr>\n";
                 $x = $upload_num;
                 break;
                 case 4:
-                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('InvExt').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".T_('Invalid extension').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 5:
-                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('FileNoOverw')."</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".T_('File could not be overwritten')."</font><td>".$filename."</td></tr>\n";
                 break;
                 case 6:
-                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".filemanager_st('FileOverw').":</font><td>".$filename."</td></tr>\n";
+                $out .= "<tr><td><b>".filemanager_strzero($x+1,3).".<font color=green><b> ".T_('File overwritten').":</font><td>".$filename."</td></tr>\n";
                 break;
                 case 7:
-                $out .= "<tr><td colspan=2><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".filemanager_st('FileIgnored')."</font></td></tr>\n";
+                $out .= "<tr><td colspan=2><b>".filemanager_strzero($x+1,3).".<font color=red><b> ".T_('File ignored')."</font></td></tr>\n";
             }
         }
         if ($fechar) {
@@ -1920,7 +1696,7 @@ function filemanager_chmod_form(){
     echo "<body marginwidth=\"0\" marginheight=\"0\">
     <form name=\"chmod_form\">
     <TABLE BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"4\" ALIGN=CENTER>
-    <tr><th colspan=4>".filemanager_st('Perms')."</th></tr>
+    <tr><th colspan=4>".T_('Permissions')."</th></tr>
     <TR ALIGN=\"LEFT\" VALIGN=\"MIDDLE\">
     <TD><input type=\"text\" name=\"t_total\" value=\"0777\" size=\"4\" onKeyUp=\"octalchange()\"> </TD>
     <TD><input type=\"text\" name=\"sym_total\" value=\"\" size=\"12\" READONLY=\"1\"></TD>
@@ -1929,15 +1705,15 @@ function filemanager_chmod_form(){
     <table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" ALIGN=CENTER>
     <tr bgcolor=\"#333333\">
     <td WIDTH=\"60\" align=\"left\"> </td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Owner')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".T_('Owner')."
     </b></td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Group')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".T_('Group')."
     </b></td>
-    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".filemanager_st('Other')."
+    <td WIDTH=\"55\" align=\"center\" style=\"color:#FFFFFF\"><b>".T_('Other')."
     <b></td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Read')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".T_('Read')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner4\" value=\"4\" onclick=\"calc_chmod()\">
     </td>
@@ -1948,7 +1724,7 @@ function filemanager_chmod_form(){
     </td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Write')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".T_('Write')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner2\" value=\"2\" onclick=\"calc_chmod()\"></td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#FFFFFF\"><input type=\"checkbox\" name=\"group2\" value=\"2\" onclick=\"calc_chmod()\">
@@ -1958,7 +1734,7 @@ function filemanager_chmod_form(){
     </td>
     </tr>
     <tr bgcolor=\"#DDDDDD\">
-    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".filemanager_st('Exec')."</td>
+    <td WIDTH=\"60\" align=\"left\" nowrap BGCOLOR=\"#FFFFFF\">".T_('Execute')."</td>
     <td WIDTH=\"55\" align=\"center\" bgcolor=\"#EEEEEE\">
     <input type=\"checkbox\" name=\"owner1\" value=\"1\" onclick=\"calc_chmod()\">
     </td>
@@ -1970,7 +1746,7 @@ function filemanager_chmod_form(){
     </tr>
     </TABLE>
     <TABLE BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"4\" ALIGN=CENTER>
-    <tr><td colspan=2><input type=checkbox name=sticky value=\"1\" onclick=\"calc_chmod()\"> <a href=\"JavaScript:troca();\">".filemanager_st('StickyBit')."</a><td colspan=2 align=right><input type=button value=\"".filemanager_st('Apply')."\" onClick=\"window.opener.set_chmod_arg(document.chmod_form.t_total.value); window.close();\"></tr>
+    <tr><td colspan=2><input type=checkbox name=sticky value=\"1\" onclick=\"calc_chmod()\"> <a href=\"JavaScript:troca();\">".T_('Sticky Bit')."</a><td colspan=2 align=right><input type=button value=\"".T_('Apply')."\" onClick=\"window.opener.set_chmod_arg(document.chmod_form.t_total.value); window.close();\"></tr>
     </table>
     </form>
     </body>\n</html>";
@@ -1991,7 +1767,7 @@ function filemanager_view(){
         document.location.href='$url';";
     } else {
         echo "
-        alert('".filemanager_st('OutDocRoot').":\\n".$doc_root."\\n');
+        alert('".T_('File beyond DOCUMENT_ROOT').":\\n".$doc_root."\\n');
         window.close();";
     }
     echo "
@@ -2020,7 +1796,7 @@ function filemanager_edit_file_form(){
     <input type=hidden name=filename value=\"$filename\">
     <tr><th colspan=2>".$file."</th></tr>
     <tr><td colspan=2><textarea name=file_data rows=33 cols=105>".filemanager_htmlencode($file_data)."</textarea></td></tr>
-    <tr><td><input type=button value=\"".filemanager_st('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".filemanager_st('SaveFile')."\" onclick=\"go_save()\"></td></tr>
+    <tr><td><input type=button value=\"".T_('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".T_('Save File')."\" onclick=\"go_save()\"></td></tr>
     </form>
     <form name=\"edit_form_refresh\" action=\"".$path_info["basename"]."\" method=\"post\">
     <input type=hidden name=action value=\"7\">
@@ -2037,7 +1813,7 @@ function filemanager_edit_file_form(){
         document.edit_form.submit();";
     } else {
         echo "
-        if(confirm('".filemanager_st('ConfTrySave')." ?')) document.edit_form.submit();";
+        if(confirm('".T_('File without write permisson.\\nTry to save anyway')." ?')) document.edit_form.submit();";
     }
     echo "
         }
@@ -2071,7 +1847,7 @@ function filemanager_right(){
                     //mkdir($cmd_arg,0777);
                     //chmod($cmd_arg,0777);
                     filemanager_reloadframe("parent",2,"&ec_dir=".$cmd_arg);
-                } else filemanager_alert(filemanager_st('FileDirExists').".");
+                } else filemanager_alert(T_('File or directory already exists').".");
             }
             break;
             case 2: // create arq
@@ -2084,7 +1860,7 @@ function filemanager_right(){
                     //    @fclose($fh);
                     //}
                     //chmod($cmd_arg,0666);
-                } else filemanager_alert(filemanager_st('FileDirExists').".");
+                } else filemanager_alert(T_('File or directory already exists').".");
             }
             break;
             case 3: // rename arq ou dir

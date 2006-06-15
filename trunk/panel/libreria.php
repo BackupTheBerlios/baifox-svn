@@ -16,28 +16,17 @@ if (strlen(session_id())>0){
    session_register("strTemp");
 } 
 
-//Activa el soporte Multiidioma
-define(PROJECT_DIR, realpath(_CFG_INTERFACE_DIR));
-define(LOCALE_DIR, _CFG_INTERFACE_GETTEXTLOCALE);
-define(DEFAULT_LOCALE, 'es_ES');
-
+//Activa el soporte de idiomas
 require_once(_CFG_INTERFACE_GETTEXT);
-
-$supported_locales = array('es_ES','en_US');
-$encoding = 'UTF-8';
-
-$locale = (isset($_GET['lang']))? $_GET['lang'] : DEFAULT_LOCALE;
-
+$locale = (isset($_GET['lang']))? $_GET['lang'] : _CFG_INTERFACE_GETTEXT_DEFAULT;
 // gettext setup
 T_setlocale(LC_MESSAGES, $locale);
 // Set the text domain as 'messages'
 $domain = 'messages';
-T_bindtextdomain($domain, LOCALE_DIR);
-T_bind_textdomain_codeset($domain, $encoding);
+T_bindtextdomain($domain, _CFG_INTERFACE_GETTEXT_LOCALES);
+T_bind_textdomain_codeset($domain, _CFG_INTERFACE_GETTEXT_ENCODING);
 T_textdomain($domain);
-
-header("Content-type: text/html; charset=$encoding");
-
+header("Content-type: text/html; charset="._CFG_INTERFACE_GETTEXT_ENCODING);
 
 function Mes($Num) {
 $Meses=array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");

@@ -6,6 +6,7 @@
 <html>
 <head>
 <title><?php echo _CFG_INTERFACE_NOMBRE." "._CFG_INTERFACE_VERSION; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CFG_INTERFACE_GETTEXT_ENCODING; ?>">
 </head>
 <body bgcolor="#ffffff">
 <?php if ($_GET['resulid']) { ?>

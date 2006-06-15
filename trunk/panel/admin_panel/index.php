@@ -10,7 +10,7 @@
 <html>
 <head>
 <title>ADMIN: <?php echo _CFG_INTERFACE_NOMBRE." "._CFG_INTERFACE_VERSION; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CFG_INTERFACE_GETTEXT_ENCODING; ?>">
 <link rel="stylesheet" type="text/css" href="main.css">
 <script language="JavaScript" src="javascript/funciones.js"></script>
 </head>

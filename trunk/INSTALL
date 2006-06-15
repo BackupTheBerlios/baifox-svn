@@ -3,7 +3,7 @@ Instrucciones
 
 Compilación de PHP para la ejecucion de BAIFOX
 
-./configure  --with-gd --with-xml --with-zlib --with-mysql --enable-ftp --with-ttf --with-jpeg-dir --with-zlib --enable-mime-magic --enable-pcntl --enable-cli --enable-sockets
+./configure  --with-gd --with-xml --with-zlib --with-mysql --enable-ftp --with-ttf --with-jpeg-dir --with-zlib --enable-mime-magic --enable-pcntl --enable-cli --enable-sockets ./configure --with-gd --with-xml --with-zlib --with-mysql --enable-ftp --with-ttf --with-jpeg-dir --with-zlib --enable-mime-magic --enable-pcntl --enable-cli --enable-sockets --enable-mbstring
 
 baifox
 ===========================

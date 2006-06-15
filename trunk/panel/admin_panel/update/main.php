@@ -4,7 +4,7 @@
 ?>
 <?php include "include_permiso.php"; ?>
 <?php 
- function download($fichero_origen,$ruta_origen, $fichero_destino) {
+     function download($fichero_origen,$ruta_origen, $fichero_destino) {
         $origen = fopen("http://update.baifox.net/baifox_download.php?file=$fichero_origen&path=$ruta_origen", "rb");
         $destino = fopen($fichero_destino, 'wb');
         if ($origen===false) {
@@ -21,7 +21,7 @@
             if (fwrite($destino, fread($origen, 4096)) === FALSE) {
 		    // error escribiendo el fichero
 	    	   echo "[ERROR] escribiendo fichero destino<br>\n";
-                    return false;
+                   return false;
                 }
         }
         fclose($origen);

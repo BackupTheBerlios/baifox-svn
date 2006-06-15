@@ -11,7 +11,7 @@
 <html>
 <head>
 <title>Panel Administraci&oacute;n</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CFG_INTERFACE_GETTEXT_ENCODING; ?>">
 <link href="main.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" src="javascript/funciones.js"></script>
 </head>

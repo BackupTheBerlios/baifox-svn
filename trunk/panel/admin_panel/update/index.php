@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>Actualización manual de Baifox</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CFG_INTERFACE_GETTEXT_ENCODING; ?>">
 </head>
 
 <frameset rows="110,*" cols="*"> 
