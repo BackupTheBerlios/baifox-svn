@@ -1,0 +1,280 @@
+# Spanish translations for PACKAGE package
+# Traducciones al espa�l para el paquete PACKAGE.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# root <fidojones@fidojones.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Baifox Panel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-15 18:43+0100\n"
+"PO-Revision-Date: 2006-06-15 18:46+0100\n"
+"Last-Translator: Lorenzo Tejera <fidojones@fidojones.com>\n"
+"Language-Team: Spanish <fidojones@fidojones.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include_left.php
+msgid "Management:"
+msgstr "Gestión:"
+
+msgid "Clients"
+msgstr "Clientes"
+
+msgid "Domains"
+msgstr "Dominios"
+
+msgid "System:"
+msgstr "Sistema:"
+
+msgid "Services:"
+msgstr "Servicios:"
+
+msgid "Configuration:"
+msgstr "Configuración:"
+
+msgid "Users"
+msgstr "Usuarios"
+
+msgid "Update"
+msgstr "Actualización"
+
+#: mod_filemanager
+
+msgid "Read Access Denied"
+msgstr "Denegado acceso de lectura"
+
+msgid "File not found"
+msgstr "Fichero no encontrado"
+
+msgid "Baifox File Manager"
+msgstr "Baifox File Manager"
+
+msgid "Refresh"
+msgstr "Actualizar"
+
+msgid "Leave"
+msgstr "Salir"
+
+msgid "directory(s)"
+msgstr "directorio(s)"
+
+msgid "And"
+msgstr "y"
+
+msgid "file(s)"
+msgstr "fichero(s)"
+
+msgid "selected(s)"
+msgstr "selecionado(s)"
+
+msgid "All"
+msgstr "Todos"
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Inverse"
+msgstr "Inverso"
+
+msgid "Enter the command"
+msgstr "Escribir un comando"
+
+msgid "Confirm EXECUTE"
+msgstr "Confirmar EJECUTAR"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "View"
+msgstr "Ver"
+
+msgid "Rename"
+msgstr "Renombrar"
+
+msgid "to"
+msgstr "para"
+
+msgid "JavaScript Error"
+msgstr "Error de JavaScript"
+
+msgid "There are no selected items"
+msgstr "No hay ficheros seleccionados"
+
+msgid "Select the destination directory on the left tree"
+msgstr "Seleccione un directorio de destino en el arbol de la izquierda"
+
+msgid "Enter the directory name"
+msgstr "Escriba el nombre de un directorio"
+
+msgid "Enter the file name"
+msgstr "Escriba el nombre de un archivo"
+
+msgid ""
+"Enter the file name.\\nThe extension will define the compression type.\\nEx:"
+"\\nnome.zip\\nnome.tar\\nnome.bzip\\nnome.gzip"
+msgstr ""
+"Escriba el nombre de un archivo.\\nLa extension determina el tipo de compresion.\\nEj:"
+"\\nnombre.zip\\nnombre.tar\\nnombre.bzip\\nnombre.gzip"
+
+msgid "RemSel"
+msgstr "BORRAR archivos seleccionados"
+
+msgid "There is no selected destination directory"
+msgstr "No hay un directorio de destino seleccionado"
+
+msgid "Origin and destination directories are equal"
+msgstr "Diretorio de origen y destino iguales"
+
+msgid "Destination directory is invalid"
+msgstr "Diretorio de destino inválido"
+
+msgid "COPY to"
+msgstr "COPIAR para"
+
+msgid "MOVE to"
+msgstr "MOVER para"
+
+msgid "New permission not set"
+msgstr "No se han establecido nuevos permisos"
+
+msgid "CHANGE PERMISSIONS to"
+msgstr "CAMBIAR PERMISOS para"
+
+msgid "Create Directory"
+msgstr "Crear Directorio"
+
+msgid "Create File"
+msgstr "Crear Fichero"
+
+msgid "Upload"
+msgstr "Subir"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Move"
+msgstr "Mover"
+
+msgid "Resolve IDs"
+msgstr "Mostrar IDs"
+
+msgid "Permissions"
+msgstr "Permisos"
+
+msgid "Confirm DELETE"
+msgstr "Confirmar BORRAR"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Owner"
+msgstr "Propietario"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid "Size"
+msgstr "Tamaño"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Quota space"
+msgstr "Espacio asignado"
+
+msgid "total"
+msgstr "total"
+
+msgid "free"
+msgstr "libre"
+
+msgid "Time to render this page"
+msgstr "Tiempo de renderización de página"
+
+msgid "sec"
+msgstr "seg"
+
+msgid "Empty directory"
+msgstr "Directorio vacío"
+
+msgid "I/O Error"
+msgstr "Error de E/S"
+
+msgid "Destination"
+msgstr "Destino"
+
+msgid "File"
+msgstr "Fichero"
+
+msgid "Send"
+msgstr "Enviar"
+
+msgid "Close on Complete"
+msgstr "Cerrar al finalizar"
+
+msgid "Sending files, please wait"
+msgstr "Subiendo ficheros, por favor espere"
+
+msgid "No file selected"
+msgstr "No hay ficheros seleccionados"
+
+msgid "Upload Finished"
+msgstr "Ficheros subidos"
+
+msgid "File sent"
+msgstr "Fichero enviado"
+
+msgid "Space limit reached"
+msgstr "Límite de espacio alcanzado"
+
+msgid "Invalid extension"
+msgstr "Extensión incorrecta"
+
+msgid "File could not be overwritten"
+msgstr "El archivo no puede ser sobreescrito"
+
+msgid "File overwritten"
+msgstr "Fichero Sobreescrito"
+
+msgid "File ignored"
+msgstr "Fichero ignorado"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Read"
+msgstr "Leer"
+
+msgid "Write"
+msgstr "Escribir"
+
+msgid "Execute"
+msgstr "Ejecutar"
+
+msgid "Sticky Bit"
+msgstr "Sticky Bit"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "File beyond DOCUMENT_ROOT"
+msgstr "Archivos fuera del DIRECTORIO_RAIZ"
+
+msgid "Save File"
+msgstr "Grabar Fichero"
+
+msgid "File without write permisson.\\nTry to save anyway"
+msgstr "El fichero no tiene permisos de escritura.\\n"
+
+msgid "File or directory already exists"
+msgstr "El fichero o directorio ya existe"

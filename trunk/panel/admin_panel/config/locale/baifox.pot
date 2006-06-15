@@ -1,0 +1,277 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# xgettext --no-location -kT_ngettext:1,2 -kT_ -L PHP -o /3/baifox.pot filetotranslate.php
+# msginit --locale=es --input=baifox.pot
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Baifox Panel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-15 18:43+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <translate@baifox.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Admin Panel
+msgid "Management:"
+msgstr ""
+
+msgid "Clients"
+msgstr ""
+
+msgid "Domains"
+msgstr ""
+
+msgid "System:"
+msgstr ""
+
+msgid "Services:"
+msgstr ""
+
+msgid "Configuration:"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+#: mod_filemanager
+msgid "Read Access Denied"
+msgstr ""
+
+msgid "File not found"
+msgstr ""
+
+msgid "Baifox File Manager"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Leave"
+msgstr ""
+
+msgid "directory(s)"
+msgstr ""
+
+msgid "And"
+msgstr ""
+
+msgid "file(s)"
+msgstr ""
+
+msgid "selected(s)"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Inverse"
+msgstr ""
+
+msgid "Enter the command"
+msgstr ""
+
+msgid "Confirm EXECUTE"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "JavaScript Error"
+msgstr ""
+
+msgid "There are no selected items"
+msgstr ""
+
+msgid "Select the destination directory on the left tree"
+msgstr ""
+
+msgid "Enter the directory name"
+msgstr ""
+
+msgid "Enter the file name"
+msgstr ""
+
+msgid ""
+"Enter the file name.\\nThe extension will define the compression type.\\nEx:"
+"\\nnome.zip\\nnome.tar\\nnome.bzip\\nnome.gzip"
+msgstr ""
+
+msgid "RemSel"
+msgstr ""
+
+msgid "There is no selected destination directory"
+msgstr ""
+
+msgid "Origin and destination directories are equal"
+msgstr ""
+
+msgid "Destination directory is invalid"
+msgstr ""
+
+msgid "COPY to"
+msgstr ""
+
+msgid "MOVE to"
+msgstr ""
+
+msgid "New permission not set"
+msgstr ""
+
+msgid "CHANGE PERMISSIONS to"
+msgstr ""
+
+msgid "Create Directory"
+msgstr ""
+
+msgid "Create File"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Resolve IDs"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Confirm DELETE"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Quota space"
+msgstr ""
+
+msgid "total"
+msgstr ""
+
+msgid "free"
+msgstr ""
+
+msgid "Time to render this page"
+msgstr ""
+
+msgid "sec"
+msgstr ""
+
+msgid "Empty directory"
+msgstr ""
+
+msgid "I/O Error"
+msgstr ""
+
+msgid "Destination"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Close on Complete"
+msgstr ""
+
+msgid "Sending files, please wait"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "Upload Finished"
+msgstr ""
+
+msgid "File sent"
+msgstr ""
+
+msgid "Space limit reached"
+msgstr ""
+
+msgid "Invalid extension"
+msgstr ""
+
+msgid "File could not be overwritten"
+msgstr ""
+
+msgid "File overwritten"
+msgstr ""
+
+msgid "File ignored"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Read"
+msgstr ""
+
+msgid "Write"
+msgstr ""
+
+msgid "Execute"
+msgstr ""
+
+msgid "Sticky Bit"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "File beyond DOCUMENT_ROOT"
+msgstr ""
+
+msgid "Save File"
+msgstr ""
+
+msgid "File without write permisson.\\nTry to save anyway"
+msgstr ""
+
+msgid "File or directory already exists"
+msgstr ""
