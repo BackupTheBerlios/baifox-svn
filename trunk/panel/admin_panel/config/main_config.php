@@ -10,6 +10,7 @@ define("_CFG_INTERFACE_DIR","/usr/local/baifox/panel/");
 define("_CFG_INTERFACE_DIRMODULES",_CFG_INTERFACE_DIR."admin_panel/modulos/");
 define("_CFG_INTERFACE_LIBRERIA",_CFG_INTERFACE_DIR."libreria.php");
 define("_CFG_INTERFACE_FASTTEMPLATE",_CFG_INTERFACE_DIR."admin_panel/interface/class.FastTemplate.php");
+define("_CFG_INTERFACE_GETTEXT",_CFG_INTERFACE_DIR."admin_panel/interface/lib.gettext.php");
 define("_CFG_INTERFACE_UPDATEIGNORE",_CFG_INTERFACE_DIR."admin_panel/config/update_ignore.txt");
 define("_CFG_INTERFACE_PLANTILLAS",_CFG_INTERFACE_DIR."admin_panel/plantillas/");
 define("_CFG_INTERFACE_BLOWFISH",""); //palabra de paso para encriptar las contraseñas
