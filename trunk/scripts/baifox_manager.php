@@ -10,6 +10,7 @@ if ($argc <= 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
 	echo "cliente_editar (idcliente) (nombre) (email) (password) (num. dominios) (espacio MB) (anchobanda MB)\n";
 	echo "dominio_editar (iddominio) (idcliente) (dominio) (usuario) (password) (num. cuentas/alias...) (espacio correo MB) (espacio FTP MB)\n";
 	echo "dominio_estado (iddominio) (estado[1-0])\n";
+	echo "correo_estado (dominio) (estado[1-0])\n";
 	exit();
 }
 
@@ -22,6 +23,9 @@ switch($argv[1]){
 	break;
 	case "dominio_estado":
 		dominio_estado($argv[2],$argv[3]);
+	break;
+	case "correo_estado":
+		correo_estado($argv[2],$argv[3]);
 	break;
 	default:
 		echo "Comando incorrecto o no existe\n";
@@ -109,5 +113,16 @@ function dominio_estado($iddominio,$estado){
   	}
 	$conf->setConfigValue(xmlconfig_buscaid($iddominio,_CFG_XML_DOMINIOS), $datos, "array");
 	$conf->writeConfigFile(_CFG_XML_DOMINIOS, "xml", array( "mode" => "pretty" ) );
+}
+
+function correo_estado($dominio,$estado){
+	//Carga todos los modulos
+	require _CFG_INTERFACE_DIRMODULES."mod_vpopmail/include_funciones.php"; 
+	
+	if ($estado==1){
+		vpopmail_domainonoff($dominio,1);
+  	}else{
+		vpopmail_domainonoff($dominio,0);
+  	}
 }
 ?>
