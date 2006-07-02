@@ -90,44 +90,32 @@ function Ventana(fichero) {
   popupWin = window.open(fichero, 'Ventana', 'resizable=no,scrollbars=yes,width=900,height=600,top=80,left=100')
 }
 
-message_time = 5000;
-gui_objects = new Object();
+objeto = new Object();
 
-// display a system message
-function display_message(msg, type, hold){
-    if (!loaded)  // save message in order to display after page loaded
-      {
-      pending_message = new Array(msg, type);
-      return true;
-      }
-    
-    if (!gui_objects.message)
-      return false;
-      
-    if (message_timer)
-      clearTimeout(message_timer);
-    
-    var cont = msg;
-    if (type)
-      cont = '<div class="'+type+'">'+cont+'</div>';
+function mostrar_mensaje(cadena, tipo)
+{
+ var capa = objeto;
+ if (!cadena) {
+	layer_ocultar(capa.obj);
+ }else{
+	capa.type = tipo;
+  	capa.obj = document.createElement('div');
+	capa.obj.id = 'dialog';
+	document.body.appendChild(capa.obj);
+	capa.obj.message = document.createElement('div');
+	capa.obj.message.id = 'message';
+	capa.obj.message.className= tipo;
+	capa.obj.message.onmousedown = function(){ layer_ocultar(capa.obj); return true; };
+	capa.obj.appendChild(capa.obj.message);
 
-    gui_objects.message._rcube = this;
-    gui_objects.message.innerHTML = cont;
-    gui_objects.message.style.display = 'block';
-    
-    if (type!='loading')
-      gui_objects.message.onmousedown = function(){ hide_message(); return true; };
-    
-    if (!hold)
-      message_timer = setTimeout(ref+'.hide_message()', message_time);
+	capa.obj.message.innerHTML= cadena +"<br />";
+ 
+	window.setTimeout('mostrar_mensaje()',5000);
+ }
 }
 
-
-// make a message row disapear
-function hide_message(){
-    if (gui_objects.message)
-      {
-      gui_objects.message.style.display = 'none';
-      gui_objects.message.onmousedown = null;
-      }
+function layer_ocultar(capa) {
+        if (capa) {
+                capa.style.display = 'none';
+        }
 }

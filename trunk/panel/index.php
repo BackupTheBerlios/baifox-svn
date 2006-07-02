@@ -1,32 +1,27 @@
 <?php
 	include "admin_panel/config/main_config.php"; 
         require _CFG_INTERFACE_LIBRERIA; 
-
 ?>
 <html>
 <head>
 <title><?php echo _CFG_INTERFACE_NOMBRE." "._CFG_INTERFACE_VERSION; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CFG_INTERFACE_GETTEXT_ENCODING; ?>">
+<link href="user_panel/main.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="user_panel/javascript/funciones.js"></script>
 </head>
 <body bgcolor="#ffffff">
-<?php if ($_GET['resulid']) { ?>
+<!--
 <table width=70% align=center class=main>
   <tr bgcolor="#FFCC66"> 
     <td width=50% valign=top align=left height="10" style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" bgcolor="#FFCB0D"> 
       <p align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-        <?php switch ($_GET['resulid']){
-	case 1:
-		echo "Gracias por utilizar "._CFG_INTERFACE_NOMBRE;
-    	default:
-        	echo $_SESSION['strTemp'];
-        break;
-	} ?>
+       
         </font></p>
     </td>
   </tr>
 </table>
-<?php } ?>
 <br>
+-->
 		<form method="post" action="secure.php" id="form2" name="form2">
 		<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 			<tr>
@@ -66,5 +61,19 @@
 			</tr>
 		</table>
 		</form>
+<?php if ($_GET['resulid']) { ?>
+<script language="JavaScript">
+<!--
+ <?php switch ($_GET['resulid']){
+	case 1:
+		echo "mostrar_mensaje('Gracias por utilizar "._CFG_INTERFACE_NOMBRE."','info');\n";
+	break;
+    	default:
+        	echo "mostrar_mensaje('".$_SESSION['strTemp']."','error');\n";
+        break;
+	} ?>
+-->
+</script>
+<?php } ?>
 </body>
 </html>
