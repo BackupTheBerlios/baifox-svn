@@ -98,7 +98,7 @@ function bandwidth_grabar($dia,$mes,$anio,$dominio,$total){
 }
 
 function bandwidth_cron(){
-	$dominios=bandwidth_listdomains();
+	$dominios=apache_listdomains();
 	foreach ($dominios as $dominio) {
    		$consumido=bandwidth_calcular($dominio,1);
 		$fechaconsumo=DateAdd("d",-1,mktime()); //Sacamos la fecha de ayer
