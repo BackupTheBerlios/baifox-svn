@@ -12,7 +12,7 @@
             <td colspan="3" bgcolor="#F2A500"> 
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr> 
-                  <td width="12%" align="center"><img src="images/icn_addcorreo.gif" width="47" height="34"></td>
+                  <td width="12%" align="center"><img src="images/icn_contactar.gif" width="47" height="34"></td>
                   <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font size="2" color="#FFFFFF">Contacta 
                     con nosotros</font></b></font></td>
                 </tr>
